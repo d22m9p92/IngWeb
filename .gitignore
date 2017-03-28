@@ -1,0 +1,6 @@
+*.pyc
+__pyche__
+ingweb
+db.sqlite3
+.DS_Store
+
