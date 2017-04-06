@@ -37,6 +37,8 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'sitio',
+    'login',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -55,7 +57,7 @@ ROOT_URLCONF = 'tusubasta.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR,'templates/')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -89,9 +91,9 @@ DATABASES = {
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'es'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Argentina/Buenos_Aires'
 
 USE_I18N = True
 
@@ -103,4 +105,41 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
-STATIC_URL = '/static/'
+#Configuracion par Amazon
+
+STATICFILES_LOCATION = '/static/'
+
+MEDIAFILES_LOCATION = 'media'
+
+STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+
+AWS_S3_SECURE_URLS = False
+
+AWS_STORAGE_BUCKET_NAME = "tusubasta"
+
+AWS_S3_CUSTOM_DOMAIN = 's3.amazonaws.com/%s' % AWS_STORAGE_BUCKET_NAME
+
+STATIC_URL = "https://s3.amazonaws.com/%s/" % AWS_STORAGE_BUCKET_NAME
+
+MEDIA_URL = "https://%s/il/media/" % AWS_S3_CUSTOM_DOMAIN
+
+AWS_QUERYSTRING_AUTH = False
+
+AWS_DEFAULT_ACL = "private"
+
+from boto.s3.connection import ProtocolIndependentOrdinaryCallingFormat
+
+AWS_S3_CALLING_FORMAT = ProtocolIndependentOrdinaryCallingFormat()
+
+from boto.s3.connection import S3Connection
+
+S3Connection.defaultHost = 's3-us-east-1.amazon.com'
+
+STATICFILES_DIR = [os.path.join(BASE_DIR,"static/"),
+ "/home/aimhoff/.virtualenvs/ingweb/Documentos/Ingenieria\ Web/tusubasta/static/"]
+
+AWS_ACCESS_KEY_ID = "AKIAIRQSDU3DYNW4WRCA"
+
+AWS_SECRET_ACCESS_KEY = "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"
