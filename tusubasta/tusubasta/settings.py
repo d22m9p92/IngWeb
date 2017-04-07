@@ -37,6 +37,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'storages',
     'sitio',
     'login',
 )
@@ -105,7 +106,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
-#Configuracion par Amazon
+#Configuracion para Amazon
 
 STATICFILES_LOCATION = '/static/'
 
@@ -121,7 +122,8 @@ AWS_STORAGE_BUCKET_NAME = "tusubasta"
 
 AWS_S3_CUSTOM_DOMAIN = 's3.amazonaws.com/%s' % AWS_STORAGE_BUCKET_NAME
 
-STATIC_URL = "https://s3.amazonaws.com/%s/" % AWS_STORAGE_BUCKET_NAME
+#STATIC_URL = "https://s3.amazonaws.com/%s/" % AWS_STORAGE_BUCKET_NAME
+STATIC_URL = "https://s3.amazonaws.com/tusubasta/%s/" % AWS_STORAGE_BUCKET_NAME
 
 MEDIA_URL = "https://%s/il/media/" % AWS_S3_CUSTOM_DOMAIN
 
@@ -137,9 +139,9 @@ from boto.s3.connection import S3Connection
 
 S3Connection.defaultHost = 's3-us-east-1.amazon.com'
 
-STATICFILES_DIR = [os.path.join(BASE_DIR,"static/"),
- "/home/aimhoff/.virtualenvs/ingweb/Documentos/Ingenieria\ Web/tusubasta/static/"]
+#STATICFILES_DIR = [os.path.join(BASE_DIR,"static/"),
+# "/home/aimhoff/.virtualenvs/ingweb/Documentos/Ingenieria\ Web/tusubasta/static/"]
 
-AWS_ACCESS_KEY_ID = "AKIAIRQSDU3DYNW4WRCA"
+AWS_ACCESS_KEY_ID = "AKIAIAHFC2ZDTYRBFWWQ"
 
-AWS_SECRET_ACCESS_KEY = "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"
+AWS_SECRET_ACCESS_KEY = "41wkokF0NjvxQpqs9m4hiScIbpvRrjw8kt5Wuv8n"
