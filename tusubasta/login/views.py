@@ -1,46 +1,64 @@
 from django.shortcuts import render
 from django.views import View
-from django.contrib.auth import authenticate, login, logout as auth_logout
+from django.contrib.auth import authenticate, login, logout as auth_logout #ver esto
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required
-from .form import formRegistro
+from .form import formRegistrar
+from .form import formLogin
+
 
 # Create your views here.
 
-class home(View):
-	def get(self, request):
-		fRegistro = formRegistro()
-		return render(request, "index.html", {"form": fRegistro })
 
-	def post(self, request):
-		email = request.POST.get("email")
-		print(email)
+#class home(View):
+#	def get(self, request):
+#		fLogin = formLogin()
+#		return render(request, "index.html", {"form": fLogin })
+
+	#def post(self, request):
+
+#class login(View):
+#    def get(self, request):
+#        fLogin = formLogin()
+#        return render(request, "login.html", {"form": fLogin })#
+
+#    def post(self, request):
+#        email = request.POST.get("email")
+#        print(email)
+
+#class registrar(View):
+#    def get(self, request):
+#        fRegistrar = formRegistrar()
+#        return render(request, "registrar.html", {"form": fRegistrar })
+
 
 #class login_aplicacion(View):
-#	def
-
-
-"""
-def login(request):
-    context = RequestContext(request, { 'request': request, 'user': request.user})
+def login_aplicacion(request):
+    message = None
+    context = RequestContext(request, { 'request': request, 'email': request.email})
     return render_to_response('login.html', context_instance=context)
-if request.method=='POST':
-    user = request.POST['email']
-    passw = request.POST['password']
-    usuario = authenticate(username=user, password=passw)
-    if usuario is not None:
-        if usuario.is_active:
-            auth.login(request,usuario)
-            request.session['usrLogueado']=user
-            return redirect("/miembros/")
+
+    if request.method=='POST':
+        mail = request.POST['email']
+        password = request.POST['password']
+        usuario = authenticate(email=email, password=password)
+        if usuario is not None:
+            if usuario.is_active:
+                auth.login(request,usuario)
+                request.session['usrLogueado']=user
+                msg = "Te has identificado correctamente"
+                #return redirect("/miembros/")
+                #redireccionar a admin
+            else:
+                msg = "Usuario inactivo"
+                #return redirect(reverse('Registro.views.login'))
         else:
-            return redirect(reverse('Registro.views.login'))
+            msg = 'Nombre de usuario y/o contraseña es incorrecto'
+            #form = formLogin()
+            #form2 = formRegistro()
+            #return render(request,'login.html', {"form":form, "formR":form2})
     else:
         form = formLogin()
-        form2 = formRegistro()
-        return render(request,'login.html', {"form":form, "formR":form2})
-else:
-    form = formLogin()
-    form2 = formRegistro()
-    return render(request,'login.html', {"form":form, "formR":form2})
-"""
+        #form2 = formRegistro()
+    return render(request,'login.html', {"message":msg, 'form': form })
+    #return render(request,'login.html', {"form":form, "formR":form2})
