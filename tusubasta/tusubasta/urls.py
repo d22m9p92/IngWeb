@@ -1,6 +1,6 @@
 from django.conf.urls import include, url
 from django.contrib import admin
-#from login.views import *
+from login.views import *
 
 
 urlpatterns = [
@@ -9,7 +9,7 @@ urlpatterns = [
     # url(r'^blog/', include('blog.urls')),
 
     url(r'^admin/', include(admin.site.urls)),
-    #url(r'^$', home.as_view()),
+    url(r'^$', home.as_view()),
     #url(r'^login/$', login.as_view()),
     #url(r'^login/$', 'login.views.login_aplication')
     url(r'', include('login.urls'))

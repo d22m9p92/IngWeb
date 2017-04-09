@@ -9,37 +9,18 @@ from .form import formLogin
 
 # Create your views here.
 
-
-#class home(View):
-#	def get(self, request):
-#		fLogin = formLogin()
-#		return render(request, "index.html", {"form": fLogin })
-
-	#def post(self, request):
-
-#class login(View):
-#    def get(self, request):
-#        fLogin = formLogin()
-#        return render(request, "login.html", {"form": fLogin })#
-
-#    def post(self, request):
-#        email = request.POST.get("email")
-#        print(email)
-
-#class registrar(View):
-#    def get(self, request):
-#        fRegistrar = formRegistrar()
-#        return render(request, "registrar.html", {"form": fRegistrar })
+class home(View):
+    def get(self, request):
+        return render(request, "index.html")
 
 
-#class login_aplicacion(View):
 def login_aplicacion(request):
     message = None
-    context = RequestContext(request, { 'request': request, 'email': request.email})
+    context = RequestContext(request, { 'request': request, 'user': request.user})
     return render_to_response('login.html', context_instance=context)
 
     if request.method=='POST':
-        mail = request.POST['email']
+        user = request.POST['email']
         password = request.POST['password']
         usuario = authenticate(email=email, password=password)
         if usuario is not None:
@@ -47,7 +28,7 @@ def login_aplicacion(request):
                 auth.login(request,usuario)
                 request.session['usrLogueado']=user
                 msg = "Te has identificado correctamente"
-                #return redirect("/miembros/")
+               #return redirect("/miembros/")
                 #redireccionar a admin
             else:
                 msg = "Usuario inactivo"
