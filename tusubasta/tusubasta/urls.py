@@ -10,8 +10,6 @@ urlpatterns = [
 
     url(r'^admin/', include(admin.site.urls)),
     url(r'^$', home.as_view()),
-    #url(r'^login/$', login.as_view()),
-    #url(r'^login/$', 'login.views.login_aplication')
     url(r'', include('login.urls'))
-    #url(r'^registrar/$', registrar.as_view()),
+
 ]

@@ -11,7 +11,7 @@ class formRegistrar(forms.Form):
 
 
 class formLogin(forms.Form):
-    email =forms.EmailField(label='Email',widget=forms.TextInput(attrs={'class' : 'form-control','placeholder':'Ingrese su email','required':''})) 
+    username =forms.CharField(label='Usaurio',widget=forms.TextInput(attrs={'class' : 'form-control','placeholder':'Ingrese su usuario','required':''})) 
     password = password= forms.password=forms.CharField(max_length=30, label='Password',widget=forms.PasswordInput(attrs={'class': 'form-control','placeholder':'Ingrese su clave','required':''}))
 
 		
