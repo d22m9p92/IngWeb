@@ -17,6 +17,7 @@ class home(View):
         
 
 def login_aplicacion(request):
+    #next = request.GET['next']
     if request.method=='POST':
         user = request.POST['username']
         password = request.POST['password']
@@ -24,8 +25,11 @@ def login_aplicacion(request):
         if usuario is not None:
             if usuario.is_active:
                 auth.login(request,usuario)
-                #msg = "Te has identificado correctamente"
-                return HttpResponseRedirect("/admin/")
+                msg = "Te has identificado correctamente"
+                #if next:
+                #    return redirect(next)
+                #else:
+                return HttpResponseRedirect("/")
             else:
                 msg = "Usuario inactivo"
                 #return redirect(reverse('Registro.views.login'))
@@ -39,10 +43,12 @@ def login_aplicacion(request):
     return render(request,'login.html', { 'form': form })
     #return render(request,'login.html', {"form":form, "formR":form2})
 
+def logout(request):
+    auth_logout(request)
+    return HttpResponseRedirect("/")
 
 def registrar(request):
     if request.method=='POST':
-
         #if not User.objects.filter(username=request.POST['username']):
          #Se verifica que no sea repetido
         if request.POST['password'] == request.POST['confpassword']:
@@ -55,8 +61,7 @@ def registrar(request):
             user.is_active = False
             user.save()
             #send_registration_confirmation(user)
-            #return render(request, 'index.html')
-            return HttpResponseRedirect("/productos/")
+            return render(request, 'index.html')
         else:
             return('contraseña incorreca')
         #else:

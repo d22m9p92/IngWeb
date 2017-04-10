@@ -53,23 +53,22 @@
                     <li class="hidden">
                         <a href="#page-top"></a>
                     </li>
-                    <!--
-                    <li>
-                        <a class="page-scroll" href="#services">Services</a>
-                    </li>
-                    <li>
-                        <a class="page-scroll" href="#portfolio">Portfolio</a>
-                    </li>
-                    -->
                     <li>
                         <a href="/productos/">Productos</a>
                     </li>
+                    {% if request.user.is_authenticated %}
                     <li>
-                        <a href="/login/">Login</a>
+                        <a href="/logout/">Salir</a>
+                    </li>
+                    {% else %}
+                    <li>
+                        <a href="/login/">Ingresar</a>
                     </li>
                     <li>
                         <a href="/registrar/">Registrarse</a>
                     </li>
+                    {% endif %}
+                    
 
                 </ul>
             </div>
