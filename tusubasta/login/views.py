@@ -14,6 +14,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 class home(View):
     def get(self, request):
         return render(request, "index.html")
+        
 
 def login_aplicacion(request):
     if request.method=='POST':
@@ -40,60 +41,26 @@ def login_aplicacion(request):
 
 
 def registrar(request):
-    #form = formRegistrar()
-    #return render(request,'registrar.html', { 'form': form })
     if request.method=='POST':
-        form = formRegistro(request.POST)
-        if not User.objects.filter(username=request.POST['username']):
+
+        #if not User.objects.filter(username=request.POST['username']):
          #Se verifica que no sea repetido
-            if request.POST['password'] == request.POST['confpassword']:
-                username = request.POST['username']
-                nombre = request.POST['nombre']
-                apellido = request.POST['apellido']
-                email = request.POST['email']
-                password = request.POST['password']
-                user = User.objects.create_user(username=username, email=email, password=password, first_name=nombre, last_name=apellido)
-                user.is_active = False
-                user.save()
-                send_registration_confirmation(user)
-                return render(request, 'index.html')
-            else:
-                return('contraseña incorreca')
+        if request.POST['password'] == request.POST['confpassword']:
+            nickname = request.POST['nickName']
+            nombre = request.POST['nombre']
+            apellido = request.POST['apellido']
+            email = request.POST['email']
+            password = request.POST['password']
+            user = User.objects.create_user(username=nickname, email=email, password=password, first_name=nombre, last_name=apellido)
+            user.is_active = False
+            user.save()
+            #send_registration_confirmation(user)
+            #return render(request, 'index.html')
+            return HttpResponseRedirect("/productos/")
         else:
-            return('mail ya existente')
+            return('contraseña incorreca')
+        #else:
+        #    return('mail ya existente')
     else:
-        return('error')
-
-
-
-
-#def registro(request):
-#   pass
-# #     if request.method == 'POST':
-# #         form = formRegistro(request.POST)
-# #         if form.is_valid():
-# #             if not User.objects.filter(username=request.POST["email"]):#Verifico que no sea repetido 
-# #             if request.POST['password']== request.POST['confpassword']:
-# #                 username = request.POST['email']
-# #                 password = request.POST['password']
-# #                 email = request.POST['email']
-# #                 nombre = request.POST['nombre']
-# #                 apellido = request.POST['apellido']
-# #                 user = User.objects.create_user(username=username,email= email, password =password,first_name=nombre,last_name=apellido)
-# #                 user.is_active = False
-# #                 user.save()
-# #                 confirmation_code = ''.join(random.choice(string.ascii_uppercase + string.digits + string.ascii_lowercase) for x in range(33))
-# #                 p = Perfil(usuario=user, codigo=confirmation_code)
-# #                 p.save()
-# #                 send_registration_confirmation(user,p)
-# #                 return render(request,'registroCorrecto.html',{})
-# #             else:
-                 #return render(request,'registro.html',{'form':form ,'error':'Las passwords ingresadas no coinciden'})
-# #             else:
-# #                 return render(request,'registro.html',{'form':form,'error':'El email que ingreso ya esta registrado'})
-# #             else:
-# #                 form = formRegistro()   
-# #                 return render(request,'registro.html',{'form':form,'error':'Error al ingresar el formulario'})
-# #             else:
-# #                 form = formRegistro()   
-# #                 return render(request,'registro.html',{'form':form,'error':''})
+        form = formRegistrar()
+    return render(request,'registrar.html', { 'form': form })
