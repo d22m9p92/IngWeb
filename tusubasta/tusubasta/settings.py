@@ -107,7 +107,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
-#Configuracion para Amazon
+# Configuracion para Amazon
 
 STATICFILES_LOCATION = '/static/'
 
@@ -123,7 +123,7 @@ AWS_STORAGE_BUCKET_NAME = "tusubasta"
 
 AWS_S3_CUSTOM_DOMAIN = 's3.amazonaws.com/%s' % AWS_STORAGE_BUCKET_NAME
 
-#STATIC_URL = "https://s3.amazonaws.com/%s/" % AWS_STORAGE_BUCKET_NAME
+# STATIC_URL = "https://s3.amazonaws.com/%s/" % AWS_STORAGE_BUCKET_NAME
 STATIC_URL = "https://s3.amazonaws.com/tusubasta/%s/" % AWS_STORAGE_BUCKET_NAME
 
 MEDIA_URL = "https://%s/il/media/" % AWS_S3_CUSTOM_DOMAIN

@@ -8,6 +8,7 @@ from .form import *
 from django.template import RequestContext
 from django.http import HttpResponseRedirect, HttpResponse
 
+
 @login_required(login_url='/login/')
 def productos(request):
-    return render(request, "base.html")
+    return render(request, "productos.html")

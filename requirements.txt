@@ -1,0 +1,7 @@
+pip
+Django=1.10
+pytz
+boto
+django-storages
+psycopg2
+pillow

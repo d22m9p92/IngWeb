@@ -2,11 +2,13 @@ from django.shortcuts import render, render_to_response, redirect
 from django.views import View
 from django.contrib.auth import authenticate, login, logout as auth_logout #ver esto
 from django.contrib import auth
-from django.core.urlresolvers import reverse
+from django.core.urlresolvers import reverse, reverse_lazy
 from django.contrib.auth.decorators import login_required
 from .form import *
 from django.template import RequestContext
 from django.http import HttpResponseRedirect, HttpResponse
+from django.contrib.auth.forms import AuthenticationForm
+from django.views.generic import FormView, TemplateView, RedirectView
 
 
 # Create your views here.
@@ -16,8 +18,31 @@ class home(View):
         return render(request, "index.html")
         
 
+class LoginView(FormView):
+    # Le indicamos que el formulario a utilizar es el formulario de autenticación de Django
+    form_class = AuthenticationForm
+    # Establecemos la plantilla a utilizar
+    template_name = "login.html"
+    #Le decimos que cuando se haya completado exitosamente la operación nos redireccione a la url productos
+    success_url = reverse_lazy('productos')
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated():
+            # Si el usuario está autenticado entonces nos direcciona a la url establecida en success_url
+            return HttpResponseRedirect(self.get_success_url())
+        else:
+            # Si no lo está entonces nos muestra la plantilla del login simplemente
+            return super(LoginView, self).dispatch(request, *args, **kwargs)
+
+    def form_valid(self, form):
+        login(self.request, form.get_user())
+        return super(LoginView, self).form_valid(form)
+
+
+'''    
 def login_aplicacion(request):
-    #next = request.GET['next']
+    #next_page = request.GET['next']
+    #next = request.POST.get('next', request.GET.get('next', ''))
     if request.method=='POST':
         user = request.POST['username']
         password = request.POST['password']
@@ -36,16 +61,15 @@ def login_aplicacion(request):
         else:
             msg = 'Nombre de usuario y/o contraseña es incorrecto'
             form = formLogin()
-            #form2 = formRegistrar()
     else:
         form = formLogin()
-        #form2 = formRegistro()
     return render(request,'login.html', { 'form': form })
-    #return render(request,'login.html', {"form":form, "formR":form2})
 
+'''
 def logout(request):
     auth_logout(request)
     return HttpResponseRedirect("/")
+
 
 def registrar(request):
     if request.method=='POST':
