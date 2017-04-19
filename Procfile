@@ -1,0 +1,1 @@
+web: cd tusubasta && gunicorn tusubasta.wsgi --log-file -

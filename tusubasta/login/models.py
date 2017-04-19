@@ -8,17 +8,12 @@ from sitio.models import *
 
 
 class perfil(models.Model):
-	nick = models.CharField(max_length=50, null=True, blank=True)
 	direccion = models.CharField(max_length=50, null=True, blank=True)
 	direccionNumero = models.IntegerField(default=0)
 	# ciudad = models.ForeignKey(null=True,blank= True)
 	fechaNacimiento = models.DateField(null=True, blank=True)
 	# estado = models.ForeignKey(estadosPerfil)
-	usuario = models.ForeignKey(User)
+	usuario = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
 
 	def __str__(self):
 		return self.nick
-
-
-
-

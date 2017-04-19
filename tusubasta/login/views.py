@@ -39,33 +39,6 @@ class LoginView(FormView):
         return super(LoginView, self).form_valid(form)
 
 
-'''    
-def login_aplicacion(request):
-    #next_page = request.GET['next']
-    #next = request.POST.get('next', request.GET.get('next', ''))
-    if request.method=='POST':
-        user = request.POST['username']
-        password = request.POST['password']
-        usuario = authenticate(username=user, password=password)
-        if usuario is not None:
-            if usuario.is_active:
-                auth.login(request,usuario)
-                msg = "Te has identificado correctamente"
-                #if next:
-                #    return redirect(next)
-                #else:
-                return HttpResponseRedirect("/")
-            else:
-                msg = "Usuario inactivo"
-                #return redirect(reverse('Registro.views.login'))
-        else:
-            msg = 'Nombre de usuario y/o contraseña es incorrecto'
-            form = formLogin()
-    else:
-        form = formLogin()
-    return render(request,'login.html', { 'form': form })
-
-'''
 def logout(request):
     auth_logout(request)
     return HttpResponseRedirect("/")
@@ -82,7 +55,7 @@ def registrar(request):
             email = request.POST['email']
             password = request.POST['password']
             user = User.objects.create_user(username=nickname, email=email, password=password, first_name=nombre, last_name=apellido)
-            user.is_active = False
+            user.is_active = True
             user.save()
             #send_registration_confirmation(user)
             return render(request, 'index.html')

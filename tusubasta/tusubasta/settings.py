@@ -81,7 +81,7 @@ WSGI_APPLICATION = 'tusubasta.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'tusubasta_BD',
+        'NAME': 'tusubastaBD',
         'USER': 'usrsubasta',
         'PASSWORD': 'subasta01',
         'HOST': 'localhost',
@@ -146,3 +146,11 @@ S3Connection.defaultHost = 's3-us-east-1.amazon.com'
 AWS_ACCESS_KEY_ID = "AKIAIAHFC2ZDTYRBFWWQ"
 
 AWS_SECRET_ACCESS_KEY = "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"
+
+
+if os.environ.get('HEROKU', False):
+    # settings especificas para heroku
+    import dj_database_url
+    DATABASES['default'] = dj_database_url.config()
+    ALLOWED_HOSTS = ['*']
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')   

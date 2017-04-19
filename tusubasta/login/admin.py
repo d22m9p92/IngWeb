@@ -3,4 +3,4 @@ from login.models import *
 
 # Register your models here.
 
-admin.site.register(perfil)
+# admin.site.register(perfil)
