@@ -147,7 +147,6 @@ AWS_ACCESS_KEY_ID = "AKIAIAHFC2ZDTYRBFWWQ"
 
 AWS_SECRET_ACCESS_KEY = "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"
 
-
 if os.environ.get('HEROKU', False):
     # settings especificas para heroku
     import dj_database_url
