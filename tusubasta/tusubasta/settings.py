@@ -59,7 +59,7 @@ ROOT_URLCONF = 'tusubasta.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR,'templates/')],
+        'DIRS': [os.path.join(BASE_DIR, 'templates/')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -147,9 +147,11 @@ AWS_ACCESS_KEY_ID = "AKIAIAHFC2ZDTYRBFWWQ"
 
 AWS_SECRET_ACCESS_KEY = "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"
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'static_server_files')
+
 if os.environ.get('HEROKU', False):
     # settings especificas para heroku
     import dj_database_url
     DATABASES['default'] = dj_database_url.config()
     ALLOWED_HOSTS = ['*']
-    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')   
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
