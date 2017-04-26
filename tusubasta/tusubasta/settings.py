@@ -22,7 +22,7 @@ SECRET_KEY = ')x2=7i0721d$fk55==ze%4c982a5bqnbi0m-iruv(n&&u_!%!e'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1']
 
 
 # Application definition
@@ -64,6 +64,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+               
             ],
         },
     },
@@ -103,52 +104,40 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
+STATIC_URL = '/static/'
+#STATICFILES_DIR = [os.path.join(BASE_DIR,"static"),"/home/aimhoff/Documentos/Ingenieria Web/tusubasta",
+#os.path.join(BASE_DIR,"static_server_files","/home/aimhoff/Documentos/static"),
+#]
+# STATICFILES_DIR = ["/home/aimhoff/Documentos/static",]
+# STATIC_ROOT = os.path.join(BASE_DIR,"static")
+#os.path.join(BASE_DIR, 'static_server_files/')
 
-# Configuracion para Amazon
-
-STATICFILES_LOCATION = '/static/'
-
-MEDIAFILES_LOCATION = 'media'
-
-STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
-
-DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
-
-AWS_S3_SECURE_URLS = False
-
-AWS_STORAGE_BUCKET_NAME = "tusubasta"
-
-AWS_S3_CUSTOM_DOMAIN = 's3.amazonaws.com/%s' % AWS_STORAGE_BUCKET_NAME
-
-# STATIC_URL = "https://s3.amazonaws.com/%s/" % AWS_STORAGE_BUCKET_NAME
-STATIC_URL = "https://s3.amazonaws.com/tusubasta/%s/" % AWS_STORAGE_BUCKET_NAME
-
-MEDIA_URL = "https://%s/il/media/" % AWS_S3_CUSTOM_DOMAIN
-
-AWS_QUERYSTRING_AUTH = False
-
-AWS_DEFAULT_ACL = "private"
-
-from boto.s3.connection import ProtocolIndependentOrdinaryCallingFormat
-
-AWS_S3_CALLING_FORMAT = ProtocolIndependentOrdinaryCallingFormat()
-
-from boto.s3.connection import S3Connection
-
-S3Connection.defaultHost = 's3-us-east-1.amazon.com'
-
-#STATICFILES_DIR = [os.path.join(BASE_DIR,"static/"),
-# "/home/aimhoff/.virtualenvs/ingweb/Documentos/Ingenieria\ Web/tusubasta/static/"]
-
-AWS_ACCESS_KEY_ID = "AKIAIAHFC2ZDTYRBFWWQ"
-
-AWS_SECRET_ACCESS_KEY = "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"
-
-# STATIC_ROOT = os.path.join(BASE_DIR, 'static_server_files')
 
 if os.environ.get('HEROKU', False):
     # settings especificas para heroku
     import dj_database_url
     DATABASES['default'] = dj_database_url.config()
     ALLOWED_HOSTS = ['*']
-    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'http')
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    
+    # Configuracion para Amazon
+    STATICFILES_LOCATION = '/static/'
+    MEDIAFILES_LOCATION = 'media'
+    STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+    DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+    # AWS_S3_SECURE_URLS = False
+    AWS_STORAGE_BUCKET_NAME = "tusubasta"
+    AWS_S3_CUSTOM_DOMAIN = 's3.amazonaws.com/%s' % AWS_STORAGE_BUCKET_NAME
+    # STATIC_URL = "https://s3.amazonaws.com/%s/" % AWS_STORAGE_BUCKET_NAME
+    STATIC_URL = "https://s3.amazonaws.com/tusubasta/%s/" % AWS_STORAGE_BUCKET_NAME
+    MEDIA_URL = "https://%s/il/media/" % AWS_S3_CUSTOM_DOMAIN
+    AWS_QUERYSTRING_AUTH = False
+    AWS_DEFAULT_ACL = "private"
+    from boto.s3.connection import ProtocolIndependentOrdinaryCallingFormat
+    AWS_S3_CALLING_FORMAT = ProtocolIndependentOrdinaryCallingFormat()
+    from boto.s3.connection import S3Connection
+    S3Connection.defaultHost = 's3-us-east-1.amazon.com'
+    #STATICFILES_DIR = [os.path.join(BASE_DIR,"static/"),
+    # "/home/aimhoff/.virtualenvs/ingweb/Documentos/Ingenieria\ Web/tusubasta/static/"]
+    AWS_ACCESS_KEY_ID = "AKIAIAHFC2ZDTYRBFWWQ"
+    AWS_SECRET_ACCESS_KEY = "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"

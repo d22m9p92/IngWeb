@@ -9,12 +9,13 @@ from django.template import RequestContext
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.forms import AuthenticationForm
 from django.views.generic import FormView, TemplateView, RedirectView
-
+import os
 
 # Create your views here.
 
 class home(View):
     def get(self, request):
+        print(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
         return render(request, "index.html")
         
 
