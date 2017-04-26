@@ -102,15 +102,10 @@ USE_L10N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.8/howto/static-files/
+
 STATIC_URL = '/static/'
-#STATICFILES_DIR = [os.path.join(BASE_DIR,"static"),"/home/aimhoff/Documentos/Ingenieria Web/tusubasta",
-#os.path.join(BASE_DIR,"static_server_files","/home/aimhoff/Documentos/static"),
-#]
-# STATICFILES_DIR = ["/home/aimhoff/Documentos/static",]
-# STATIC_ROOT = os.path.join(BASE_DIR,"static")
-#os.path.join(BASE_DIR, 'static_server_files/')
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'static_server_files')
 
 
 if os.environ.get('HEROKU', False):
@@ -128,7 +123,6 @@ if os.environ.get('HEROKU', False):
     # AWS_S3_SECURE_URLS = False
     AWS_STORAGE_BUCKET_NAME = "tusubasta"
     AWS_S3_CUSTOM_DOMAIN = 's3.amazonaws.com/%s' % AWS_STORAGE_BUCKET_NAME
-    # STATIC_URL = "https://s3.amazonaws.com/%s/" % AWS_STORAGE_BUCKET_NAME
     STATIC_URL = "https://s3.amazonaws.com/tusubasta/%s/" % AWS_STORAGE_BUCKET_NAME
     MEDIA_URL = "https://%s/il/media/" % AWS_S3_CUSTOM_DOMAIN
     AWS_QUERYSTRING_AUTH = False
@@ -137,7 +131,5 @@ if os.environ.get('HEROKU', False):
     AWS_S3_CALLING_FORMAT = ProtocolIndependentOrdinaryCallingFormat()
     from boto.s3.connection import S3Connection
     S3Connection.defaultHost = 's3-us-east-1.amazon.com'
-    #STATICFILES_DIR = [os.path.join(BASE_DIR,"static/"),
-    # "/home/aimhoff/.virtualenvs/ingweb/Documentos/Ingenieria\ Web/tusubasta/static/"]
     AWS_ACCESS_KEY_ID = "AKIAIAHFC2ZDTYRBFWWQ"
     AWS_SECRET_ACCESS_KEY = "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"
