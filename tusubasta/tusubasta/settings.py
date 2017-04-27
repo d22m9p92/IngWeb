@@ -22,7 +22,7 @@ SECRET_KEY = ')x2=7i0721d$fk55==ze%4c982a5bqnbi0m-iruv(n&&u_!%!e'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -107,6 +107,8 @@ STATIC_URL = '/static/'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static_server_files')
 
+#STATICFILES_DIR = [ os.path.join(BASE_DIR,"static/"),
+# ]
 
 if os.environ.get('HEROKU', False):
     # settings especificas para heroku

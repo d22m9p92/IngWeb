@@ -15,5 +15,5 @@ urlpatterns = [
     url(r'', include('login.urls')),
     url(r'^productos/$', views.productos, name='productos'),
 
-]+static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+]
 	
