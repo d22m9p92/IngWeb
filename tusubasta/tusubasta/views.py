@@ -4,7 +4,6 @@ from django.contrib.auth import authenticate, login, logout as auth_logout #ver 
 from django.contrib import auth
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
-from .form import *
 from django.template import RequestContext
 from django.http import HttpResponseRedirect, HttpResponse
 

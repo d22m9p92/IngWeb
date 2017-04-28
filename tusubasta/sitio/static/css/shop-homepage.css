@@ -17,6 +17,11 @@ body {
     margin-bottom: 30px;
 }
 
+.text-primary, a{
+  color:#e60d28;
+} 
+
+
 .carousel-control,
 .item {
     border-radius: 4px;

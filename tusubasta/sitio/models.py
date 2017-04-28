@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.forms import ModelForm
 import datetime
+
 
 
 # Create your models here.
@@ -30,12 +32,13 @@ class Calificaciones(models.Model):
 
 
 class Subastas(models.Model):
+	titulo				= models.CharField(max_length=50,null=True,blank=True)
 	detalle 			= models.TextField(null=True,blank=True)
 	precioBase 			= models.DecimalField(max_digits=7, decimal_places=2,null=True,blank=True)
 	fechaAlta 			= models.DateTimeField(auto_now=True, null=True,blank=True)
 	fechaBaja 			= models.DateTimeField(auto_now=True, null=True,blank=True)
 	fechaFin 			= models.DateTimeField(auto_now=True, null=True,blank=True)
-	usuarioVendedor 	= models.ForeignKey(Categorias,null=True,blank=True)
+	idCategoria 		= models.ForeignKey(Categorias,null=True,blank=True)
 	idSubcategoria 		= models.ForeignKey(SubCategorias,null=True,blank=True)
 	idCalificacion 		= models.ForeignKey(Calificaciones,null=True,blank=True)
 	#######VERRRR#######
@@ -43,7 +46,9 @@ class Subastas(models.Model):
 	localidad			= models.CharField(max_length=50,null=True,blank=True)
 	provincia			= models.CharField(max_length=50,null=True,blank=True)
 	pais				= models.CharField(max_length=50,null=True,blank=True)
-
+	imagen1				= models.ImageField(upload_to = None, null=True, blank=True)
+	imagen2				= models.ImageField(upload_to = None, null=True, blank=True)
+	imagen3				= models.ImageField(upload_to = None, null=True, blank=True)
 
 	def __str__(self):
 		return self.detalle
@@ -70,7 +75,7 @@ class Comentarios(models.Model):
 	def __str__(self):
 			return self.comentario
 
-
+'''
 class Imagenes(models.Model):
 	idSubasta 			= models.ForeignKey(Subastas)
 	descripcion 		= models.CharField(max_length=50,null=True,blank=True)
@@ -78,7 +83,7 @@ class Imagenes(models.Model):
 
 	def __str__(self):
 		return self.descripcion
-		
+'''
 
 class Respuestas(models.Model):
 	idComentario		= models.ForeignKey(Comentarios, null=True, blank=True)

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<body id="page-top"> 
+
+<form action="{% url 'nuevaSubasta' %}" method="POST">
+              {% csrf_token %}
+              {{ form.as_p }}
+              <!--  
+              <div class="input-field col s6">          
+                <label for="nombre">Nombre</label>
+                {{form.nombre}}
+              </div>
+              <div class="input-field col s6">          
+                <label for="apellido">Apellido</label>
+                {{form.apellido}}
+              </div>                    
+              <div class="input-field col s6">          
+                <label for="email">Email</label>
+                {{form.email}}
+              </div>
+              <div class="input-field col s6">          
+                <label for="password">Contraseña</label>
+                {{form.password}}
+              </div>
+              <div class="input-field col s6">          
+                <label for="confpassword">Repetir Contraseña</label>
+                {{form.confpassword}}
+              </div>
+              -->
+              <button class="btn waves-effect waves-light" type="submit" name="action" value="Ingresar">Publicar
+                <i class="mdi-content-send right"></i>
+              </button>  
+            </form>        
+
+</body>
+
+</html>

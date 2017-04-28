@@ -5,6 +5,7 @@ from django.contrib import auth
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.contrib.auth.decorators import login_required
 from .form import *
+from sitio.models import Subastas
 from django.template import RequestContext
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.forms import AuthenticationForm
@@ -14,9 +15,9 @@ import os
 # Create your views here.
 
 class home(View):
-    def get(self, request):
-        print(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-        return render(request, "index.html")
+    def get(self, request): 
+        subastas = Subastas.objects.all()        
+        return render(request, "index.html",{"productos": subastas})
         
 
 class LoginView(FormView):
