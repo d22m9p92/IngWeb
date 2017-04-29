@@ -10,15 +10,7 @@ from django.template import RequestContext
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.forms import AuthenticationForm
 from django.views.generic import FormView, TemplateView, RedirectView
-import os
-
-# Create your views here.
-
-class home(View):
-    def get(self, request): 
-        subastas = Subastas.objects.all()        
-        return render(request, "index.html",{"productos": subastas})
-        
+import os       
 
 class LoginView(FormView):
     # Le indicamos que el formulario a utilizar es el formulario de autenticación de Django
@@ -26,7 +18,7 @@ class LoginView(FormView):
     # Establecemos la plantilla a utilizar
     template_name = "login.html"
     #Le decimos que cuando se haya completado exitosamente la operación nos redireccione a la url productos
-    success_url = reverse_lazy('productos')
+    success_url = reverse_lazy('home')
 
     def dispatch(self, request, *args, **kwargs):
         if request.user.is_authenticated():
@@ -68,3 +60,5 @@ def registrar(request):
     else:
         form = formRegistrar()
     return render(request,'registrar.html', { 'form': form })
+
+

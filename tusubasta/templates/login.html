@@ -1,13 +1,8 @@
 <!DOCTYPE html>
-
 {% load static %}
 
-{% block login %}
-
 <html lang="en">
-
 {% csrf_token%}
-
     <head>
         <meta charset="utf-8"/></meta>
         <title>Ingreso al sistema</title>
@@ -26,22 +21,28 @@
                         <div class="panel-body">
                             <form role="form" method="post" id='form_login'>
                                 {% csrf_token %}
-                                <div class="form-group">
-                                    <label for="username">Usuario:</label>
-                                    {{ form.username }}
+                                <div style="margin-bottom: 25px" class="input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                    <input type="text" class="form-control" name="username" placeholder="Usuario">
                                 </div>
-                                <div class="form-group">
-                                    <label for="password">Contraseña: </label>
-                                    {{ form.password }}
-                                </div>                                    
-                                <button class="btn btn-lg btn-success btn-block" type="submit" name="login"/>Login</button>                             
-                            </form>
-                        </div>
+                                <div style="margin-bottom: 25px" class="input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                                    <input type="password" class="form-control" name="password" placeholder="Contraseña">
+                                </div> 
+                                <div style="float:left; font-size: 80%; position: relative; top:-20px">¿Olvido su contraseña? Cambiela 
+                                    <a href="/registrar/">Aquí</a>  
+                                </div>
+                                <div>
+                                    <button class="btn btn-primary btn-block" type="submit" name="login"/>Login</button> 
+                                </div>
+                                    <div style="margin-top:10px" class="form-group">
+                                    <div style="border-top: 1px solid#888;padding-top:15px;font-size:85%;">¿No tiene una cuenta?
+                                    <a href="/registrar/">Registrarse</a>
+                                </div>
+                            </form>  
                     </div>
                 </div>
             </div>
         </div>
     </body>
 </html>
-
-{% endblock %}

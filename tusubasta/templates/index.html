@@ -18,10 +18,6 @@
     <!-- Custom CSS -->
     <link href="{% static "css/shop-homepage.css" %}" rel="stylesheet">
 
-    <!-- Theme CSS  
-    <link href="{% static "css/agency.min.css" %}" rel="stylesheet"> 
-    -->
-
 </head>
 
 <body id="page-top" class="index">
@@ -58,6 +54,9 @@
                     <li>
                         <a href="/nuevasubasta/">Publicar</a>
                     </li>
+                    <li>
+                        <a href="/nuevasubasta/">Mi Perfil</a>
+                    </li>
                      <li>
                         <a href="/logout/">Salir</a>
                     </li>
@@ -80,13 +79,12 @@
     <div class="container">
 
         <div class="row">
-
             <div class="col-md-3">
-                <p class="lead">Shop Name</p>
+                <p class="lead">Categorías</p>
                 <div class="list-group">
-                    <a href="#" class="list-group-item">Category 1</a>
-                    <a href="#" class="list-group-item">Category 2</a>
-                    <a href="#" class="list-group-item">Category 3</a>
+                    {% for categoria in categorias %}
+                    <a href="#" class="list-group-item">{{categoria.descripcion}}</a>
+                    {%endfor%}
                 </div>
             </div>
 
@@ -123,39 +121,48 @@
 
                 </div>
                 <div class="row">
-                    {%for subasta in productos%}
+                    {%for subasta in subastas%}
                     <div class="col-sm-4 col-lg-4 col-md-4">
                         <div class="thumbnail">
                             <img src="http://placehold.it/320x150" alt="">
                             <div class="caption">
                                 <h4 class="pull-right">{{subasta.precioBase}}</h4>
-                                <h4><a href="#">First Product</a>
+                                <h4><a href="#">{{subasta.titulo}}</a>
                                 </h4>
                                 <p>{{subasta.detalle}}</a>.</p>
                             </div>
                             <div class="ratings">
-                                <p class="pull-right">15 reviews</p>
+                                <!--<p class="pull-right">15 reviews</p>-->
                                 <p>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
+                                    <strong>Fecha límite: </strong>{{subasta.fechaFin}}
                                 </p>
                             </div>
                         </div>
                     </div>
-                    {%endfor%}
-
+                    {%endfor%}    
                 </div>
-            </div>
+                <div class="pagination">
+                    <span class="step-links">
+                        {% if subastas.has_previous %}
+                            <a href="?page={{ subastas.previous_page_number }}">Anterior</a>
+                        {% endif %}
 
+                        <span class="current">
+                            Página {{ subastas.number }} de {{ subastas.paginator.num_pages }}.
+                        </span>
+
+                        {% if subastas.has_next %}
+                            <a href="?page={{ subastas.next_page_number }}">Siguiente</a>
+                        {% endif %}
+                    </span>
+                </div>
         </div>
+    </div>
 
     </div>
 
 
-    <!-- Contact Section -->
+    <!-- Contact Section 
     <section id="contact">
         <div class="container">
             <div class="row">
@@ -199,6 +206,8 @@
             </div>
         </div>
     </section>
+
+    -->
     <!-- /.container -->
     <div class="container">
 

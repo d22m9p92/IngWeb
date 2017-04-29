@@ -9,5 +9,5 @@ urlpatterns = [
     # url(r'^blog/', include('blog.urls')),
     
     url(r'^nuevasubasta/$', views.nuevaSubasta, name='nuevaSubasta'),
-	url(r'^listasubasta/$', views.SubastaList.as_view(), name='listasubasta'),
+	#url(r'^listasubasta/$', views.SubastaList.as_view(), name='listasubasta'),
 ]

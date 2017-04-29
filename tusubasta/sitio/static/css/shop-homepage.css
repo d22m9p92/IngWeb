@@ -17,10 +17,6 @@ body {
     margin-bottom: 30px;
 }
 
-.text-primary, a{
-  color:#e60d28;
-} 
-
 
 .carousel-control,
 .item {
@@ -62,9 +58,8 @@ body {
 .text-muted {
   color: #777777;
 }
-.text-primary {
-  color: #e60d28;
-}
+
+
 p {
   font-size: 14px;
   line-height: 1.75;
@@ -78,16 +73,13 @@ a:focus,
 a:active,
 a.active {
   outline: none;
+  font-size: 16px;
 }
-a {
-  color: #fed136;
-}
+
 a:hover,
 a:focus,
 a:active,
-a.active {
-  color: #fec503;
-}
+
 h1,
 h2,
 h3,
@@ -95,7 +87,6 @@ h4,
 h5,
 h6 {
   font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  text-transform: uppercase;
   font-weight: 700;
 }
 .img-centered {
@@ -605,61 +596,7 @@ section h3.section-subheading {
 aside.clients img {
   margin: 50px auto;
 }
-section#contact {
-  background-color: #222222;
-  background-image: url('../img/map-image.png');
-  background-position: center;
-  background-repeat: no-repeat;
-}
-section#contact .section-heading {
-  color: white;
-}
-section#contact .form-group {
-  margin-bottom: 25px;
-}
-section#contact .form-group input,
-section#contact .form-group textarea {
-  padding: 20px;
-}
-section#contact .form-group input.form-control {
-  height: auto;
-}
-section#contact .form-group textarea.form-control {
-  height: 236px;
-}
-section#contact .form-control:focus {
-  border-color: #fed136;
-  box-shadow: none;
-}
-section#contact ::-webkit-input-placeholder {
-  font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  text-transform: uppercase;
-  font-weight: 700;
-  color: #eeeeee;
-}
-section#contact :-moz-placeholder {
-  /* Firefox 18- */
-  font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  text-transform: uppercase;
-  font-weight: 700;
-  color: #eeeeee;
-}
-section#contact ::-moz-placeholder {
-  /* Firefox 19+ */
-  font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  text-transform: uppercase;
-  font-weight: 700;
-  color: #eeeeee;
-}
-section#contact :-ms-input-placeholder {
-  font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  text-transform: uppercase;
-  font-weight: 700;
-  color: #eeeeee;
-}
-section#contact .text-danger {
-  color: #e74c3c;
-}
+
 footer {
   padding: 25px 0;
   text-align: center;
@@ -781,11 +718,9 @@ ul.social-buttons li a:active {
 }
 ::-moz-selection {
   text-shadow: none;
-  background: #fed136;
 }
 ::selection {
   text-shadow: none;
-  background: #fed136;
 }
 img::selection {
   background: transparent;

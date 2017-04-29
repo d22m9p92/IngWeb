@@ -12,5 +12,6 @@ urlpatterns = [
     url(r'^logout/$', views.logout),
     url(r'^registrar/$', views.registrar),
     url(r'^login/$', LoginView.as_view()),
+    #url(r'^editarperfil/$', LoginView.as_view()),
     #url(r'^logout/$', LogoutView.as_view()),
 ]
