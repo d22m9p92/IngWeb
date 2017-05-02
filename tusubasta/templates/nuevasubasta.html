@@ -7,11 +7,12 @@
 <form action="{% url 'nuevaSubasta' %}" method="POST">
               {% csrf_token %}
               {{ form.as_p }}
-              <!--  
+                
               <div class="input-field col s6">          
-                <label for="nombre">Nombre</label>
-                {{form.nombre}}
+                <label for="fechaFin">Fecha expiración</label>
+                {{form.fechaFin}}
               </div>
+              <!--
               <div class="input-field col s6">          
                 <label for="apellido">Apellido</label>
                 {{form.apellido}}

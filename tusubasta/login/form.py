@@ -1,5 +1,7 @@
 from django import forms
 from .models import *
+from django.db import models
+
 
 class formRegistrar(forms.Form):
 	nickName = forms.CharField(max_length=25, label='Usuario', widget=forms.TextInput(attrs={'class' : 'validate'}))
@@ -9,7 +11,7 @@ class formRegistrar(forms.Form):
 	apellido = forms.CharField(max_length=25, label='Apellido', widget=forms.TextInput(attrs={'class' : 'validate'}))
 	#fechaNacimiento = forms.DateField(label='Fecha de Nacimiento', widget=forms.DateInput(attrs={'class' : 'validate'}))
 	nombre = forms.CharField(max_length=25, label='Nombre', widget=forms.TextInput(attrs={'class' : 'validate'}))
-    
+
 
 
 class formLogin(forms.Form):

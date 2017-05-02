@@ -53,7 +53,7 @@ def SubastaList(request):
     return render(request,"index.html",{"subastas": subastas})
 '''
 
-
+@login_required(login_url= '/login/')
 def nuevaSubasta(request):
 	if request.method=='POST':
 		form = SubastasForm(request.POST)

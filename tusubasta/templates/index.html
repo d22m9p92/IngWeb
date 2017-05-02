@@ -55,12 +55,15 @@
                         <a href="/nuevasubasta/">Publicar</a>
                     </li>
                     <li>
-                        <a href="/nuevasubasta/">Mi Perfil</a>
+                        <a href="/editarperfil/">Mi Perfil</a>
                     </li>
                      <li>
                         <a href="/logout/">Salir</a>
                     </li>
                     {% else %}
+                    <li>
+                        <a href="/nuevasubasta/">Publicar</a>
+                    </li>
                     <li>
                         <a href="/login/">Ingresar</a>
                     </li>
@@ -132,7 +135,6 @@
                                 <p>{{subasta.detalle}}</a>.</p>
                             </div>
                             <div class="ratings">
-                                <!--<p class="pull-right">15 reviews</p>-->
                                 <p>
                                     <strong>Fecha límite: </strong>{{subasta.fechaFin}}
                                 </p>
