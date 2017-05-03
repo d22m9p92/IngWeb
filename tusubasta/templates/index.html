@@ -130,8 +130,7 @@
                             <img src="http://placehold.it/320x150" alt="">
                             <div class="caption">
                                 <h4 class="pull-right">{{subasta.precioBase}}</h4>
-                                <h4><a href="#">{{subasta.titulo}}</a>
-                                </h4>
+                                <h4><a href="{% url 'subastadetalle' pk=subasta.id %}">{{ subasta.titulo }}</a></h4>
                                 <p>{{subasta.detalle}}</a>.</p>
                             </div>
                             <div class="ratings">

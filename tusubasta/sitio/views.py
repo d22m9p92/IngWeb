@@ -1,4 +1,4 @@
-from django.shortcuts import render, render_to_response, redirect
+from django.shortcuts import render, render_to_response, redirect, get_object_or_404
 from django.views import View
 from django.contrib.auth import authenticate, login, logout as auth_logout #ver esto
 from django.contrib import auth
@@ -47,11 +47,6 @@ class home(View):
         '''
         return render(request, "index.html",{"subastas": subastas, "categorias": categorias})
 
-'''
-def SubastaList(request):
-    subastas = Subasta.objects.all()
-    return render(request,"index.html",{"subastas": subastas})
-'''
 
 @login_required(login_url= '/login/')
 def nuevaSubasta(request):
@@ -59,9 +54,13 @@ def nuevaSubasta(request):
 		form = SubastasForm(request.POST)
 		if form.is_valid():
 			nueva_subasta = form.save()
-			return HttpResponse("/nuevasubastas/")	
+			return HttpResponseRedirect("/")	
 			#return HttpResponseRedirect(reverse())
 	else:
 		form = SubastasForm()
-
 	return render(request,'nuevasubasta.html', { 'form': form })
+
+
+def subasta_detalle(request, pk):
+        subasta = get_object_or_404(Subastas, pk=pk)
+        return render(request, 'subasta_detalle.html', {'subasta': subasta})
