@@ -35,7 +35,7 @@ class home(View):
         subastas = Subastas.objects.all()
         categorias = Categorias.objects.all()
         '''
-        paginator = Paginator(subastas, 3)
+        paginator = Paginator(subastas, 9)
 
         page = request.GET.get('page')
         try:
