@@ -12,40 +12,22 @@ from django.views.generic import ListView
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
-def listing(request):
-    subasta_list = Subastas.objects.all()
-    paginator = Paginator(subasta_list, 3) # Show 25 contacts per page
-
-    page = request.GET.get('page')
-    
-    try:
-        subastas = paginator.page(page)
-    except PageNotAnInteger:
-        # If page is not an integer, deliver first page.
-        subastas = paginator.page(1)
-    except EmptyPage:
-        # If page is out of range (e.g. 9999), deliver last page of results.
-        subastas = paginator.page(paginator.num_pages)
-
-    return render(request, 'index.html', {"subastas": subastas})
-
-
 class home(View):
     def get(self, request): 
         subastas = Subastas.objects.all()
         categorias = Categorias.objects.all()
-        '''
-        paginator = Paginator(subastas, 9)
+        
+        paginator = Paginator(subastas, 15)
 
         page = request.GET.get('page')
         try:
-            Subastas = paginator.page(page)
+            SubastasList = paginator.page(page)
         except PageNotAnInteger:
-            Subastas = paginator.page(1)
+            SubastasList = paginator.page(1)
         except EmptyPage:
-            Subastas = paginator.page(paginator.num_pages)        
-        '''
-        return render(request, "index.html",{"subastas": subastas, "categorias": categorias})
+            SubastasList = paginator.page(paginator.num_pages)        
+        
+        return render(request, "index.html",{"subastas": SubastasList, "categorias": categorias})
 
 
 @login_required(login_url= '/login/')
