@@ -88,6 +88,13 @@ DATABASES = {
     }
 }
 
+#Configuracion de SMTP
+EMAIL_HOST 			= 'smtp.gmail.com'
+EMAIL_HOST_USER		= 'tusubasta2017@gmail.com'
+EMAIL_HOST_PASSWORD	= 'ingweb2017'
+EMAIL_PORT 			= 587 #465
+EMAIL_USE_TLS		= True
+DEFAULT_FROM_EMAIL	= 'Tu Subasta'
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
