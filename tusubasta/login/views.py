@@ -52,7 +52,7 @@ def registrar(request):
             user.is_active = True
             user.save()
             #send_registration_confirmation(user)
-            return render(request, 'index.html')
+            return HttpResponseRedirect("/")
         else:
             return('contraseña incorreca')
         #else:
