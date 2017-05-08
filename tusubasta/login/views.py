@@ -59,6 +59,6 @@ def registrar(request):
         #    return('mail ya existente')
     else:
         form = formRegistrar()
-    return render(request,'index.html', { 'form': form })
+    return render(request,'registrar.html', { 'form': form })
 
 

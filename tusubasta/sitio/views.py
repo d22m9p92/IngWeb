@@ -17,7 +17,7 @@ class home(View):
         subastas = Subastas.objects.all()
         categorias = Categorias.objects.all()
         
-        paginator = Paginator(subastas, 15)
+        paginator = Paginator(subastas, 12)
 
         page = request.GET.get('page')
         try:

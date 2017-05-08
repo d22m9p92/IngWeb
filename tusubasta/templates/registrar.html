@@ -1,14 +1,9 @@
 <!DOCTYPE html>
+{% extends 'base.html' %}
 {% load static %}
-<html lang="en">
 
-<head>
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
-</head>
-
-<body id="page-top" class="login"> 
-
+{% block content %}
+    
 <form class="form-horizontal" action="/registrar/" method="POST">
 <div class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
               {% csrf_token%}     
@@ -42,6 +37,7 @@
               </button>  
         
 </div>
+{% endblock %}
   </form>
 </body>
 
