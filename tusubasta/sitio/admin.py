@@ -1,5 +1,6 @@
 from django.contrib import admin
-#from login.models import *
+from .models import *
+
 # Register your models here.
 
-#admin.site.register(Subastas)
+admin.site.register(Subastas)

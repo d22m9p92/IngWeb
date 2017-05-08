@@ -76,6 +76,7 @@ def registrar(request):
             user.save()
             perfil.save()
 
+            #send_registration_confirmation(user)
             return HttpResponseRedirect("/")
         else:
             return('contraseña incorreca')

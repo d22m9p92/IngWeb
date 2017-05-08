@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+
+<div class="subasta">
+        <h1>{{ subasta.titulo }}</h1>
+        <img src="http://placehold.it/320x150" alt="">
+        <p>{{ subasta.detalle |linebreaksbr }}</p>
+        <p>Precio base: {{ subasta.precioBase }}</p>
+        <p>Fecha de publicación: {{ subasta.fechaAlta }}</p>
+        <p>Fecha límite para subastar: {{ subasta.fechaFin }}</p>
+        <p>Categoría: {{ subasta.Categoria }}</p>
+        <p>Localidad : {{ subasta.localidad }}, {{subasta.provincia }}, {{subasta.pais }}</p>
+        <p>Usuario vendedor: {{ subasta.idUsuarioVendedor }}</p>
+        <p>Calificacion vendedor: {{ subasta.idCalificacion }}</p>
+
+
+</div>
+

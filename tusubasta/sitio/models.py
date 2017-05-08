@@ -2,7 +2,10 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.forms import ModelForm
 import datetime
+import os
 
+def upload_to_subastas(intance, filename):
+	return os.path.join("Subasta/%s" %intance.titulo+str(datetime.datetime.now()), filename)
 
 
 # Create your models here.
@@ -36,8 +39,8 @@ class Subastas(models.Model):
 	detalle 			= models.TextField(null=True,blank=True)
 	precioBase 			= models.DecimalField(max_digits=7, decimal_places=2,null=True,blank=True)
 	fechaAlta 			= models.DateTimeField(auto_now=True, null=True,blank=True)
-	fechaBaja 			= models.DateTimeField(auto_now=True, null=True,blank=True)
-	fechaFin 			= models.DateTimeField(null=True,blank=True)
+	fechaBaja 			= models.DateTimeField(null=True,blank=True)
+	fechaFin 			= models.DateField(null=True,blank=True)
 	idCategoria 		= models.ForeignKey(Categorias,null=True,blank=True)
 	idSubcategoria 		= models.ForeignKey(SubCategorias,null=True,blank=True)
 	idCalificacion 		= models.ForeignKey(Calificaciones,null=True,blank=True)
@@ -46,12 +49,12 @@ class Subastas(models.Model):
 	localidad			= models.CharField(max_length=50,null=True,blank=True)
 	provincia			= models.CharField(max_length=50,null=True,blank=True)
 	pais				= models.CharField(max_length=50,null=True,blank=True)
-	imagen1				= models.ImageField(upload_to="img/", default="sitio/static/img")
-	imagen2				= models.ImageField(upload_to = None, null=True, blank=True)
-	imagen3				= models.ImageField(upload_to = None, null=True, blank=True)
+	imagenA				= models.ImageField(upload_to=upload_to_subastas, default="")
+	imagenB				= models.ImageField(upload_to = None, null=True, blank=True)
+	imagenC				= models.ImageField(upload_to = None, null=True, blank=True)
 
 	def __str__(self):
-		return self.detalle
+		return self.titulo
 
 
 class Ofertas(models.Model):
