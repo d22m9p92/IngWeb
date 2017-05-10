@@ -143,3 +143,22 @@ if os.environ.get('HEROKU', False):
     S3Connection.defaultHost = 's3-us-east-1.amazon.com'
     AWS_ACCESS_KEY_ID = "AKIAIAHFC2ZDTYRBFWWQ"
     AWS_SECRET_ACCESS_KEY = "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"
+else: 
+        # Configuracion para Amazon
+    #STATICFILES_LOCATION = '/static/'
+    #MEDIAFILES_LOCATION = 'media'
+    #STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+    DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+    AWS_S3_SECURE_URLS = False
+    AWS_STORAGE_BUCKET_NAME = "tusubasta"
+    AWS_S3_CUSTOM_DOMAIN = 's3.amazonaws.com/%s' % AWS_STORAGE_BUCKET_NAME
+    #STATIC_URL = "https://s3.amazonaws.com/tusubasta/%s/" % AWS_STORAGE_BUCKET_NAME
+    MEDIA_URL = "https://%s/il/media/" % AWS_S3_CUSTOM_DOMAIN
+    AWS_QUERYSTRING_AUTH = False
+    AWS_DEFAULT_ACL = "private"
+    from boto.s3.connection import ProtocolIndependentOrdinaryCallingFormat
+    AWS_S3_CALLING_FORMAT = ProtocolIndependentOrdinaryCallingFormat()
+    from boto.s3.connection import S3Connection
+    S3Connection.defaultHost = 's3-us-east-1.amazon.com'
+    AWS_ACCESS_KEY_ID = "AKIAIAHFC2ZDTYRBFWWQ"
+    AWS_SECRET_ACCESS_KEY = "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"
