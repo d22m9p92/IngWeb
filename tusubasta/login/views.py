@@ -77,7 +77,7 @@ def registrar(request):
             perfil.save()
 
             #send_registration_confirmation(user)
-            return HttpResponseRedirect("/")
+            return HttpResponseRedirect("/validacionmail/")
         else:
             return('contraseña incorreca')
         #else:
@@ -93,3 +93,12 @@ def confirmar(request, activacion_token):
     user.is_active  = True
     user.save()
     return HttpResponseRedirect("/")
+
+
+def validacionmail(request):
+    return render(request, 'validacionmail.html')
+
+
+
+
+
