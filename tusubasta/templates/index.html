@@ -129,8 +129,7 @@
                     {%for subasta in subastas%}
                     <div class="col-sm-4 col-lg-4 col-md-4">
                         <div class="thumbnail">
-                            <!--<img src="https://s3.amazonaws.com/tusubasta/{{ subasta.imagenA }}">-->
-                            <img src="{%static '{{subasta.imagenA}}'%}">
+                            <img src="https://s3.amazonaws.com/tusubasta/{{ subasta.imagenA }}">
                             <div class="caption">
                                 <h4 class="pull-right">{{subasta.precioBase}}</h4>
                                 <h4><a href="{% url 'subastadetalle' pk=subasta.id %}">{{ subasta.titulo }}</a></h4>
