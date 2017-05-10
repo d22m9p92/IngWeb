@@ -133,7 +133,7 @@ if os.environ.get('HEROKU', False):
     # AWS_S3_SECURE_URLS = False
     AWS_STORAGE_BUCKET_NAME = "tusubasta"
     AWS_S3_CUSTOM_DOMAIN = 's3.amazonaws.com/%s' % AWS_STORAGE_BUCKET_NAME
-    STATIC_URL = "https://s3.amazonaws.com/tusubasta/%s/" % AWS_STORAGE_BUCKET_NAME
+    STATIC_URL = "https://s3.amazonaws.com/tusubasta/Subasta/%s/" % AWS_STORAGE_BUCKET_NAME
     MEDIA_URL = "https://%s/il/media/" % AWS_S3_CUSTOM_DOMAIN
     AWS_QUERYSTRING_AUTH = False
     AWS_DEFAULT_ACL = "private"
