@@ -69,7 +69,7 @@ def registrar(request):
 
             ##Enviar mail de confirmación
             email_subject   = 'Confirmación de cuenta TuSubasta'
-            email_body      = "Hola %s, Gracias por registrarte. Para activar tu cuenta da clíck en este link en menos de 48 horas: http://127.0.0.1:8000/confirmar/%s" % (nombre, token)
+            email_body      = "Hola %s, Gracias por registrarte. Para activar tu cuenta haga clíck en este link: /n https://tusubasta.herokuapp.com/confirmar/%s" % (nombre, token)
             
             send_mail(email_subject,email_body, 'tusubastas2017@gmail.com',[email] )
 
