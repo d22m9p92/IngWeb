@@ -51,37 +51,37 @@ def logout(request):
 
 def registrar(request):
     if request.method=='POST':
-        #if not User.objects.filter(username=request.POST['username']):
+        if not User.objects.filter(username=request.POST['username']):
          #Se verifica que no sea repetido
-        if request.POST['password'] == request.POST['confpassword']:
-            nickname        = request.POST['nickName']
-            nombre          = request.POST['nombre']
-            apellido        = request.POST['apellido']
-            email           = request.POST['email']
-            password        = request.POST['password']
-            user            = User.objects.create_user(username=nickname, email=email, password=password, first_name=nombre, last_name=apellido)
-            user.is_active  = False
-            
-            #Generacion de Token en el Perfil
-            N               = 20
-            token           = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(N))
-            perfil          = Perfil(usuario = user, activacion_token = token)
+            if request.POST['password'] == request.POST['confpassword']:
+                nickname        = request.POST['nickName']
+                nombre          = request.POST['nombre']
+                apellido        = request.POST['apellido']
+                email           = request.POST['email']
+                password        = request.POST['password']
+                user            = User.objects.create_user(username=nickname, email=email, password=password, first_name=nombre, last_name=apellido)
+                user.is_active  = False
+                
+                #Generacion de Token en el Perfil
+                N               = 20
+                token           = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(N))
+                perfil          = Perfil(usuario = user, activacion_token = token)
 
-            ##Enviar mail de confirmación
-            email_subject   = 'Confirmación de cuenta TuSubasta'
-            email_body      = "Hola %s, Gracias por registrarte. Para activar tu cuenta haga clíck en este link: /n https://tusubasta.herokuapp.com/confirmar/%s" % (nombre, token)
-            
-            send_mail(email_subject,email_body, 'tusubastas2017@gmail.com',[email] )
+                ##Enviar mail de confirmación
+                email_subject   = 'Confirmación de cuenta TuSubasta'
+                email_body      = "Hola %s, Gracias por registrarte. Para activar tu cuenta haga clíck en este link: /n https://tusubasta.herokuapp.com/confirmar/%s" % (nombre, token)
+                
+                send_mail(email_subject,email_body, 'tusubastas2017@gmail.com',[email] )
 
-            user.save()
-            perfil.save()
+                user.save()
+                perfil.save()
 
-            #send_registration_confirmation(user)
-            return HttpResponseRedirect("/validacionmail/")
-        else:
-            return('contraseña incorreca')
+                #send_registration_confirmation(user)
+                return HttpResponseRedirect("/validacionmail/")
+            #else:
+                #return('contraseña incorreca')
         #else:
-        #    return('mail ya existente')
+        #    return('usuario ya existente')
     else:
         form = formRegistrar()
     return render(request,'registrar.html', { 'form': form })

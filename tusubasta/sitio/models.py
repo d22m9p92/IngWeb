@@ -5,7 +5,7 @@ import datetime
 import os
 
 def upload_to_subastas(intance, filename):
-	return os.path.join("Subasta/%s" %intance.titulo+str(datetime.datetime.now()), filename)
+	return os.path.join("https://tusubasta.herokuapp.com/tusubasta/Subasta/%s" %intance.titulo+str(datetime.datetime.now()), filename)
 
 
 # Create your models here.
