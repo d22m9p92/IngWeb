@@ -5,7 +5,7 @@ import datetime
 import os
 
 def upload_to_subastas(intance, filename):
-	return os.path.join("https://tusubasta.herokuapp.com/tusubasta/Subasta/%s" %intance.titulo+str(datetime.datetime.now()), filename)
+	return os.path.join("Subasta/%s" %intance.titulo+str(datetime.datetime.now()), filename)
 
 
 # Create your models here.
@@ -50,8 +50,8 @@ class Subastas(models.Model):
 	provincia			= models.CharField(max_length=50,null=True,blank=True)
 	pais				= models.CharField(max_length=50,null=True,blank=True)
 	imagenA				= models.ImageField(upload_to=upload_to_subastas, default="",null=True, blank=True)
-	imagenB				= models.ImageField(upload_to = None, null=True, blank=True)
-	imagenC				= models.ImageField(upload_to = None, null=True, blank=True)
+	imagenB				= models.ImageField(upload_to=upload_to_subastas, default="", null=True, blank=True)
+	imagenC				= models.ImageField(upload_to=upload_to_subastas, default="", null=True, blank=True)
 
 	def __str__(self):
 		return self.titulo
