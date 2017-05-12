@@ -49,7 +49,7 @@ class Subastas(models.Model):
 	localidad			= models.CharField(max_length=50,null=True,blank=True)
 	provincia			= models.CharField(max_length=50,null=True,blank=True)
 	pais				= models.CharField(max_length=50,null=True,blank=True)
-	imagenA				= models.ImageField(upload_to=upload_to_subastas, default="",null=True, blank=True)
+	imagenA				= models.ImageField(upload_to=upload_to_subastas, default="", null=True, blank=True)
 	imagenB				= models.ImageField(upload_to=upload_to_subastas, default="", null=True, blank=True)
 	imagenC				= models.ImageField(upload_to=upload_to_subastas, default="", null=True, blank=True)
 
