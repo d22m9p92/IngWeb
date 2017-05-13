@@ -13,14 +13,11 @@ class OfertarForm(ModelForm):
 		labels	= {'valorOferta' : 'Oferta'}
 
 
-
 class SubastasForm(ModelForm):
 	fechaFin = forms.DateField(required=False, label = 'Fecha de finalización', widget=forms.TextInput(attrs={'class': 'form-control datepicker'}))
-
 #	def __init__(self):
 #		super().__init__()
 		#self.fields['titulo'].validaciones.append(titulo_validation)
-
 	class Meta:
 		model 	= Subastas
 		fields 	= ('titulo', 'detalle', 'precioBase', 'idCategoria', 'fechaFin', 'localidad', 'provincia', 'pais', 'imagenA', 'imagenB', 'imagenC')
