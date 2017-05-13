@@ -10,4 +10,5 @@ urlpatterns = [
     
     url(r'^nuevasubasta/$', views.nuevaSubasta, name='nuevaSubasta'),
 	url(r'^subasta/(?P<pk>[0-9]+)/$', views.subasta_detalle, name='subastadetalle'),
+	url(r'^ofertar/$', views.ofertar, name='ofertar'),
 ]

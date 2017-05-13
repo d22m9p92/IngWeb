@@ -11,14 +11,14 @@ def upload_to_subastas(intance, filename):
 # Create your models here.
 
 class Categorias(models.Model):
-	descripcion	 		= models.CharField(max_length=50,null=True,blank=True)
+	descripcion	 		= models.CharField(max_length=50,null=True,blank=False)
 
 	def __str__(self):
 		return self.descripcion
 
 
 class SubCategorias(models.Model):
-	descripcion 		= models.CharField(max_length=50,null=True,blank=True)
+	descripcion 		= models.CharField(max_length=50,null=True,blank=False)
 	idCategoria 		= models.ForeignKey(Categorias,null=True,blank=True)
 
 	def __str__(self):
@@ -26,7 +26,7 @@ class SubCategorias(models.Model):
 
 
 class Calificaciones(models.Model):
-	descripcion 		= models.CharField(max_length=50,null=True,blank=True)
+	descripcion 		= models.CharField(max_length=50,null=True,blank=False)
 	fechaAlta			= models.DateTimeField(auto_now=True, null=True,blank=True)
 	idUsuarioComprador	= models.ForeignKey(User,null=True,blank=True)
 
@@ -35,42 +35,42 @@ class Calificaciones(models.Model):
 
 
 class Subastas(models.Model):
-	titulo				= models.CharField(max_length=22,null=True,blank=True)
-	detalle 			= models.TextField(null=True,blank=True)
-	precioBase 			= models.DecimalField(max_digits=7, decimal_places=2,null=True,blank=True)
+	titulo				= models.CharField(max_length=22,null=True,blank=False)
+	detalle 			= models.TextField(null=True,blank=False)
+	precioBase 			= models.DecimalField(max_digits=7, decimal_places=2,null=True,blank=False)
 	fechaAlta 			= models.DateTimeField(auto_now=True, null=True,blank=True)
 	fechaBaja 			= models.DateTimeField(null=True,blank=True)
 	fechaFin 			= models.DateField(null=True,blank=True)
-	idCategoria 		= models.ForeignKey(Categorias,null=True,blank=True)
+	idCategoria 		= models.ForeignKey(Categorias,null=True,blank=False)
 	idSubcategoria 		= models.ForeignKey(SubCategorias,null=True,blank=True)
 	idCalificacion 		= models.ForeignKey(Calificaciones,null=True,blank=True)
 	#######VERRRR#######
 	idUsuarioVendedor	= models.ForeignKey(User,null=True,blank=True)
-	localidad			= models.CharField(max_length=50,null=True,blank=True)
-	provincia			= models.CharField(max_length=50,null=True,blank=True)
-	pais				= models.CharField(max_length=50,null=True,blank=True)
-	imagenA				= models.ImageField(upload_to=upload_to_subastas, default="",null=True, blank=True)
-	imagenB				= models.ImageField(upload_to = None, null=True, blank=True)
-	imagenC				= models.ImageField(upload_to = None, null=True, blank=True)
+	localidad			= models.CharField(max_length=50,null=True,blank=False)
+	provincia			= models.CharField(max_length=50,null=True,blank=False)
+	pais				= models.CharField(max_length=50,null=True,blank=False)
+	imagenA				= models.ImageField(upload_to=upload_to_subastas, default="",null=True, blank=False)
+	imagenB				= models.ImageField(upload_to=upload_to_subastas, null=True, blank=True)
+	imagenC				= models.ImageField(upload_to=upload_to_subastas, null=True, blank=True)
 
 	def __str__(self):
 		return self.titulo
 
 
 class Ofertas(models.Model):
-	idSubasta 			= models.ForeignKey(Subastas, null=True, blank=True)
-	usuarioComprador 	= models.ForeignKey(User, null=True, blank=True)
-	valorOferta 		= models.DecimalField(max_digits=7, decimal_places=2,null=True,blank=True)
-	fechaOferta			= models.DateTimeField(auto_now=True, null=True,blank=True)
+	idSubasta 			= models.ForeignKey(Subastas, null=True, blank=False)
+	usuarioComprador 	= models.ForeignKey(User, null=True, blank=False)
+	valorOferta 		= models.DecimalField(max_digits=7, decimal_places=2,null=True,blank=False)
+	fechaOferta			= models.DateTimeField(auto_now=True, null=True,blank=False)
 	ganador 			= models.BooleanField(default=True, null=False)
 
-	def __str__(self):
+	def __init__(self):
 		return self.valorOferta
 
 
 class Comentarios(models.Model):
 	idSubasta 			= models.ForeignKey(Subastas, null=True, blank=True)
-	comentario 			= models.TextField(null=True,blank=True)
+	comentario 			= models.TextField(null=True,blank=False)
 	idUsuario			= models.ForeignKey(User,null=True,blank=True)	
 	fechaBaja 			= models.DateTimeField(auto_now=True, null=True,blank=True)
 	fechaAlta 			= models.DateTimeField(auto_now=True, null=True,blank=True)
