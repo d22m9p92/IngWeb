@@ -18,7 +18,7 @@
 
 <body id="page-top"> 
 
-<form action="{% url 'nuevaSubasta' %}" method="POST">
+<form action="{% url 'nuevaSubasta' %}" method="POST" enctype="multipart/form-data" >
               {% csrf_token %}
               {{ form.as_p }}
               <button class="btn waves-effect waves-light" type="submit" name="action" value="Ingresar">Publicar
