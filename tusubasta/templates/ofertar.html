@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<html lang="en">
+	<body id="page-top"> 
+	 	<form class="ofertar" method="POST">
+			{% csrf_token %}
+			{{ form.as_p }}
+			<input type="hidden" name="idSubasta" value="{{idSubasta}}">
+			<button class="btn btn-info" type="submit" name="action" value="Ofertar">Realizar Oferta
+				<i class="mdi-content-send right"></i>
+			</button>  
+		</form>        
+	</body>
+	{% if messages %}
+	  <ul class="messages">
+	    {% for message in messages %}
+	      <li class="{{ message.tags }}">{{ message }}</li>
+	    {% endfor %}
+	  </ul>
+	{% endif %}
+{% endblock %}
+</html>
+
+
+
+

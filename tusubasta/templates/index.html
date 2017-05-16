@@ -47,9 +47,9 @@
                         <a href="#">Contáctenos</a>
                     </li>
                 </ul>
-                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right">
-                    <li class="hidden">
+                    <li class="nav navbar-nav">
                         <a href="#page-top"></a>
                     </li>
                     {% if request.user.is_authenticated %}
@@ -140,6 +140,7 @@
                                     <strong>Fecha límite: </strong>{{subasta.fechaFin}}
                                 </p>
                             </div>
+                            <a href="{% url 'ofertar' pk=subasta.id %}" class="btn btn-info" role="button">Ofertar</a>
                         </div>
                     </div>
                     {%endfor%}    
