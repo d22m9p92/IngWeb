@@ -80,7 +80,7 @@ def registrar(request):
                 return HttpResponseRedirect("/validacionmail/")
             #else:
                 #return('contraseña incorreca')
-        #else:
+        # else:
         #    return('usuario ya existente')
     else:
         form = formRegistrar()
