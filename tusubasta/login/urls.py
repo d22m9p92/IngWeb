@@ -13,6 +13,7 @@ urlpatterns = [
     url(r'^login/$', LoginView.as_view()),
     url(r'^confirmar/(?P<activacion_token>\w+)/', views.confirmar),
     url(r'^validacionmail/$', views.validacionmail),
-    #url(r'^editarperfil/$', LoginView.as_view()),
+    # url(r'^perfil/$', views.perfil),
+    # url(r'^perfil/(?P<pk>[0-9]+)/$', views.perfil),
 
 ]

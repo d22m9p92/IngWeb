@@ -59,7 +59,7 @@ def ofertar(request,pk):
         _idSubasta = int(request.POST.get("idSubasta"))
         _idUsuario = request.user.id
         if form.is_valid():
-            if int(request.POST.get("valorOferta")) > (maximaOferta(int(request.POST.get("idSubasta"))) + 10 ):
+            if int(request.POST.get("valorOferta")) >= (maximaOferta(int(request.POST.get("idSubasta"))) + 10 ):
                 formOferta                      = form.save(commit=False)
                 formOferta.idSubasta_id         = _idSubasta
                 formOferta.ganador              = False
@@ -77,7 +77,7 @@ def maximaOferta(idSubasta):
     maximaOferta    = Ofertas.objects.filter(idSubasta = idSubasta).aggregate(Max('valorOferta'))
     resultado       = maximaOferta['valorOferta__max']
     if resultado is None:
-        precioBase = Subastas.objects.get(pk=1).precioBase
+        precioBase = Subastas.objects.get(pk=idSubasta).precioBase
         return precioBase
     return resultado
 

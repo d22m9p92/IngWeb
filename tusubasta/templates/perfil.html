@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+{%extends 'base.html'%}
+
+{% block content %}
+<div class="perfil">
+        <h2>{{ User.username }}</h2>> 
+        <!--
+        <p>Fecha de publicación: {{ subasta.fechaAlta }}</p>
+        <p>Fecha límite para subastar: {{ subasta.fechaFin }}</p>
+        <p>Categoría: {{ subasta.Categoria }}</p>
+        <p>Localidad : {{ subasta.localidad }}, {{subasta.provincia }}, {{subasta.pais }}</p>
+        <p>Usuario vendedor: {{ subasta.idUsuarioVendedor }}</p>
+        <p>Calificacion vendedor: {{ subasta.idCalificacion }}</p>
+        
+        <button class="btn btn-info" href="/ofertar/{{subasta.id}}"" name="Ofertar" value="Ofertar">Ofertar
+        </button>  
+        
+        <a href="{% url 'ofertar' pk=subasta.id %}" class="btn btn-info" role="button">Ofertar</a>
+        -->
+</div>
+
+{% endblock %}
