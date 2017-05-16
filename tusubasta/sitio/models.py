@@ -41,7 +41,7 @@ class Subastas(models.Model):
 	fechaAlta 			= models.DateTimeField(auto_now=True, null=True,blank=True)
 	fechaBaja 			= models.DateTimeField(null=True,blank=True)
 	fechaFin 			= models.DateField(null=True,blank=True)
-	idCategoria 		= models.ForeignKey(Categorias,null=True,blank=False)
+	idCategoria 		= models.ForeignKey(Categorias,null=True,blank=True)
 	idSubcategoria 		= models.ForeignKey(SubCategorias,null=True,blank=True)
 	idCalificacion 		= models.ForeignKey(Calificaciones,null=True,blank=True)
 	#######VERRRR#######
@@ -64,7 +64,7 @@ class Ofertas(models.Model):
 	fechaOferta			= models.DateTimeField(auto_now=True, null=True,blank=False)
 	ganador 			= models.BooleanField(default=True, null=False)
 
-	def __init__(self):
+	def __str__(self):
 		return self.valorOferta
 
 
@@ -77,16 +77,6 @@ class Comentarios(models.Model):
 
 	def __str__(self):
 			return self.comentario
-
-'''
-class Imagenes(models.Model):
-	idSubasta 			= models.ForeignKey(Subastas)
-	descripcion 		= models.CharField(max_length=50,null=True,blank=True)
-	URL 				= models.CharField(max_length=150,null=True,blank=True)
-
-	def __str__(self):
-		return self.descripcion
-'''
 
 class Respuestas(models.Model):
 	idComentario		= models.ForeignKey(Comentarios, null=True, blank=True)
@@ -107,3 +97,14 @@ class Likes(models.Model):
 
 	def __str__(self):
 		return self.fechaAlta
+
+
+'''
+class Imagenes(models.Model):
+	idSubasta 			= models.ForeignKey(Subastas)
+	descripcion 		= models.CharField(max_length=50,null=True,blank=True)
+	URL 				= models.CharField(max_length=150,null=True,blank=True)
+
+	def __str__(self):
+		return self.descripcion
+'''
