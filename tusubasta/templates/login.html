@@ -39,6 +39,13 @@
                                     <div style="border-top: 1px solid#888;padding-top:15px;font-size:85%;">¿No tiene una cuenta?
                                     <a href="/registrar/">Registrarse</a>
                                 </div>
+                                {% if messages %}
+                                    <ul class="messages">
+                                        {% for message in messages %}
+                                            <li class="{{ message.tags }}">{{ message }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                {% endif %}
                             </form>  
                     </div>
                 </div>

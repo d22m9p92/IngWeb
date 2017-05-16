@@ -21,6 +21,7 @@ from django.shortcuts import get_object_or_404
 from login.models import Perfil
 import hashlib, datetime, random
 import os, string
+from django.contrib import messages
 global str
 
 class LoginView(FormView):
@@ -38,6 +39,7 @@ class LoginView(FormView):
         else:
             # Si no lo está entonces nos muestra la plantilla del login simplemente
             return super(LoginView, self).dispatch(request, *args, **kwargs)
+            #messages.error(request, "Usuario o contaseña incorrecta.")
 
     def form_valid(self, form):
         login(self.request, form.get_user())
@@ -51,37 +53,40 @@ def logout(request):
 
 def registrar(request):
     if request.method=='POST':
-        if not User.objects.filter(username=request.POST['username']):
-         #Se verifica que no sea repetido
-            if request.POST['password'] == request.POST['confpassword']:
-                nickname        = request.POST['nickName']
-                nombre          = request.POST['nombre']
-                apellido        = request.POST['apellido']
-                email           = request.POST['email']
-                password        = request.POST['password']
-                user            = User.objects.create_user(username=nickname, email=email, password=password, first_name=nombre, last_name=apellido)
-                user.is_active  = False
-                
-                #Generacion de Token en el Perfil
-                N               = 20
-                token           = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(N))
-                perfil          = Perfil(usuario = user, activacion_token = token)
+        form = formRegistrar(request.POST)
+        if not User.objects.filter(username=request.POST['nickName']).exists():
+            if not User.objects.filter(email=request.POST['email']).exists():
+                if request.POST['password'] == request.POST['confpassword']:
+                    nickname        = request.POST['nickName']
+                    nombre          = request.POST['nombre']
+                    apellido        = request.POST['apellido']
+                    email           = request.POST['email']
+                    password        = request.POST['password']
+                    user            = User.objects.create_user(username=nickname, email=email, password=password, first_name=nombre, last_name=apellido)
+                    user.is_active  = False
+                    
+                    #Generacion de Token en el Perfil
+                    N               = 20
+                    token           = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(N))
+                    perfil          = Perfil(usuario = user, activacion_token = token)
 
-                ##Enviar mail de confirmación
-                email_subject   = 'Confirmación de cuenta TuSubasta'
-                email_body      = "Hola %s, Gracias por registrarte. Para activar tu cuenta haga clíck en este link: /n https://tusubasta.herokuapp.com/confirmar/%s" % (nombre, token)
-                
-                send_mail(email_subject,email_body, 'tusubastas2017@gmail.com',[email] )
+                    ##Enviar mail de confirmación
+                    email_subject   = 'Confirmación de cuenta TuSubasta'
+                    email_body      = "Hola %s, Gracias por registrarte. Para activar tu cuenta haga clíck en este link: /n https://tusubasta.herokuapp.com/confirmar/%s" % (nombre, token)
+                    
+                    send_mail(email_subject,email_body, 'tusubastas2017@gmail.com',[email] )
 
-                user.save()
-                perfil.save()
+                    user.save()
+                    perfil.save()
 
-                #send_registration_confirmation(user)
-                return HttpResponseRedirect("/validacionmail/")
-            #else:
-                #return('contraseña incorreca')
-        #else:
-        #    return('usuario ya existente')
+                    #send_registration_confirmation(user)
+                    return HttpResponseRedirect("/validacionmail/")
+                else:
+                    messages.error(request, "Contraseña incorrecta.")
+            else:
+                messages.error(request, "El mail ya pose una cuenta asociada.")
+        else:
+            messages.error(request, "Usuario ya registrado.")
     else:
         form = formRegistrar()
     return render(request,'registrar.html', { 'form': form })

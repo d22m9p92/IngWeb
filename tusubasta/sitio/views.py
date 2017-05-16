@@ -52,24 +52,28 @@ def subasta_detalle(request, pk):
         return render(request, 'subasta_detalle.html', {'subasta': subasta})
 
 #Ofertar en una subasta
-#@login_required(login_url= '/ofertar/')
+@login_required(login_url= '/login/')
 def ofertar(request,pk):
+    
     if request.method == 'POST':
         form = OfertarForm(request.POST)
         _idSubasta = int(request.POST.get("idSubasta"))
         _idUsuario = request.user.id
         if form.is_valid():
-            if int(request.POST.get("valorOferta")) > (maximaOferta(int(request.POST.get("idSubasta"))) + 10 ):
+            if int(request.POST.get("valorOferta")) >= (maximaOferta(int(request.POST.get("idSubasta"))) + 10 ):
                 formOferta                      = form.save(commit=False)
                 formOferta.idSubasta_id         = _idSubasta
                 formOferta.ganador              = False
                 formOferta.usuarioComprador_id  = _idUsuario 
                 formOferta.save()
+                #ofertavalida(request)
+                return render(request, 'ofertavalida.html')
             else:
                 messages.error(request, "La oferta debe superar minimamente en $10 al precio actual ")
     else:
         form = OfertarForm()
-    return render(request,'ofertar.html', { 'form': form, "idSubasta": pk })
+    precioActual = maximaOferta(int(pk))
+    return render(request,'ofertar.html', { 'form': form, "idSubasta": pk, "precioActual": precioActual  })
 
 
 #Buscar oferta maxima
@@ -77,10 +81,14 @@ def maximaOferta(idSubasta):
     maximaOferta    = Ofertas.objects.filter(idSubasta = idSubasta).aggregate(Max('valorOferta'))
     resultado       = maximaOferta['valorOferta__max']
     if resultado is None:
-        precioBase = Subastas.objects.get(pk=1).precioBase
+        precioBase = Subastas.objects.get(pk= idSubasta).precioBase
         return precioBase
     return resultado
 
+
+#Mensaje Oferta Valida 
+def ofertavalida(request):
+    return render(request, 'ofertavalida.html')
 
 
 
