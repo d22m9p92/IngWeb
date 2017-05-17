@@ -56,10 +56,17 @@
                     <li>
                         <a href="/nuevasubasta/">Publicar</a>
                     </li>
+                    <!--
+                    {%for usuario in usuarios%}
+                    <li>
+                        <a href="{% url 'perfil' pk=usuario.id %}">Mi Perfil</a>
+                    </li>
+                    {%endfor%}
+                    -->
                     <li>
                         <a href="/perfil/">Mi Perfil</a>
                     </li>
-                     <li>
+                    <li>
                         <a href="/logout/">Salir</a>
                     </li>
                     {% else %}
@@ -140,7 +147,7 @@
                                     <strong>Fecha límite: </strong>{{subasta.fechaFin}}
                                 </p>
                             </div>
-                            <a href="{% url 'ofertar' pk=subasta.id %}" class="btn btn-info" role="button">Ofertar</a>
+                            <center><a href="{% url 'ofertar' pk=subasta.id %}" class="btn btn-info" role="button">Ofertar</a></center>
                         </div>
                     </div>
                     {%endfor%}    

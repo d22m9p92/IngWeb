@@ -6,6 +6,11 @@
 
 <html lang="en">
 	<body id="page-top"> 
+		<center <h2 class="panel-title" s1yle="padding:2%">¡Ofertá!</h1> </center>
+		<div class="form-group">
+ 			<label for="usr">Precio Actual:</label>
+  			<input type="text" class="form-control" value="{{precioActual}}" id="precio" readonly>
+		</div>
 	 	<form class="ofertar" method="POST">
 			{% csrf_token %}
 			{{ form.as_p }}

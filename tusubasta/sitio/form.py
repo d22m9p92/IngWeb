@@ -4,6 +4,7 @@ from django.db import models
 from django.forms import ModelForm
 from django.forms.extras import SelectDateWidget
 #from .validaciones import titulo_validation
+from django import forms
 
 
 class OfertarForm(ModelForm):
@@ -27,7 +28,7 @@ class SubastasForm(ModelForm):
 		labels 	= { 'titulo': 'Título', 'detalle': 'Detalle', 'precioBase': 'Precio base', 'idCategoria': 'Categoria', 'fechaFin': 'Fecha finalizacion','localidad' : 'Localidad', 'provincia': 'Provincia', 'pais': 'Pais', 'imagenA': 'Imagen 1', 'imagenB': 'Imagen 2', 'imagenC': 'Imagen 3' }
 
 
-class ComentariosFom(ModelForm):
+class ComentariosForm(ModelForm):
 	class Meta:
 		model	= Comentarios
 		fields	= ('comentario',)

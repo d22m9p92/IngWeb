@@ -13,10 +13,13 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Max
 from django.contrib import messages
 
+
+
 class home(View):
     def get(self, request): 
         subastas = Subastas.objects.all()
         categorias = Categorias.objects.all()
+        ofertas = Ofertas.objects.all()
         
         paginator = Paginator(subastas, 12)
 
@@ -28,7 +31,7 @@ class home(View):
         except EmptyPage:
             SubastasList = paginator.page(paginator.num_pages)        
         
-        return render(request, "index.html",{"subastas": SubastasList, "categorias": categorias})
+        return render(request, "index.html",{"subastas": SubastasList, "categorias": categorias, "ofertas": ofertas })
 
 #Crear una Subasta
 @login_required(login_url= '/login/')
@@ -36,6 +39,7 @@ def nuevaSubasta(request):
     if request.method=='POST':
         form = SubastasForm(request.POST)
         _idUsuarioVendedor = request.user.id
+        form = SubastasForm(request.POST, request.FILES)
         if form.is_valid():
             formSubasta = form.save(commit = False)
             formSubasta.idUsuarioVendedor_id = _idUsuarioVendedor
@@ -52,8 +56,9 @@ def subasta_detalle(request, pk):
         return render(request, 'subasta_detalle.html', {'subasta': subasta})
 
 #Ofertar en una subasta
-#@login_required(login_url= '/ofertar/')
+@login_required(login_url= '/login/')
 def ofertar(request,pk):
+	
     if request.method == 'POST':
         form = OfertarForm(request.POST)
         _idSubasta = int(request.POST.get("idSubasta"))
@@ -65,11 +70,14 @@ def ofertar(request,pk):
                 formOferta.ganador              = False
                 formOferta.usuarioComprador_id  = _idUsuario 
                 formOferta.save()
+                #ofertavalida(request)
+                return render(request, 'ofertavalida.html')
             else:
                 messages.error(request, "La oferta debe superar minimamente en $10 al precio actual ")
     else:
         form = OfertarForm()
-    return render(request,'ofertar.html', { 'form': form, "idSubasta": pk })
+    precioActual = maximaOferta(int(pk))
+    return render(request,'ofertar.html', { 'form': form, "idSubasta": pk, "precioActual": precioActual  })
 
 
 #Buscar oferta maxima
@@ -81,6 +89,10 @@ def maximaOferta(idSubasta):
         return precioBase
     return resultado
 
+
+#Mensaje Oferta Valida 
+def ofertavalida(request):
+    return render(request, 'ofertavalida.html')
 
 
 
