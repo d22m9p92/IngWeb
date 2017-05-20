@@ -3,23 +3,20 @@
 {% load static %}
 
 {% block content %}
+<center <h2 class="panel-title" s1yle="padding:2%">¡Ofertá!</h1> </center>
+<div class="form-group">
+		<label for="usr">Precio Actual:</label>
+		<input type="text" class="form-control" value="{{precioActual}}" id="precio" readonly>
+</div>
+	<form class="ofertar" method="POST">
+		{% csrf_token %}
+		{{ form.as_p }}
+		<input type="hidden" name="idSubasta" value="{{idSubasta}}">
+		<button class="btn btn-info" type="submit" name="action" value="Ofertar">Realizar Oferta
+			<i class="mdi-content-send right"></i>
+		</button>  
+	</form>        
 
-<html lang="en">
-	<body id="page-top"> 
-		<center <h2 class="panel-title" s1yle="padding:2%">¡Ofertá!</h1> </center>
-		<div class="form-group">
- 			<label for="usr">Precio Actual:</label>
-  			<input type="text" class="form-control" value="{{precioActual}}" id="precio" readonly>
-		</div>
-	 	<form class="ofertar" method="POST">
-			{% csrf_token %}
-			{{ form.as_p }}
-			<input type="hidden" name="idSubasta" value="{{idSubasta}}">
-			<button class="btn btn-info" type="submit" name="action" value="Ofertar">Realizar Oferta
-				<i class="mdi-content-send right"></i>
-			</button>  
-		</form>        
-	</body>
 	{% if messages %}
 	  <ul class="messages">
 	    {% for message in messages %}

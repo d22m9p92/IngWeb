@@ -73,6 +73,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.media',
                
             ],
         },
@@ -161,7 +162,7 @@ else:
     AWS_STORAGE_BUCKET_NAME = "tusubasta"
     AWS_S3_CUSTOM_DOMAIN = 's3.amazonaws.com/%s' % AWS_STORAGE_BUCKET_NAME
     #STATIC_URL = "https://s3.amazonaws.com/tusubasta/%s/" % AWS_STORAGE_BUCKET_NAME
-    MEDIA_URL = "https://%s/il/media/" % AWS_S3_CUSTOM_DOMAIN
+    MEDIA_URL = "https://s3.amazonaws.com/tusubasta/Subasta/img/" 
     AWS_QUERYSTRING_AUTH = False
     AWS_DEFAULT_ACL = "private"
     from boto.s3.connection import ProtocolIndependentOrdinaryCallingFormat

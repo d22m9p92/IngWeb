@@ -1,0 +1,31 @@
+
+<!DOCTYPE html>
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block content %}
+<center <h2 class="panel-title" s1yle="padding:2%">Tus Subastas</h1> </center>
+
+<ul class="list-group">
+  
+	{%for i in listaSubastas%}
+	  	<li class="list-group-item justify-content-between">
+	    	<div class="row" >
+	    		<h4 align="center"> {{ i.titulo }} </h4>
+	    		<h4 align="pull-left"> {{ i.precioBase }} </h4>
+	    		<img class ="pull-left img-circle" src="{{MEDIA_URL}}{{i.imagenA}}" />
+	    		<p>{{i.detalle}}</a>.</p>
+	    		<p>{{ i.fechaFin }}</a>.</p>
+	    	</div>
+	    	<a href="{% url 'editarSubasta' pk=i.id %}" class="btn btn-primary" role="button">Editar Subasta</a>
+	    	<a href="{% url 'editarSubasta' pk=i.id %}" class="btn btn-primary" role="button">Editar Subasta</a>
+	  	</li>
+	{%endfor%}
+
+</ul>
+
+{% endblock %}
+
+
+
+

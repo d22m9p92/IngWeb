@@ -49,7 +49,7 @@
                 </ul>
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right">
-                    <li class="nav navbar-nav">
+                    <li class="hidden">
                         <a href="#page-top"></a>
                     </li>
                     {% if request.user.is_authenticated %}
@@ -140,7 +140,7 @@
                                     <strong>Fecha límite: </strong>{{subasta.fechaFin}}
                                 </p>
                             </div>
-                            <center><a href="{% url 'ofertar' pk=subasta.id %}" class="btn btn-info" role="button">Ofertar</a></center>
+                            <a href="{% url 'ofertar' pk=subasta.id %}" class="btn btn-info" role="button">Ofertar</a>
                         </div>
                     </div>
                     {%endfor%}    

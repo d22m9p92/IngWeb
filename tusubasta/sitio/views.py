@@ -47,18 +47,32 @@ def nuevaSubasta(request):
     return render(request,'nuevasubasta.html', { 'form': form })
 
 #View de una subasta
+@login_required(login_url= '/login/')
 def subasta_detalle(request, pk):
-        subasta = get_object_or_404(Subastas, pk=pk)
-        return render(request, 'subasta_detalle.html', {'subasta': subasta})
+    subasta = get_object_or_404(Subastas, pk=pk)
+    return render(request, 'subasta_detalle.html', {'subasta': subasta})
+
+
+@login_required(login_url= '/login/')
+def editarSubasta(request, idSubasta):
+    if request.method == 'GET':
+        form = SubastasForm(request.POST, instance = Subasta)
+        if form.is_valid():
+            Subasta  = Subastas.objects.get(pk = idSubasta)
+        
+    else:
+        Subasta  = Subastas.objects.get(pk = idSubasta)
+        formSubastaEdit = SubastasForm(instance = Subasta)
+
 
 #Ofertar en una subasta
 @login_required(login_url= '/login/')
 def ofertar(request,pk):
     
     if request.method == 'POST':
-        form = OfertarForm(request.POST)
-        _idSubasta = int(request.POST.get("idSubasta"))
-        _idUsuario = request.user.id
+        form        = OfertarForm(request.POST)
+        _idSubasta  = int(request.POST.get("idSubasta"))
+        _idUsuario  = request.user.id
         if form.is_valid():
             if int(request.POST.get("valorOferta")) >= (maximaOferta(int(request.POST.get("idSubasta"))) + 10 ):
                 formOferta                      = form.save(commit=False)
@@ -71,8 +85,8 @@ def ofertar(request,pk):
             else:
                 messages.error(request, "La oferta debe superar minimamente en $10 al precio actual ")
     else:
-        form = OfertarForm()
-    precioActual = maximaOferta(int(pk))
+        form        = OfertarForm()
+    precioActual    = maximaOferta(int(pk))
     return render(request,'ofertar.html', { 'form': form, "idSubasta": pk, "precioActual": precioActual  })
 
 
@@ -91,6 +105,13 @@ def ofertavalida(request):
     return render(request, 'ofertavalida.html')
 
 
+def listarSubastas(request):
+    if request.method == 'GET':
+        _idUsuario      = request.user.id 
+        listaSubastas   = Subastas.objects.filter(idUsuarioVendedor_id = _idUsuario).order_by('-fechaAlta')
+        return render(request, 'listaSubastas.html', {'listaSubastas': listaSubastas})
+        
+    
 
 
 
