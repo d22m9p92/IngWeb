@@ -82,7 +82,7 @@ def registrar(request):
                     #send_registration_confirmation(user)
                     return HttpResponseRedirect("/validacionmail/")
                 else:
-                    messages.error(request, "Contraseña incorrecta.")
+                    messages.error(request, "Las contraseñas no coinciden.")
             else:
                 messages.error(request, "El mail ya pose una cuenta asociada.")
         else:
@@ -103,10 +103,72 @@ def confirmar(request, activacion_token):
 def validacionmail(request):
     return render(request, 'validacionmail.html')
 
+
 def cambiarContraseña(request):
     if not request.POST['email']:
         messages.warning(request, "Por favo ingresar mail.")
     return render(request,'registrar.html', { 'form': form })        
 
 
+@login_required(login_url="home")
+def verPerfil(request,pk):
+    usuario = User.objects.get(pk=pk)
+    perfil  = Perfil.objects.get(usuario=usuario)
+    return render(request,"perfil.html",{'usuario': usuario, 'perfil': perfil})
+
+
+@login_required(login_url="home")
+def editarUsuario(request,pk):
+    if request.method =="POST":
+        usuario = User.objects.get(pk=pk)
+        form = formUsuario(request.POST, instance = usuario)
+        if form.is_valid():
+            form.save()
+            perfil = Perfil.objects.get(usuario= usuario)
+            formP = formPerfil(instance= perfil)
+            formU = formUsuario(instance=usuario)
+            message.success(request, "Los datos han sido modificados correctmaente")
+            return render(request, "editPerfil.html", {'usuario': formU, 'perfil': formP,"id":perfil.id,"idUsuario":usuario.id})
+        else:
+            perfil = Perfil.objects.get(usuario= usuario)
+            formP = formPerfil(instance= perfil)
+            formU = formUsuario(instance=usuario)
+            return render(request, "editPerfil.html", {'usuario': formU, 'perfil': formP,"id":perfil.id,"idUsuario":usuario.id})
+   
+
+
+@login_required(login_url="home")
+def editarPerfil(request,pk):
+    if request.method=="GET":
+            perfil = Perfil.objects.get(pk=pk)
+            usuario = perfil.usuario
+
+            formP = formPerfil(instance= perfil)
+            formU = formUsuario(instance=usuario)
+            return render(request, "editPerfil.html", {'usuario': formU, 'perfil': formP,"id":pk,"idUsuario":usuario.id})
+
+    elif request.method == "POST":
+        perfil = Perfil.objects.get(pk=pk)
+        formPG = formPerfil(request.POST,instance=perfil)
+
+        try:
+            if formPG.is_valid():
+                formPG.save()
+                perfil = Perfil.objects.get(pk=pk)
+                usuario = perfil.usuario
+                formP = formPerfil(instance= perfil)
+                formU = formUsuario(instance=usuario)   
+                return render(request, "editPerfil.html", {'usuario': formU, 'perfil': formP,"id":pk,"idUsuario":usuario.id}) 
+            else:
+                perfil = Perfil.objects.get(pk=pk)
+                usuario = perfil.usuario
+                formP = formPerfil(instance = perfil)
+                formU = formUsuario(instance=usuario)    
+                return render(request, "editPerfil.html", {'usuario': formU, 'perfil': formP,"id":pk, "idUsuario":usuario.id})
+        except Exception as e:
+            perfil = Perfil.objects.get(pk=pk)
+            usuario = perfil.usuario
+            formP = formPerfil(instance= perfil)
+            formU = formUsuario(instance=usuario)    
+            return render(request, "editPerfil.html", {'usuario': formU, 'perfil': formP,"id":pk,"idUsuario":usuario.id})
 

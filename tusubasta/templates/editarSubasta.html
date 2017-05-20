@@ -1,17 +1,24 @@
 <!DOCTYPE html>
 {% extends 'base.html' %}
+{% load widget_tweaks %}
 {% load static %}
 
 {% block content %}
+<div class="row">
+  <form action="{% url 'editarSubasta' idSubasta=id %}" method="POST" enctype="multipart/form-data" >
+    {% csrf_token %}
+    {%for i in subasta%}
 
-<form action="{% url 'editarSubasta' %}" method="POST" enctype="multipart/form-data" >
-  {% csrf_token %}
-  {{ form.as_p }}
-  <button class="btn btn-primary" type="submit" name="action" value="Ingresar">Guardar
-    <i class="mdi-content-send right"></i>
-  </button>  
-</form>      
-
+      <div class="col-sm-12 col-md-12 col-lg-12">
+        <div class="form-group">
+          <label > {{i.label}} </label>
+          {{i|add_class:"form-control"}}
+        </div>
+      </div>
+    {%endfor%}
+    
+    <button type="submit" class="btn btn-primary"> Guardar</button>
+  </form>      
+</div>  
 {% endblock %}
-
 

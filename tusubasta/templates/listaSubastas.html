@@ -4,25 +4,86 @@
 {% load staticfiles %}
 
 {% block content %}
-<center <h2 class="panel-title" s1yle="padding:2%">Tus Subastas</h1> </center>
+<center <h1 class="panel-title" s1yle="padding:2%">Tus Subastas</h1> </center>
 
 <ul class="list-group">
   
 	{%for i in listaSubastas%}
-	  	<li class="list-group-item justify-content-between">
-	    	<div class="row" >
+	  	<li id="{{i.id}}" class="list-group-item justify-content-between">
+	    	<div class="row col-sm-12 col-md-12 col-lg-6" >
 	    		<h4 align="center"> {{ i.titulo }} </h4>
-	    		<h4 align="pull-left"> {{ i.precioBase }} </h4>
-	    		<img class ="pull-left img-circle" src="{{MEDIA_URL}}{{i.imagenA}}" />
-	    		<p>{{i.detalle}}</a>.</p>
-	    		<p>{{ i.fechaFin }}</a>.</p>
+	    		<div class="col-sm-12 col-md-12 col-lg-6" align="center" >
+				  <img class ="pull-left" src="{{MEDIA_URL}}{{i.imagenA}}" width="100%"/>
+				</div>
+				<h4 align="pull-left"> Precio Base: {{ i.precioBase }} </h4>
+	    		<p> Detalle: {{i.detalle}}</a>.</p>
+	    		<p> Fecha Fin: {{ i.fechaFin }}</a>.</p>
 	    	</div>
-	    	<a href="{% url 'editarSubasta' pk=i.id %}" class="btn btn-primary" role="button">Editar Subasta</a>
-	    	<a href="{% url 'editarSubasta' pk=i.id %}" class="btn btn-primary" role="button">Editar Subasta</a>
+	    	<div aling = "center">
+		    	<a href="{% url 'editarSubasta' idSubasta=i.id %}" class="btn btn-primary" role="button">Editar Subasta</a>
+		    	<a class="btn btn-primary" onclick="cancelar({{i.id}})" role="button">Cancelar Subasta</a>
+	    	</div>
 	  	</li>
 	{%endfor%}
 
 </ul>
+
+<div class="modal fade" id="modalCancelar">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Eliminar</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>¿Desea cancelar la subasta?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" onclick="eliminarSubasta()" class="btn btn-primary">Si</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+<script type="text/javascript">
+var idSeleccionado = null;
+
+function cancelar(id){
+	idSeleccionado = id;
+	$('#modalCancelar').modal('show');
+	console.log(idSeleccionado);
+}
+
+
+function eliminarSubasta(){
+
+	$.ajax({
+		"method":"POST",
+		"url":"/eliminarSubasta/",
+		"data":{"id":idSeleccionado, "csrfmiddlewaretoken":"{{csrf_token}}"},
+		success:function(data){
+			if(JSON.parse(data)=="OK"){
+				alert("Eliminado");
+				$("#".concat(idSeleccionado)).remove();
+				$('#modalCancelar').modal('hide');
+			}else{
+				alert(JSON.parse(data));
+			}
+		}
+	});
+}
+
+
+
+
+</script>
 
 {% endblock %}
 

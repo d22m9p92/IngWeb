@@ -2,7 +2,7 @@
 {%extends 'base.html'%}
 
 {% block content %}
-<div class="subasta">
+<div class="form-group">
         <h1>{{ subasta.titulo }}</h1>
         <img src="https://s3.amazonaws.com/tusubasta/{{ subasta.imagenA }}" style="max-width: 300px; max-height: 400px" />
         <img src="https://s3.amazonaws.com/tusubasta/{{ subasta.imagenB }}" style="max-width: 300px; max-height: 400px" />
@@ -11,7 +11,7 @@
         <p>Precio base: {{ subasta.precioBase }}</p>
         <p>Fecha de publicación: {{ subasta.fechaAlta }}</p>
         <p>Fecha límite para subastar: {{ subasta.fechaFin }}</p>
-        <p>Categoría: {{ subasta.Categoria }}</p>
+        <p>Categoría: {{ subasta.idCategoria }}</p>
         <p>Localidad : {{ subasta.localidad }}, {{subasta.provincia }}, {{subasta.pais }}</p>
         <p>Usuario vendedor: {{ subasta.idUsuarioVendedor }}</p>
         <p>Calificacion vendedor: {{ subasta.idCalificacion }}</p>

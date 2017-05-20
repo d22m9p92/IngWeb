@@ -17,14 +17,6 @@ class Categorias(models.Model):
 		return self.descripcion
 
 
-class SubCategorias(models.Model):
-	descripcion 		= models.CharField(max_length=50,null=True,blank=False)
-	idCategoria 		= models.ForeignKey(Categorias,null=True,blank=True)
-
-	def __str__(self):
-		return self.descripcion
-
-
 class Calificaciones(models.Model):
 	descripcion 		= models.CharField(max_length=50,null=True,blank=False)
 	fechaAlta			= models.DateTimeField(auto_now=True, null=True,blank=True)
@@ -42,9 +34,7 @@ class Subastas(models.Model):
 	fechaBaja 			= models.DateTimeField(null=True,blank=True)
 	fechaFin 			= models.DateField(null=True,blank=True)
 	idCategoria 		= models.ForeignKey(Categorias,null=True,blank=True)
-	idSubcategoria 		= models.ForeignKey(SubCategorias,null=True,blank=True)
 	idCalificacion 		= models.ForeignKey(Calificaciones,null=True,blank=True)
-	#######VERRRR#######
 	idUsuarioVendedor	= models.ForeignKey(User,null=True,blank=True)
 	localidad			= models.CharField(max_length=50,null=True,blank=False)
 	provincia			= models.CharField(max_length=50,null=True,blank=False)

@@ -39,6 +39,7 @@ INSTALLED_APPS = (
     'storages',
     'sitio',
     'login',
+ 'widget_tweaks',
 )
 
 MESSAGE_TAGS = {
@@ -162,7 +163,7 @@ else:
     AWS_STORAGE_BUCKET_NAME = "tusubasta"
     AWS_S3_CUSTOM_DOMAIN = 's3.amazonaws.com/%s' % AWS_STORAGE_BUCKET_NAME
     #STATIC_URL = "https://s3.amazonaws.com/tusubasta/%s/" % AWS_STORAGE_BUCKET_NAME
-    MEDIA_URL = "https://s3.amazonaws.com/tusubasta/Subasta/img/" 
+    MEDIA_URL = "https://s3.amazonaws.com/tusubasta/" 
     AWS_QUERYSTRING_AUTH = False
     AWS_DEFAULT_ACL = "private"
     from boto.s3.connection import ProtocolIndependentOrdinaryCallingFormat

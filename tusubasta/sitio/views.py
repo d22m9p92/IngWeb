@@ -12,11 +12,14 @@ from django.views.generic import ListView
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Max
 from django.contrib import messages
+import datetime
+import json
 
 class home(View):
     def get(self, request): 
         subastas = Subastas.objects.all()
         categorias = Categorias.objects.all()
+        ofertas = Ofertas.objects.all()
         
         paginator = Paginator(subastas, 12)
 
@@ -27,8 +30,8 @@ class home(View):
             SubastasList = paginator.page(1)
         except EmptyPage:
             SubastasList = paginator.page(paginator.num_pages)        
-        
-        return render(request, "index.html",{"subastas": SubastasList, "categorias": categorias})
+    
+        return render(request, "index.html",{"subastas": SubastasList, "categorias": categorias, "ofertas": ofertas,"id":request.user.id })
 
 #Crear una Subasta
 @login_required(login_url= '/login/')
@@ -36,6 +39,7 @@ def nuevaSubasta(request):
     if request.method=='POST':
         form = SubastasForm(request.POST)
         _idUsuarioVendedor = request.user.id
+        form = SubastasForm(request.POST, request.FILES)
         if form.is_valid():
             formSubasta = form.save(commit = False)
             formSubasta.idUsuarioVendedor_id = _idUsuarioVendedor
@@ -53,22 +57,57 @@ def subasta_detalle(request, pk):
     return render(request, 'subasta_detalle.html', {'subasta': subasta})
 
 
+def listarSubastas(request):
+    if request.method == 'GET':
+        _idUsuario      = request.user.id 
+        listaSubastas   = Subastas.objects.filter(idUsuarioVendedor_id = _idUsuario, fechaBaja = None).order_by('-fechaAlta')
+        return render(request, 'listaSubastas.html', {'listaSubastas': listaSubastas})
+
+
 @login_required(login_url= '/login/')
 def editarSubasta(request, idSubasta):
-    if request.method == 'GET':
-        form = SubastasForm(request.POST, instance = Subasta)
-        if form.is_valid():
-            Subasta  = Subastas.objects.get(pk = idSubasta)
-        
-    else:
-        Subasta  = Subastas.objects.get(pk = idSubasta)
-        formSubastaEdit = SubastasForm(instance = Subasta)
+    if request.method == "GET":
+        subasta  = Subastas.objects.get(pk = idSubasta)
+        form = SubastasForm(instance = subasta)
+        return render(request, "editarSubasta.html", {'subasta': form,"id":idSubasta})
+
+    elif request.method == "POST":
+        subasta  = Subastas.objects.get(pk = idSubasta)
+        form = SubastasForm(request.POST, request.FILES, instance = subasta)
+
+        try:
+            if form.is_valid():
+                form.save()
+                subasta  = Subastas.objects.get(pk = idSubasta)
+                form = SubastasForm(instance = subasta)
+                #return render(request, "editarSubasta.html", {'subasta': form,"id":idSubasta})
+                return redirect('listarSubastas')
+            else:
+                subasta  = Subastas.objects.get(pk = idSubasta)
+                form = SubastasForm(instance = subasta)
+                return render(request, "editarSubasta.html", {'subasta': form,"id":idSubasta})
+        except Exception as e:
+            subasta  = Subastas.objects.get(pk = idSubasta)
+            form = SubastasForm(instance = subasta)
+            return render(request, "editarSubasta.html", {'subasta': form,"id":idSubasta})
+
+'''
+@login_required(login_url= '/login/')
+def bajaSubusta(request, idSubasta):
+    if request.method == "POST":
+        idSubasta  = Subastas.objects.get(pk = idSubasta)
+        form = SubastasForm(instance = idSubasta)
+        if form.is_valid()
+            form.fechaBaja = datetime.datetime.now()
+            form.save()
+            return                
+'''   
 
 
 #Ofertar en una subasta
 @login_required(login_url= '/login/')
 def ofertar(request,pk):
-    
+	
     if request.method == 'POST':
         form        = OfertarForm(request.POST)
         _idSubasta  = int(request.POST.get("idSubasta"))
@@ -89,13 +128,26 @@ def ofertar(request,pk):
     precioActual    = maximaOferta(int(pk))
     return render(request,'ofertar.html', { 'form': form, "idSubasta": pk, "precioActual": precioActual  })
 
+def eliminarSubasta(request):
+    if request.method =="POST":
+        id = request.POST.get("id")
+        try:
+            subasta = Subastas.objects.get(pk=id)
+            fb= datetime.datetime.now()
+            subasta.fechaBaja = fb
+            subasta.save()
+            return HttpResponse(json.dumps("OK"))
+        except Exception  as e:
+            return HttpResponse(json.dumps(str(e)))
+
+
 
 #Buscar oferta maxima
 def maximaOferta(idSubasta):
     maximaOferta    = Ofertas.objects.filter(idSubasta = idSubasta).aggregate(Max('valorOferta'))
     resultado       = maximaOferta['valorOferta__max']
     if resultado is None:
-        precioBase = Subastas.objects.get(pk= idSubasta).precioBase
+        precioBase = Subastas.objects.get(pk=idSubasta).precioBase
         return precioBase
     return resultado
 
@@ -104,13 +156,6 @@ def maximaOferta(idSubasta):
 def ofertavalida(request):
     return render(request, 'ofertavalida.html')
 
-
-def listarSubastas(request):
-    if request.method == 'GET':
-        _idUsuario      = request.user.id 
-        listaSubastas   = Subastas.objects.filter(idUsuarioVendedor_id = _idUsuario).order_by('-fechaAlta')
-        return render(request, 'listaSubastas.html', {'listaSubastas': listaSubastas})
-        
     
 
 
