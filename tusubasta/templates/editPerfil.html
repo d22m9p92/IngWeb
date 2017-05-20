@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% block content %}
+
+
+<div class="row">
+<form action="/editarUsuario/{{idUsuario}}/" method="POST" >
+{%csrf_token%}
+{%for cU in usuario%}
+
+  	<div class="col-sm-12 col-md-6 col-lg-4">
+	  <div class="form-group">
+	    <label for="exampleInputEmail1">{{cU.label}}</label>
+	    {{cU|add_class:"form-control"}}
+	  </div>
+  	</div>
+{%endfor%}
+  	<button type="submit" class="btn btn-primary"> Guardar</button>
+</form>
+
+<form method="POST" action="/editarperfil/{{id}}/">
+{%csrf_token%}
+{%for cP in perfil%}
+  	<div class="col-sm-12 col-md-6 col-lg-4">
+	  <div class="form-group">
+	    <label >{{cP.label}}</label>
+	    {{cP|add_class:"form-control"}}
+	  </div>
+  	</div>
+
+{%endfor%}
+</div>	
+
+<div class="row">
+<button type="submit" class="btn btn-primary"> Guardar</button>
+</div>
+</form>
+{%endblock%}
+
+

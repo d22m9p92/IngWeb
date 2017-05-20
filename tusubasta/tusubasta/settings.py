@@ -39,6 +39,7 @@ INSTALLED_APPS = (
     'storages',
     'sitio',
     'login',
+ 'widget_tweaks',
 )
 
 MESSAGE_TAGS = {

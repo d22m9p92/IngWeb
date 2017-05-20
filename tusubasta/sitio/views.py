@@ -30,8 +30,8 @@ class home(View):
             SubastasList = paginator.page(1)
         except EmptyPage:
             SubastasList = paginator.page(paginator.num_pages)        
-        
-        return render(request, "index.html",{"subastas": SubastasList, "categorias": categorias, "ofertas": ofertas })
+    
+        return render(request, "index.html",{"subastas": SubastasList, "categorias": categorias, "ofertas": ofertas,"id":request.user.id })
 
 #Crear una Subasta
 @login_required(login_url= '/login/')
