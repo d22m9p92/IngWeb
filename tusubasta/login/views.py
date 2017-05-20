@@ -10,7 +10,8 @@ from .form import *
 from sitio.models import Subastas
 from django.template import RequestContext
 from django.http import HttpResponseRedirect, HttpResponse
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
+from django.contrib.auth import update_session_auth_hash
 from django.views.generic import FormView, TemplateView, RedirectView
 from django.core.mail import send_mail
 from django.utils import timezone
@@ -24,13 +25,14 @@ import os, string
 from django.contrib import messages
 global str
 
+
 class LoginView(FormView):
     # Le indicamos que el formulario a utilizar es el formulario de autenticación de Django
     form_class = AuthenticationForm
     # Establecemos la plantilla a utilizar
     template_name = "login.html"
     #Le decimos que cuando se haya completado exitosamente la operación nos redireccione a la url productos
-    success_url = reverse_lazy('home')
+    success_url = reverse_lazy('home', kwargs={'idCategoria': ""})
 
     def dispatch(self, request, *args, **kwargs):
         if request.user.is_authenticated():
@@ -47,7 +49,11 @@ class LoginView(FormView):
 
 
 def logout(request):
-    auth_logout(request)
+    try:
+        print("ok")
+        auth_logout(request)
+    except Exception as e:
+        print(e)
     return HttpResponseRedirect("/")
 
 
@@ -171,4 +177,19 @@ def editarPerfil(request,pk):
             formP = formPerfil(instance= perfil)
             formU = formUsuario(instance=usuario)    
             return render(request, "editPerfil.html", {'usuario': formU, 'perfil': formP,"id":pk,"idUsuario":usuario.id})
+
+
+def change_password(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)  # Important!
+            messages.success(request, 'Su contraseña se modificó correctamente')
+            return redirect('home', "")
+        else:
+            messages.error(request, 'Please correct the error below.')
+    else:
+        form = PasswordChangeForm(request.user)
+    return render(request, 'change_password.html', {'form': form})
 

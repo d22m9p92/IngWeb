@@ -16,11 +16,15 @@ import datetime
 import json
 
 class home(View):
-    def get(self, request): 
-        subastas = Subastas.objects.all()
+    def get(self, request,idCategoria): 
+        print(idCategoria)
+        if idCategoria!="":
+            categoria = Categorias.objects.filter(pk=idCategoria)
+            subastas = Subastas.objects.filter(idCategoria=categoria)
+        else:    
+            subastas = Subastas.objects.all()
         categorias = Categorias.objects.all()
-        ofertas = Ofertas.objects.all()
-        
+            
         paginator = Paginator(subastas, 12)
 
         page = request.GET.get('page')
@@ -31,7 +35,7 @@ class home(View):
         except EmptyPage:
             SubastasList = paginator.page(paginator.num_pages)        
     
-        return render(request, "index.html",{"subastas": SubastasList, "categorias": categorias, "ofertas": ofertas,"id":request.user.id })
+        return render(request, "index.html",{"subastas": SubastasList, "categorias": categorias,"id":request.user.id })
 
 #Crear una Subasta
 @login_required(login_url= '/login/')
@@ -157,6 +161,4 @@ def ofertavalida(request):
     return render(request, 'ofertavalida.html')
 
     
-
-
 

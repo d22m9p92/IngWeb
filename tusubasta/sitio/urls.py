@@ -16,4 +16,5 @@ urlpatterns = [
 	url(r'^editarSubasta/(?P<idSubasta>\w+)/$', views.editarSubasta, name='editarSubasta'),
 	url(r'^eliminarSubasta/$', views.eliminarSubasta, name='eliminarSubasta'),
 
+
 ]

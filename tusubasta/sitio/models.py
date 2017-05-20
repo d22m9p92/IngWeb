@@ -42,7 +42,7 @@ class Subastas(models.Model):
 	imagenA				= models.ImageField(upload_to=upload_to_subastas, default="", null=True, blank=True)
 	imagenB				= models.ImageField(upload_to=upload_to_subastas, default="", null=True, blank=True)
 	imagenC				= models.ImageField(upload_to=upload_to_subastas, default="", null=True, blank=True)
-
+	ofertaMax			= models.DecimalField(max_digits=7, decimal_places=2,null=True,blank=False, default=0)
 	def __str__(self):
 		return self.titulo
 
