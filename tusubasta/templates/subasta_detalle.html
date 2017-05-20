@@ -4,14 +4,45 @@
 {% block content %}
 <div class="subasta">
         <h1>{{ subasta.titulo }}</h1>
+        <!--
         <img src="https://s3.amazonaws.com/tusubasta/{{ subasta.imagenA }}" style="max-width: 300px; max-height: 400px" />
         <img src="https://s3.amazonaws.com/tusubasta/{{ subasta.imagenB }}" style="max-width: 300px; max-height: 400px" />
         <img src="https://s3.amazonaws.com/tusubasta/{{ subasta.imagenC }}" style="max-width: 300px; max-height: 400px" />
+        -->
+        <div class="row carousel-holder">
+                    <div class="col-md-12">
+                        <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+                            <ol class="carousel-indicators">
+                                <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+                                <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+                                <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+                            </ol>
+                            <div class="carousel-inner">
+                                <div class="item active">
+                                    <img class="slide-image" src="https://s3.amazonaws.com/tusubasta/{{ subasta.imagenA }}" style="max-width: 300px; max-height: 400px" /> 
+                                </div>
+                                <div class="item">
+                                    <img class="slide-image" src="https://s3.amazonaws.com/tusubasta/{{ subasta.imagenB }}" style="max-width: 300px; max-height: 400px" />
+                                </div>
+                                <div class="item">
+                                    <img class="slide-image" src="https://s3.amazonaws.com/tusubasta/{{ subasta.imagenC }}" style="max-width: 300px; max-height: 400px" />
+                                </div>
+                            </div>
+                            <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
+                                <span class="glyphicon glyphicon-chevron-left"></span>
+                            </a>
+                            <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
+                                <span class="glyphicon glyphicon-chevron-right"></span>
+                            </a>
+                        </div>
+                    </div>
+
+
         <p>{{ subasta.detalle |linebreaksbr }}</p>
         <p>Precio base: {{ subasta.precioBase }}</p>
         <p>Fecha de publicación: {{ subasta.fechaAlta }}</p>
         <p>Fecha límite para subastar: {{ subasta.fechaFin }}</p>
-        <p>Categoría: {{ subasta.Categoria }}</p>
+        <p>Categoría: {{ subasta.idCategoria }}</p>
         <p>Localidad : {{ subasta.localidad }}, {{subasta.provincia }}, {{subasta.pais }}</p>
         <p>Usuario vendedor: {{ subasta.idUsuarioVendedor }}</p>
         <p>Calificacion vendedor: {{ subasta.idCalificacion }}</p>

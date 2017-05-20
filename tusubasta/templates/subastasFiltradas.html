@@ -1,0 +1,40 @@
+{%if subastas|length == 0 %}
+<p> NO HAY NADA</p>
+{%else%}
+<div class="row">
+                    {%for subasta in subastas%}
+                    <div class="col-sm-4 col-lg-4 col-md-4">
+                        <div class="thumbnail">
+                            <img src="https://s3.amazonaws.com/tusubasta/{{ subasta.imagenA }}">
+                            <div class="caption">
+                                <h4 class="pull-right">{{subasta.precioBase}}</h4>
+                                <h4><a href="{% url 'subastadetalle' pk=subasta.id %}">{{ subasta.titulo }}</a></h4>
+                                <p>{{subasta.detalle}}</a>.</p>
+                            </div>
+                            <div class="ratings">
+                                <p>
+                                    <strong>Fecha límite: </strong>{{subasta.fechaFin}}
+                                </p>
+                            </div>
+                            <center><a href="{% url 'ofertar' pk=subasta.id %}" class="btn btn-info" role="button">Ofertar</a></center>
+                        </div>
+                    </div>
+                    {%endfor%}    
+                </div>
+                <div class="pagination">
+                    <span class="step-links">
+                        {% if subastas.has_previous %}
+                            <a href="?page={{ subastas.previous_page_number }}">Anterior</a>
+                        {% endif %}
+
+                        <span class="current">
+                            Página {{ subastas.number }} de {{ subastas.paginator.num_pages }}.
+                        </span>
+
+                        {% if subastas.has_next %}
+                            <a href="?page={{ subastas.next_page_number }}">Siguiente</a>
+                        {% endif %}
+                    </span>
+                </div>
+
+{%endif%}
