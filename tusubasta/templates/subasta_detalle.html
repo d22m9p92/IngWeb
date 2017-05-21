@@ -4,11 +4,11 @@
 {% block content %}
 <div class="form-group">
         <h1>{{ subasta.titulo }}</h1>
-        <!--
+        
         <img src="https://s3.amazonaws.com/tusubasta/{{ subasta.imagenA }}" style="max-width: 300px; max-height: 400px" />
         <img src="https://s3.amazonaws.com/tusubasta/{{ subasta.imagenB }}" style="max-width: 300px; max-height: 400px" />
         <img src="https://s3.amazonaws.com/tusubasta/{{ subasta.imagenC }}" style="max-width: 300px; max-height: 400px" />
-        -->
+        <!--
         <div class="row carousel-holder">
                     <div class="col-md-12">
                         <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
@@ -36,8 +36,8 @@
                             </a>
                         </div>
                     </div>
-
-
+        -->
+        
         <p>{{ subasta.detalle |linebreaksbr }}</p>
         <p>Precio base: {{ subasta.precioBase }}</p>
         <p>Fecha de publicación: {{ subasta.fechaAlta }}</p>
@@ -50,7 +50,94 @@
         <button class="btn btn-info" href="/ofertar/{{subasta.id}}"" name="Ofertar" value="Ofertar">Ofertar
         </button>  
         -->
-        <a href="{% url 'ofertar' pk=subasta.id %}" class="btn btn-info" role="button">Ofertar</a>
+        
+        <div class="row">
+            <div class="col-sl-5 col-sm-offset-1">
+            
+            <ul class="list-group" id="lista">
+            {%for comentario in comentarios%}
+                <li id="{{comentario.id}}" class="list-group-item justify-content-between">
+                   
+                        <h6 align="center">{{comentario.idUsuario.username}} </h6>
+                        <p>{{comentario.comentario}}</a>.</p>
+                    
+                </li>
+            {%endfor%}
+   <li id="{{comentario.id}}" class="list-group-item justify-content-between">
+                        <div class="form-group"> 
+                        <textarea class="form-control" type="text" class="formControl"id="nuevoComentario" placeholder="Ingrese comentario"></textarea>  
+                        <button type="button" class="btn btn-primary" onclick="comentar()" >Comentar</button>
+                        </div>
+                </li>
+
+
+
+
+
+
+
+            </div>
+
+
+        </div>
+
+
+        <a href="{% url 'ofertar' pk=subasta.id %}" class="btn btn-primary" role="button">Ofertar</a>
 </div>
 
+<script type="text/javascript">
+    function comentar(){
+        var texto = $("#nuevoComentario").val();
+        console.log(texto,{{subasta.id}});
+        $.ajax({
+            "method":"POST",
+            "url":"/comentar/",
+            "data":{"texto":texto,"idSubasta":{{subasta.id}},"csrfmiddlewaretoken":"{{csrf_token}}"},
+            success:function(data){
+                try {
+                    if(JSON.parse(data) == "Error"){
+                    alert("mensaje guardado");
+
+                    }
+                }
+                    catch(err) {
+                            $("#lista").html(data);
+                            console.log(data);
+                    }
+               
+            
+            }
+        });
+
+
+    }
+
+    function eliminar(id){
+        $.ajax({
+            "method":"POST",
+            "url":"/eliminarComentario/",
+            "data":{"id":id, "csrfmiddlewaretoken":"{{csrf_token}}"},
+            success:function(data){
+                if(JSON.parse(data) =="OK"){
+                    alert("Elimnado");
+                    $("#comentario".concat(id)).remove();
+                }    else{
+                    alert("Error al elimnar");
+                }
+
+            }
+
+        });
+
+
+    }
+
+
+</script>
+
+
+
 {% endblock %}
+
+
+<

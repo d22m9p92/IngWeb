@@ -32,20 +32,12 @@ class ComentariosForm(ModelForm):
 	class Meta:
 		model	= Comentarios
 		fields	= ('comentario',)
-		labels	= {'Comentario'}
+		labels	= {'comentario': 'Comentario'}
 
 
-'''
-class Comentarios(ModelForm):
-	class Meta:
-		model 	= Comentarios
-		fields 	= ('comentario')
-		labels 	= ('Comentario')
-'''
-'''
-class Respuestas(ModelForm):
+
+class RespuestasForm(ModelForm):
 	class Meta:
 		model 	= Respuestas
-		fields 	= ('respuesta')
-		labels 	= ('Comentario')
-'''
+		fields 	= ('respuesta',)
+		labels 	= {'respuesta': 'Respuesta'}

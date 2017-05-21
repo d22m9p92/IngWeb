@@ -15,6 +15,6 @@ urlpatterns = [
 	url(r'^listaSubastas/$', views.listarSubastas, name='listarSubastas'),
 	url(r'^editarSubasta/(?P<idSubasta>\w+)/$', views.editarSubasta, name='editarSubasta'),
 	url(r'^eliminarSubasta/$', views.eliminarSubasta, name='eliminarSubasta'),
-
-
+	url(r'^comentar/$', views.comentar, name='comentar'),
+	url(r'^eliminarComentario/$', views.eliminarComentario, name='eliminarComentario'),
 ]

@@ -15,13 +15,13 @@
         <div class="col-md-4">
         {% if request.user == usuario %}
                 <div class="row" style="padding: 2%">
-                    <a href="/password/" class="btn btn-info" role="button">Cambiar contraseña</a>
+                    <a href="/password/" class="btn btn-primary" role="button">Cambiar contraseña</a>
                 </div>
                 <div class="row" style="padding: 2%">
-                    <a href="/editarperfil/{{perfil.id}}" class="btn btn-info" role="button">Editar perfil</a>
+                    <a href="/editarperfil/{{perfil.id}}" class="btn btn-primary" role="button">Editar perfil</a>
                 </div>
                 <div class="row" style="padding: 2%">
-                    <a href="/listaSubastas/" class="btn btn-info" role="button">Mis Publicaciones</a> 
+                    <a href="/listaSubastas/" class="btn btn-primary" role="button">Mis Publicaciones</a> 
                 </div>
         {%else%}
          <div class="row" style="padding: 2%">

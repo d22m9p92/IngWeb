@@ -46,6 +46,7 @@ def nuevaSubasta(request):
         form = SubastasForm(request.POST, request.FILES)
         if form.is_valid():
             formSubasta = form.save(commit = False)
+            formSubasta.ofertaMax = formSubasta.precioBase  
             formSubasta.idUsuarioVendedor_id = _idUsuarioVendedor
             formSubasta.save()
             return HttpResponseRedirect("/")	
@@ -58,13 +59,15 @@ def nuevaSubasta(request):
 @login_required(login_url= '/login/')
 def subasta_detalle(request, pk):
     subasta = get_object_or_404(Subastas, pk=pk)
-    return render(request, 'subasta_detalle.html', {'subasta': subasta})
+    comentarios = Comentarios.objects.filter(idSubasta=subasta, fechaBaja=None).order_by("-fechaAlta")
+    return render(request, 'subasta_detalle.html', {'subasta': subasta,"comentarios":comentarios})
 
 
 def listarSubastas(request):
     if request.method == 'GET':
         _idUsuario      = request.user.id 
         listaSubastas   = Subastas.objects.filter(idUsuarioVendedor_id = _idUsuario, fechaBaja = None).order_by('-fechaAlta')
+        
         return render(request, 'listaSubastas.html', {'listaSubastas': listaSubastas})
 
 
@@ -73,6 +76,7 @@ def editarSubasta(request, idSubasta):
     if request.method == "GET":
         subasta  = Subastas.objects.get(pk = idSubasta)
         form = SubastasForm(instance = subasta)
+        
         return render(request, "editarSubasta.html", {'subasta': form,"id":idSubasta})
 
     elif request.method == "POST":
@@ -132,6 +136,7 @@ def ofertar(request,pk):
     precioActual    = maximaOferta(int(pk))
     return render(request,'ofertar.html', { 'form': form, "idSubasta": pk, "precioActual": precioActual  })
 
+
 def eliminarSubasta(request):
     if request.method =="POST":
         id = request.POST.get("id")
@@ -143,6 +148,7 @@ def eliminarSubasta(request):
             return HttpResponse(json.dumps("OK"))
         except Exception  as e:
             return HttpResponse(json.dumps(str(e)))
+
 
 
 
@@ -160,5 +166,39 @@ def maximaOferta(idSubasta):
 def ofertavalida(request):
     return render(request, 'ofertavalida.html')
 
-    
 
+
+
+
+@login_required(login_url= '/login/')
+def comentar(request):
+    if request.method == 'POST':
+        texto = request.POST.get("texto")
+        idSubasta = request.POST.get("idSubasta")
+        try:
+           comentario = Comentarios()
+           comentario.comentario = texto
+           subasta = Subastas.objects.get(pk=idSubasta)
+           comentario.idSubasta = subasta
+           comentario.idUsuario = request.user
+           comentario.fechaAlta = datetime.datetime.now()
+           comentario.save()
+           comentarios = Comentarios.objects.filter(idSubasta = subasta, fechaBaja=None).order_by("-fechaAlta")
+           
+           return render(request,"comentarioParcial.html",{"comentarios":comentarios})
+        except Exception as e:
+            print(e)
+            return HttpResponse(json.dumps("Error"))   
+
+
+def eliminarComentario(request):
+    if request.method =="POST":
+        id = request.POST.get("id")
+        try:
+            com = Comentarios.objects.get(pk=id)
+            com.fechaBaja = datetime.datetime.now()
+            com.save()
+            return HttpResponse(json.dumps("OK"))
+        except Exception as e:
+            print(e)
+            return HttpResponse(json.dumps("Error"))    

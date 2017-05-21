@@ -62,28 +62,38 @@ class Comentarios(models.Model):
 	idSubasta 			= models.ForeignKey(Subastas, null=True, blank=True)
 	comentario 			= models.TextField(null=True,blank=False)
 	idUsuario			= models.ForeignKey(User,null=True,blank=True)	
-	fechaBaja 			= models.DateTimeField(auto_now=True, null=True,blank=True)
-	fechaAlta 			= models.DateTimeField(auto_now=True, null=True,blank=True)
+	fechaBaja 			= models.DateTimeField(auto_now=False, null=True,blank=True,default=None)
+	fechaAlta 			= models.DateTimeField(auto_now=False, null=True,blank=True, default=None)
 
 	def __str__(self):
 			return self.comentario
 
 class Respuestas(models.Model):
-	idComentario		= models.ForeignKey(Comentarios, null=True, blank=True)
+	idComentario		= models.OneToOneField(Comentarios, null=True, blank=True)
 	idUsuario			= models.ForeignKey(User,null=True,blank=True)	
 	respuesta			= models.TextField(null=True,blank=True)
-	fechaBaja 			= models.DateTimeField(auto_now=True, null=True,blank=True)
-	fechaAlta 			= models.DateTimeField(auto_now=True, null=True,blank=True)
+	fechaBaja 			= models.DateTimeField(auto_now=False, null=True, blank=True, default=None)
+	fechaAlta 			= models.DateTimeField(auto_now=False, null=True, blank=True, default=None)
 
 	def __str__(self):
 		return self.respuesta
 
 
+class Denuncias(models.Model):
+	idUsuario  		= models.ForeignKey(User,null=True,blank=True)	
+	idComentario 	= models.ForeignKey(Comentarios, null=True, blank=True)
+	idRespuesta		= models.ForeignKey(Respuestas, null=True, blank=True)
+	fechaDenuncia   = models.DateTimeField(auto_now=False, null=True, blank=True, default=None)
+
+	def __str__(self):
+		return self.fechaAlta
+
+
 class Likes(models.Model):
 	idSubasta 			= models.ForeignKey(Subastas, null=True, blank=True)
 	idUsuarioVendedor	= models.ForeignKey(User,null=True,blank=True)	
-	fechaBaja 			= models.DateTimeField(auto_now=True, null=True,blank=True)
-	fechaAlta 			= models.DateTimeField(auto_now=True, null=True,blank=True)
+	fechaBaja 			= models.DateTimeField(auto_now = False, null=True, blank=True, default = None)
+	fechaAlta 			= models.DateTimeField(auto_now = False, null=True, blank=True, default = None)
 
 	def __str__(self):
 		return self.fechaAlta
