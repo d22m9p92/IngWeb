@@ -1,38 +1,40 @@
 <!DOCTYPE html>
 {% extends 'base.html' %}
+{% load widget_tweaks %}
 {% load static %}
 
 {% block content %}
     
 <form class="form-horizontal" action="/registrar/" method="POST">
 <div class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
-              {% csrf_token%}     
-              <div class="input-field col s6">          
-                <label for="nickName">Usuario</label>
-                {{form.nickName}}
-              </div>  
-              <div class="input-field col s6">          
-                <label for="nombre">Nombre</label>
-                {{form.nombre}}
+              {% csrf_token%}
+              <div class="form-group">     
+                <div class="input-field col s6">      
+                  <label for="nickName">Usuario</label>
+                  {{form.nickName|add_class:"form-control"}}
+                </div>  
+                <div class="input-field col s6">          
+                  <label for="nombre">Nombre</label>
+                  {{form.nombre|add_class:"form-control"}}
+                </div>
+                <div class="input-field col s6">          
+                  <label for="apellido">Apellido</label>
+                  {{form.apellido|add_class:"form-control"}}
+                </div>                    
+                <div class="input-field col s6">          
+                  <label for="email">Email</label>
+                  {{form.email|add_class:"form-control"}}
+                </div>
+                <div class="input-field col s6">          
+                  <label for="password">Contraseña</label>
+                  {{form.password|add_class:"form-control"}}
+                </div>
+                <div class="input-field col s6">          
+                  <label for="confpassword">Repetir Contraseña</label>
+                  {{form.confpassword|add_class:"form-control"}}
+                </div>
               </div>
-              <div class="input-field col s6">          
-                <label for="apellido">Apellido</label>
-                {{form.apellido}}
-              </div>                    
-              <div class="input-field col s6">          
-                <label for="email">Email</label>
-                {{form.email}}
-              </div>
-              <div class="input-field col s6">          
-                <label for="password">Contraseña</label>
-                {{form.password}}
-              </div>
-              <div class="input-field col s6">          
-                <label for="confpassword">Repetir Contraseña</label>
-                {{form.confpassword}}
-              </div>
-
-              <button class="btn waves-effect waves-light" type="submit" name="action" value="Ingresar">Ingresar
+              <button class="btn btn-primary" type="submit" name="action" value="Ingresar">Ingresar
                 <i class="mdi-content-send right"></i>
               </button>  
         
