@@ -133,7 +133,7 @@ def editarUsuario(request,pk):
             perfil = Perfil.objects.get(usuario= usuario)
             formP = formPerfil(instance= perfil)
             formU = formUsuario(instance=usuario)
-            message.success(request, "Los datos han sido modificados correctmaente")
+            #message.success(request, "Los datos han sido modificados correctmaente")
             return render(request, "editPerfil.html", {'usuario': formU, 'perfil': formP,"id":perfil.id,"idUsuario":usuario.id})
         else:
             perfil = Perfil.objects.get(usuario= usuario)

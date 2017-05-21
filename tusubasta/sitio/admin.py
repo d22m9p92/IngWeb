@@ -6,3 +6,4 @@ from login.models import *
 
 admin.site.register(Subastas)
 admin.site.register(Perfil)
+admin.site.register(Comentarios)

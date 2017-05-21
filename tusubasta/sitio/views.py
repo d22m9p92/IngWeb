@@ -167,9 +167,6 @@ def ofertavalida(request):
     return render(request, 'ofertavalida.html')
 
 
-
-
-
 @login_required(login_url= '/login/')
 def comentar(request):
     if request.method == 'POST':
