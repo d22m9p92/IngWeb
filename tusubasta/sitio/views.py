@@ -125,6 +125,7 @@ def ofertar(request,pk):
                 formOferta                      = form.save(commit=False)
                 formOferta.idSubasta_id         = _idSubasta
                 formOferta.ganador              = False
+                formOferta.ofertaMax            = request.POST.get("valorOferta")
                 formOferta.usuarioComprador_id  = _idUsuario 
                 formOferta.save()
                 #ofertavalida(request)
@@ -198,4 +199,44 @@ def eliminarComentario(request):
             return HttpResponse(json.dumps("OK"))
         except Exception as e:
             print(e)
-            return HttpResponse(json.dumps("Error"))    
+            return HttpResponse(json.dumps("Error")) 
+
+
+@login_required(login_url= '/login/')
+def denunciarComentario(request,_idComentario):
+    if request.method == 'POST':
+        formDenuncias   = DenunciasForm(request.POST)
+        _idUsuario      = request.user.id
+        _idSubasta      = int(request.POST.get("idSubasta"))
+        if form.is_valid():
+            formDenuncias                   = form.save(commit = False)
+            formDenuncias.idUsuario_id      = request.user.id 
+            formDenuncias.idComentario_id   = _idComentario
+            formDenuncias.fechaDenuncia     = datetime.datetime.now()
+            formDenuncias.save()
+
+            controlDenunciasComentario()
+            controlDenunciasUsuario()
+            return redirect('subasta_detalle', _idSubasta)
+
+    else:
+        form = DenunciasForm()
+    return render(request,'denunciarComentario.html', { 'formDenuncias': formDenuncias, 'idComentario': _idComentario })
+
+
+#Baja de comentarios por mas de 5 denuncias
+def controlDenunciasComentario(_idComentario):
+    cantDenunciasComentario = Denuncias.objects.filter(idComentario_id = _idComentario).count()
+    if cantDenunciasComentario >= 5:
+        comentario = Comentarios.objects.get(id = _idComentario)
+        comentario.fechaBaja  = datetime.datetime.now
+        comentario.save()
+
+
+#Baja de usuarios por mas de 20 denuncias
+def controlDenunciasUsuario(_idUsuario, _idComentario):
+    cantDenunciasUsuario    = Denuncias.objects.filter(idUsuario_id = _idUsuario).count()
+    if cantDenunciasUsuario >= 20:
+        usuario = User.objects.get(id = _idUsuario)
+        usuario.is_active  = False
+        usuario.save()

@@ -78,12 +78,16 @@ class Respuestas(models.Model):
 	def __str__(self):
 		return self.respuesta
 
+class MotivosDenuncias(models.Model):
+	descripcionMotivo	= models.TextField(null=True,blank=True)
+
 
 class Denuncias(models.Model):
 	idUsuario  		= models.ForeignKey(User,null=True,blank=True)	
 	idComentario 	= models.ForeignKey(Comentarios, null=True, blank=True)
 	idRespuesta		= models.ForeignKey(Respuestas, null=True, blank=True)
 	fechaDenuncia   = models.DateTimeField(auto_now=False, null=True, blank=True, default=None)
+	idMotivo		= models.ForeignKey(MotivosDenuncias, null=True, blank=True)
 
 	def __str__(self):
 		return self.fechaAlta

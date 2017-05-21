@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% block content %}
+
+
+<div class="row">
+<form action="/denunciarComentario/{{idComentario}}/" method="POST" >
+{%csrf_token%}
+	{%for d in usuario%}
+
+	  	<div class="col-sm-12 col-md-6 col-lg-4">
+		  <div class="form-group">
+		    <label for="exampleInputEmail1">{{cU.label}}</label>
+		    {{cU|add_class:"form-control"}}
+		  </div>
+	  	</div>
+
+	{%endfor%}
+
+ <button type="submit" class="btn btn-primary"> Denunciar</button>
+ <button type="submit" class="btn btn-secondary"> Cancelar</button>
+
+{%endblock%}
+
+

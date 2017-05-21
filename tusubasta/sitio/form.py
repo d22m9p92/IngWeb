@@ -41,3 +41,9 @@ class RespuestasForm(ModelForm):
 		model 	= Respuestas
 		fields 	= ('respuesta',)
 		labels 	= {'respuesta': 'Respuesta'}
+
+class DenunciasForm(ModelForm):
+	class Meta:
+		model 	= Denuncias	
+		fields	= ('idMotivo',)
+		labels	= {'idMotivo': 'Motivo denuncia'}
