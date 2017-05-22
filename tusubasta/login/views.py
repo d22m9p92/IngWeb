@@ -78,7 +78,7 @@ def registrar(request):
 
                     ##Enviar mail de confirmación
                     email_subject   = 'Confirmación de cuenta TuSubasta'
-                    email_body      = "Hola %s, Gracias por registrarte. Para activar tu cuenta haga clíck en este link: /n https://tusubasta.herokuapp.com/confirmar/%s" % (nombre, token)
+                    email_body      = "Hola %s, Gracias por registrarte. Para activar tu cuenta haga clíck en este link: /n https://tusubasta.herokuapp.com/bienvenido/%s" % (nombre, token)
                     
                     send_mail(email_subject,email_body, 'tusubastas2017@gmail.com',[email] )
 
@@ -108,6 +108,10 @@ def confirmar(request, activacion_token):
 
 def validacionmail(request):
     return render(request, 'validacionmail.html')
+
+
+def bienvenido(request):
+    return render(request, 'bienvenido.html')
 
 
 def cambiarContraseña(request):

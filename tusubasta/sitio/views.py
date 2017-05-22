@@ -55,7 +55,6 @@ def nuevaSubasta(request):
         form = SubastasForm()
     return render(request,'nuevasubasta.html', { 'form': form })
 
-#View de una subasta
 @login_required(login_url= '/login/')
 def subasta_detalle(request, pk):
     subasta = get_object_or_404(Subastas, pk=pk)
