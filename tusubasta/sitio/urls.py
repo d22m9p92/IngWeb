@@ -17,6 +17,6 @@ urlpatterns = [
 	url(r'^eliminarSubasta/$', views.eliminarSubasta, name='eliminarSubasta'),
 	url(r'^comentar/$', views.comentar, name='comentar'),
 	url(r'^eliminarComentario/$', views.eliminarComentario, name ='eliminarComentario'),
-	url(r'^denunciarComentario/(?P<pk>[0-9]+)/$', views.denunciarComentario, name ='denunciarComentario'),
+	url(r'^denunciarComentario/(?P<pk>[0-9]+)/$$', views.denunciarComentario, name ='denunciarComentario'),
 
 ]

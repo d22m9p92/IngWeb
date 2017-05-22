@@ -99,6 +99,20 @@ def editarSubasta(request, idSubasta):
             form = SubastasForm(instance = subasta)
             return render(request, "editarSubasta.html", {'subasta': form,"id":idSubasta})
 
+
+def eliminarSubasta(request):
+    if request.method =="POST":
+        id = request.POST.get("id")
+        try:
+            subasta = Subastas.objects.get(pk=id)
+            fb= datetime.datetime.now()
+            subasta.fechaBaja = fb
+            subasta.save()
+            return HttpResponse(json.dumps("OK"))
+        except Exception  as e:
+            return HttpResponse(json.dumps(str(e)))
+
+
 '''
 @login_required(login_url= '/login/')
 def bajaSubusta(request, idSubasta):
@@ -136,21 +150,6 @@ def ofertar(request,pk):
         form        = OfertarForm()
     precioActual    = maximaOferta(int(pk))
     return render(request,'ofertar.html', { 'form': form, "idSubasta": pk, "precioActual": precioActual  })
-
-
-def eliminarSubasta(request):
-    if request.method =="POST":
-        id = request.POST.get("id")
-        try:
-            subasta = Subastas.objects.get(pk=id)
-            fb= datetime.datetime.now()
-            subasta.fechaBaja = fb
-            subasta.save()
-            return HttpResponse(json.dumps("OK"))
-        except Exception  as e:
-            return HttpResponse(json.dumps(str(e)))
-
-
 
 
 #Buscar oferta maxima
@@ -203,38 +202,40 @@ def eliminarComentario(request):
 
 
 @login_required(login_url= '/login/')
-def denunciarComentario(request,_idComentario):
+def denunciarComentario(request,pk):
     if request.method == 'POST':
         formDenuncias   = DenunciasForm(request.POST)
+        _idComentario   = pk
         _idUsuario      = request.user.id
-        _idSubasta      = int(request.POST.get("idSubasta"))
-        if form.is_valid():
-            formDenuncias                   = form.save(commit = False)
+        #_idSubasta      = int(request.POST.get("idSubasta"))
+        print(_idComentario)
+        if formDenuncias.is_valid():
+            formDenuncias                   = formDenuncias.save(commit = False)
             formDenuncias.idUsuario_id      = request.user.id 
             formDenuncias.idComentario_id   = _idComentario
             formDenuncias.fechaDenuncia     = datetime.datetime.now()
             formDenuncias.save()
-
-            controlDenunciasComentario()
-            controlDenunciasUsuario()
-            return redirect('subasta_detalle', _idSubasta)
-
+            controlDenunciasComentario(_idComentario)
+            controlDenunciasUsuario(_idUsuario)
+            #return redirect('subasta_detalle', 2)
+            return HttpResponseRedirect("/")
     else:
-        form = DenunciasForm()
-    return render(request,'denunciarComentario.html', { 'formDenuncias': formDenuncias, 'idComentario': _idComentario })
+        formDenuncias = DenunciasForm()
+    return render(request,'denunciarComentario.html', { 'formDenuncias': formDenuncias, 'idComentario': pk })
 
 
 #Baja de comentarios por mas de 5 denuncias
-def controlDenunciasComentario(_idComentario):
+def controlDenunciasComentario(Comentario):
+    _idComentario = int(Comentario)
     cantDenunciasComentario = Denuncias.objects.filter(idComentario_id = _idComentario).count()
     if cantDenunciasComentario >= 5:
         comentario = Comentarios.objects.get(id = _idComentario)
-        comentario.fechaBaja  = datetime.datetime.now
+        comentario.fechaBaja  = datetime.datetime.now()
         comentario.save()
 
 
 #Baja de usuarios por mas de 20 denuncias
-def controlDenunciasUsuario(_idUsuario, _idComentario):
+def controlDenunciasUsuario(_idUsuario):
     cantDenunciasUsuario    = Denuncias.objects.filter(idUsuario_id = _idUsuario).count()
     if cantDenunciasUsuario >= 20:
         usuario = User.objects.get(id = _idUsuario)

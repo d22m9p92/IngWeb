@@ -90,7 +90,7 @@ class Denuncias(models.Model):
 	idMotivo		= models.ForeignKey(MotivosDenuncias, null=True, blank=True)
 
 	def __str__(self):
-		return self.fechaAlta
+		return self.idMotivo
 
 
 class Likes(models.Model):

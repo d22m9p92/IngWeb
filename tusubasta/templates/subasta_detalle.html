@@ -62,7 +62,7 @@
                         
                         <h6 align="center">Comentario realizado por el usuario {{comentario.idUsuario.username}} el día {{comentario.fechaAlta}}</h6>
                         <p>{{comentario.comentario}}</p>
-                            <a href="#"onclick="denunciar({{comentario.id}})"><i class="fa fa-user-times"> </i></a>
+                            <a href="{% url 'denunciarComentario' pk=comentario.id %}"><i class="fa fa-user-times"> </i></a>
                         {%if request.user == comentario.idUsuario%}
                             <a href="#"onclick="eliminar({{comentario.id}})"><i class="fa fa-trash"> </i></a>
                         {%endif%}

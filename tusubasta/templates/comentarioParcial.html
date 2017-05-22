@@ -1,9 +1,18 @@
 {%for comentario in comentarios%}
-                <li id="{{comentario.id}}" class="list-group-item justify-content-between">
-                   
-                        <h6 align="center">{{comentario.idUsuario.username}} </h6>
-                        <p>{{comentario.comentario}}</a>.</p>
-                    
+                <li id="comentario{{comentario.id}}" class="list-group-item justify-content-between">
+                    <ul>    
+                        
+                        <h6 align="center">Comentario realizado por el usuario {{comentario.idUsuario.username}} el día {{comentario.fechaAlta}}</h6>
+                        <p>{{comentario.comentario}}</p>
+                            <a href="#"onclick="denunciar({{comentario.id}})"><i class="fa fa-user-times"> </i></a>
+                        {%if request.user == comentario.idUsuario%}
+                            <a href="#"onclick="eliminar({{comentario.id}})"><i class="fa fa-trash"> </i></a>
+                        {%endif%}
+                        {%if request.user == subasta.idUsuarioVendedor %}
+                            <a href="#"onclick="responder({{comentario.id}})"><i class="fa fa-pencil"> </i></a>
+
+                        {%endif%}
+                     </ul>       
                 </li>
             {%endfor%}
    <li id="{{comentario.id}}" class="list-group-item justify-content-between">
