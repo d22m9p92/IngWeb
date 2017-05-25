@@ -40,17 +40,12 @@
         
         <p>{{ subasta.detalle |linebreaksbr }}</p>
         <p>Precio base: {{ subasta.precioBase }}</p>
+        <p>Precio actual: {{ subasta.ofertaMax }}</p>
         <p>Fecha de publicación: {{ subasta.fechaAlta }}</p>
         <p>Fecha límite para subastar: {{ subasta.fechaFin }}</p>
         <p>Categoría: {{ subasta.idCategoria }}</p>
         <p>Localidad : {{ subasta.localidad }}, {{subasta.provincia }}, {{subasta.pais }}</p>
         <p>Usuario vendedor: {{ subasta.idUsuarioVendedor }}</p>
-        
-        <!--
-        <p>Calificacion vendedor: {{ subasta.idCalificacion }}</p>
-        <button class="btn btn-info" href="/ofertar/{{subasta.id}}"" name="Ofertar" value="Ofertar">Ofertar
-        </button>  
-        -->
         
         <div class="row">
             <div class="col-sl-5 col-sm-offset-1">
@@ -58,21 +53,22 @@
             <ul class="list-group" id="lista">
             {%for comentario in comentarios %}
                 <li id="comentario{{comentario.id}}" class="list-group-item justify-content-between">
-                    <ul>    
-                        
+                    <ul>                
                         <h6 align="center">Comentario realizado por el usuario {{comentario.idUsuario.username}} el día {{comentario.fechaAlta}}</h6>
                         <p>{{comentario.comentario}}</p>
+                        {% if request.user.is_authenticated and request.user != comentario.idUsuario%}
                             <a href="{% url 'denunciarComentario' pk=comentario.id %}"><i class="fa fa-user-times"> </i></a>
+                        {%endif%}
                         {%if request.user == comentario.idUsuario%}
                             <a href="#"onclick="eliminar({{comentario.id}})"><i class="fa fa-trash"> </i></a>
                         {%endif%}
-                        {%if request.user == subasta.idUsuarioVendedor %}
+                        {%if request.user == subasta.idUsuarioVendedor and request.user != comentario.idUsuario%}
                             <a href="#"onclick="responder({{comentario.id}})"><i class="fa fa-pencil"> </i></a>
-
                         {%endif%}
                      </ul>       
                 </li>
             {%endfor%}
+            {% if request.user.is_authenticated %}
                 <li id="{{comentario.id}}" class="list-group-item justify-content-between">
                         <div class="form-group"> 
                         <textarea class="form-control" type="text" class="formControl"id="nuevoComentario" placeholder="Ingrese comentario"></textarea>  
@@ -80,6 +76,7 @@
                         </div>
                 </li>
              </ul>   
+            {% endif %}
             </div>
 
 
@@ -108,12 +105,8 @@
                             $("#lista").html(data);
                             console.log(data);
                     }
-               
-            
             }
         });
-
-
     }
 
     function eliminar(id){
@@ -128,15 +121,9 @@
                 }    else{
                     alert("Error al elimnar");
                 }
-
             }
-
         });
-
-
     }
-
-
 </script>
 
 

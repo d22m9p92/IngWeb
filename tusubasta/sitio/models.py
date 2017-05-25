@@ -91,24 +91,3 @@ class Denuncias(models.Model):
 
 	def __str__(self):
 		return self.idMotivo
-
-
-class Likes(models.Model):
-	idSubasta 			= models.ForeignKey(Subastas, null=True, blank=True)
-	idUsuarioVendedor	= models.ForeignKey(User,null=True,blank=True)	
-	fechaBaja 			= models.DateTimeField(auto_now = False, null=True, blank=True, default = None)
-	fechaAlta 			= models.DateTimeField(auto_now = False, null=True, blank=True, default = None)
-
-	def __str__(self):
-		return self.fechaAlta
-
-
-'''
-class Imagenes(models.Model):
-	idSubasta 			= models.ForeignKey(Subastas)
-	descripcion 		= models.CharField(max_length=50,null=True,blank=True)
-	URL 				= models.CharField(max_length=150,null=True,blank=True)
-
-	def __str__(self):
-		return self.descripcion
-'''

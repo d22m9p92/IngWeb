@@ -1,20 +1,21 @@
-{%for comentario in comentarios%}
+            {%for comentario in comentarios %}
                 <li id="comentario{{comentario.id}}" class="list-group-item justify-content-between">
-                    <ul>    
-                        
+                    <ul>                
                         <h6 align="center">Comentario realizado por el usuario {{comentario.idUsuario.username}} el día {{comentario.fechaAlta}}</h6>
                         <p>{{comentario.comentario}}</p>
-                            <a href="#"onclick="denunciar({{comentario.id}})"><i class="fa fa-user-times"> </i></a>
+                        {% if request.user.is_authenticated and request.user != comentario.idUsuario%}
+                            <a href="{% url 'denunciarComentario' pk=comentario.id %}"><i class="fa fa-user-times"> </i></a>
+                        {%endif%}
                         {%if request.user == comentario.idUsuario%}
                             <a href="#"onclick="eliminar({{comentario.id}})"><i class="fa fa-trash"> </i></a>
                         {%endif%}
-                        {%if request.user == subasta.idUsuarioVendedor %}
+                        {%if request.user == subasta.idUsuarioVendedor and request.user != comentario.idUsuario%}
                             <a href="#"onclick="responder({{comentario.id}})"><i class="fa fa-pencil"> </i></a>
-
                         {%endif%}
                      </ul>       
                 </li>
             {%endfor%}
+
    <li id="{{comentario.id}}" class="list-group-item justify-content-between">
                         <div class="form-group"> 
                         <textarea class="form-control" type="text" class="formControl"id="nuevoComentario" placeholder="Ingrese comentario"></textarea>  
