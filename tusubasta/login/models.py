@@ -46,6 +46,7 @@ class Perfil(models.Model):
 	idEstadoUsuario		= models.ForeignKey(EstadosUsuarios, null=True, blank=True)
 	idTipoUsuario		= models.ForeignKey(TiposUsuarios, null=True, blank=True)
 	activacion_token	= models.CharField(max_length = 40, blank = True, null = True)
+	moderador			= models.BooleanField(default = False, blank = True)
 
 	def __str__(self):
 		return self.usuario.username
