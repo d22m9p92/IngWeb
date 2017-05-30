@@ -81,6 +81,8 @@ class Respuestas(models.Model):
 class MotivosDenuncias(models.Model):
 	descripcionMotivo	= models.TextField(null=True,blank=True)
 
+	def __str__(self):
+		return self.descripcionMotivo
 
 class Denuncias(models.Model):
 	idUsuario  		= models.ForeignKey(User,null=True,blank=True)	

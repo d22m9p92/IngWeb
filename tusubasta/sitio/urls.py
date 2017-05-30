@@ -19,5 +19,6 @@ urlpatterns = [
 	url(r'^comentar/$', views.comentar, name='comentar'),
 	url(r'^eliminarComentario/$', views.eliminarComentario, name ='eliminarComentario'),
 	url(r'^denunciarComentario/(?P<pk>[0-9]+)/$$', views.denunciarComentario, name ='denunciarComentario'),
+	url(r'^robots.txt$', lambda r: HttpResponse("User-agent: *\nDisallow: /", content_type="text/plain")),
 
 ]

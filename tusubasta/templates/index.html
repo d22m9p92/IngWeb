@@ -129,6 +129,7 @@
                 <div id="categoriasDiv">
                 <div class="row">
                     {%for subasta in subastas%}
+                    
                     <div class="col-sm-4 col-lg-4 col-md-4">
                         <div class="thumbnail">
                             <img src="https://s3.amazonaws.com/tusubasta/{{ subasta.imagenA }}">
@@ -143,9 +144,9 @@
                                 </p>
                             </div>
                             <center><a href="{% url 'ofertar' pk=subasta.id %}" class="btn btn-primary" role="button" style="margin-bottom:10px;">Ofertar</a></center>
-
                         </div>
                     </div>
+                    
                     {%endfor%}    
                 </div>
                 <div class="pagination">
