@@ -41,7 +41,7 @@ class home(View):
 def aboutUs(request):
     return render(request, 'aboutUs.html')
 
-
+#Crear una Subasta
 @login_required(login_url= '/login/')
 def nuevaSubasta(request):
     if request.method=='POST':
@@ -49,12 +49,22 @@ def nuevaSubasta(request):
         _idUsuarioVendedor = request.user.id
         form = SubastasForm(request.POST, request.FILES)
         if form.is_valid():
-            formSubasta = form.save(commit = False)
-            formSubasta.ofertaMax = formSubasta.precioBase  
-            formSubasta.idUsuarioVendedor_id = _idUsuarioVendedor
-            formSubasta.save()
-            return HttpResponseRedirect("/")	
-            #return HttpResponseRedirect(reverse())
+            fechaHoy    = datetime.date.today()
+            fechaHoy    = fechaHoy.replace(day = int(request.POST.get('fechaFin_day'))) 
+            fechaHoy    = fechaHoy.replace(month = int(request.POST.get('fechaFin_month')))
+            fechaHoy    = fechaHoy.replace(year = int(request.POST.get('fechaFin_year')))
+            
+            if fechaHoy > datetime.date.    today():
+                formSubasta = form.save(commit = False)
+                formSubasta.ofertaMax = formSubasta.precioBase  
+                formSubasta.idUsuarioVendedor_id = _idUsuarioVendedor
+                formSubasta.save()
+                                
+                pk     = int(formSubasta.id)
+            
+                return redirect("subasta_detalle", pk)
+            else:
+                messages.error(request, "La fecha de finalización debe ser mayor al día corriente.")
     else:
         form = SubastasForm()
     return render(request,'nuevasubasta.html', { 'form': form })
@@ -235,3 +245,5 @@ def controlDenunciasUsuario(_idUsuario):
         usuario = User.objects.get(id = _idUsuario)
         usuario.is_active  = False
         usuario.save()
+
+ 

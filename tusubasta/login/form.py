@@ -30,9 +30,19 @@ class formPerfil(ModelForm):
 		fields  = ('direccion', 'direccionNumero', 'ciudad', 'provincia', 'pais', 'fechaNacimiento')
 		labels 	= { 'direccion': 'Dirección', 'direccionNumero': 'Número', 'ciudad': 'Ciudad', 'provincia': 'Provincia', 'pais': 'Pais'}
 
+
 class formUsuario(ModelForm):
 
 	class Meta:
 		model 	= User
 		fields = ('first_name', 'last_name', 'email')
 		labels = {'first_name': 'Nombre', 'last_name': 'Apellido', 'email': 'Dirección de correo'}
+
+
+class OlvidoContraseña(forms.Form):
+	email = forms.EmailField(label='Email',max_length=100, widget=forms.EmailInput(attrs={'class' : 'validate'}))
+
+
+class renovarContraseña(forms.Form):
+	password = forms.CharField(max_length=25, label='Contraseña', widget=forms.PasswordInput(attrs={'class' : 'validate'}))
+	confpassword = forms.password=forms.CharField(max_length=25, label='Repetir contraseña',widget=forms.PasswordInput(attrs={'class': 'validate'}))

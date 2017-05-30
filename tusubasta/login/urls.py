@@ -18,4 +18,7 @@ urlpatterns = [
     url(r'^editarUsuario/(?P<pk>\d+)/$', views.editarUsuario, name='editarusuario'),
     url(r'^password/$', views.change_password, name='change_password'),
     url(r'^bienvenido/', views.bienvenido),
+    url(r'^olvidopass/$', views.olvidoPass),
+    url(r'^olvidomsg/$', views.olvidomsg, name='olvidomsg'),
+    url(r'^renovarpass/(?P<token>\w+)/', views.renovarpass, name='renovarpass'),
 ]
