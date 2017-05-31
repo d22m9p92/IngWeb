@@ -56,7 +56,7 @@
                     <ul>                
                         <h6 align="center">Comentario realizado por el usuario {{comentario.idUsuario.username}} el día {{comentario.fechaAlta}}</h6>
                         <p>{{comentario.comentario}}</p>
-                        {% if request.user.is_authenticated and request.user != comentario.idUsuario%}
+                        {% if request.user.is_authenticated and request.user != comentario.idUsuario %}
                             <a href="{% url 'denunciarComentario' pk=comentario.id %}"><i class="fa fa-user-times"> </i></a>
                         {%endif%}
                         {%if request.user == comentario.idUsuario%}
@@ -116,7 +116,7 @@
             "data":{"id":id, "csrfmiddlewaretoken":"{{csrf_token}}"},
             success:function(data){
                 if(JSON.parse(data) =="OK"){
-                    alert("Elimnado");
+                    alert("El comentario se eliminó correctamente");
                     $("#comentario".concat(id)).remove();
                 }    else{
                     alert("Error al elimnar");
