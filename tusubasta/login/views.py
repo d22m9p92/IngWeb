@@ -197,3 +197,88 @@ def change_password(request):
         form = PasswordChangeForm(request.user)
     return render(request, 'change_password.html', {'form': form})
 
+
+def olvidoPass(request):
+    if request.method == 'POST':
+        form    = OlvidoContraseña(request.POST)
+        email   = request.POST.get("email")
+        
+        try:
+            
+            usuario = User.objects.get(email = email)
+            nombre  = usuario.first_name
+            activo  = usuario.is_active 
+            pk      = usuario.id 
+            
+            if activo == True:
+                
+                if form.is_valid():
+                    print('bien')
+                    N                       = 20
+                    token                   =   ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(N))
+                    perfil                  = Perfil.objects.get(usuario_id = pk)
+                    perfil.olvido_token     = token
+                    perfil.save()
+                    email_subject           = 'Cambio de contraseña'
+                    email_body              = "Hola %s, para cambiar tu contraseña ingresa al siguiente link https://tusubasta.herokuapp.com/recuperarpass/%s" % (nombre, token)
+
+                    send_mail(email_subject,email_body, 'tusubastas2017@gmail.com',[email] )
+                    return HttpResponseRedirect("/olvidomsg/")
+            else:
+                messages.error(request, "El usuario no se encuentra activo.")
+
+        except User.DoesNotExist:
+            usuario = None
+            if usuario == None:
+                messages.error(request, "La cuenta de mail no se encuentra registrada.")
+    else:
+        form = OlvidoContraseña()
+    return render(request, 'olvidopass.html', {'form': form})
+
+
+def olvidomsg(request):
+    return render(request, 'olvidomsg.html')
+
+
+def renovarpass(request, token):
+    if request.method == 'POST':
+        form    	= renovarContraseña(request.POST)
+        contra  	= request.POST.get('password')
+        confpass 	= request.POST.get('confpassword')
+        #try:
+        if form.is_valid():
+        	if contra == confpass:
+        		
+	            perfil  = Perfil.objects.get(olvido_token = token)
+	            print(perfil.usuario_id)
+	            usuario = User.objects.get(pk = perfil.usuario_id)
+	            print(usuario.id)
+	            usuario.set_password(contra)
+	            usuario.save()
+	            perfil.olvido_token	= None
+	            perfil.save()
+	            return render(request, 'recuperomsg.html') 
+	        else:
+	        	messages.error(request, "La contraseñas no coinciden.")
+
+	    #except Perfil.DoesNotExist:
+	    	#usuario = None
+	    	#if usuario == None:
+	    		#messages.error(request, "Token incorrecto.")
+		
+    else:
+        form = renovarContraseña()
+    return render(request, 'renovarpass.html' ,{'form': form, "token": token}) 
+
+
+
+
+
+
+
+
+
+
+
+
+

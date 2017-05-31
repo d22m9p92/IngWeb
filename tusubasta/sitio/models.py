@@ -32,7 +32,7 @@ class Subastas(models.Model):
 	precioBase 			= models.DecimalField(max_digits=7, decimal_places=2,null=True,blank=False)
 	fechaAlta 			= models.DateTimeField(auto_now=True, null=True,blank=True)
 	fechaBaja 			= models.DateTimeField(null=True,blank=True)
-	fechaFin 			= models.DateField(null=True,blank=True)
+	fechaFin 			= models.DateTimeField(null=True,blank=True)
 	idCategoria 		= models.ForeignKey(Categorias,null=True,blank=True)
 	idCalificacion 		= models.ForeignKey(Calificaciones,null=True,blank=True)
 	idUsuarioVendedor	= models.ForeignKey(User,null=True,blank=True)

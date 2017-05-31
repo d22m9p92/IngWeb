@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% load static %}
+
+{% block content %}
+
+<div class="row" align="center">
+  <form action="/renovarpass/{{token}}/" method="POST" >
+  {%csrf_token%}
+        <div class="col-sm-12 col-md-12 col-lg-12">
+          <div class="form-group">
+            <label for="password">Contraseña</label>
+              {{form.password|add_class:"form-control"}}
+            <label for="confpassword">Repetir Contraseña</label>
+              {{form.confpassword|add_class:"form-control"}}
+          </div>
+        </div>
+
+        <div class="row" align="center">
+          <button class="btn btn-primary" type="submit" name="action" value="Aceptar">Aceptar
+            <i class="mdi-content-send right"></i>
+          </button>  
+        <button class="btn btn-secondary"> Cancelar</button>
+      </div>
+
+      <div>
+      {% if messages %}
+        <ul class="messages">
+          {% for message in messages %}
+            <li class="{{ message.tags }}">{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+      </div>
+  </form>
+</div>
+
+{% endblock %}
+
+
+
+
+
+
+
+
