@@ -6,7 +6,8 @@
                 <p class="lead">Administración</p>
                 <div class="list-group">
                     <a href="#" class="list-group-item">Usuario bloqueados</a>
-                    <a href="/" class="list-group-item">Publicaciones denunciadas</a>
+                    <a href="/listasubastasdenunciadas/" class="list-group-item">Publicaciones denunciadas</a>
+                    <a href="/listasubastaseliminadas/" class="list-group-item">Publicaciones eliminadas</a>
                     <a href="/listacomentariosdenunciados/" class="list-group-item">Comentarios denunciados</a>
                     <a href="/listacomentarioseliminados/" class="list-group-item">Comentarios eliminados</a>
                 </div>
@@ -18,6 +19,13 @@
 
         {% block eliminarComentarios %}  
         {% endblock %}
+
+        {% block denunciaSubastas %}  
+        {% endblock %}
+
+        {% block eliminarSubastas %}  
+        {% endblock %}
+        
 </div>
 
 </div>

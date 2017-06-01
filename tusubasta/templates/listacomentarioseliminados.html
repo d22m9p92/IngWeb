@@ -11,7 +11,7 @@
 	  	<li id="{{ce.id}}" class="list-group-item justify-content-between">
 	    	<div class="row" >
           <h5>Subasta: <a href="{% url 'subastadetalle' pk=ce.idSubasta.id %}">{{ ce.idSubasta }}</a></h5>
-	    		<p>Usuario que realizó el comentario: {{ce.idUsuario}}</p>
+	    		<p>Autor: {{ce.idUsuario}}</p>
 	    		<p>Fecha baja: {{ce.fechaBaja}}</p>
 	    		<p>Comentario: {{ce.comentario}}</a>.</p>
 	    	</div>

@@ -93,4 +93,4 @@ class Denuncias(models.Model):
 	idSubasta		= models.ForeignKey(Subastas, null=True, blank=True)
 
 	def __str__(self):
-		return self.idMotivo
+		return str(self.id)
