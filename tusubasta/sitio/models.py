@@ -90,6 +90,7 @@ class Denuncias(models.Model):
 	idRespuesta		= models.ForeignKey(Respuestas, null=True, blank=True)
 	fechaDenuncia   = models.DateTimeField(auto_now=False, null=True, blank=True, default=None)
 	idMotivo		= models.ForeignKey(MotivosDenuncias, null=True, blank=False)
+	idSubasta		= models.ForeignKey(Subastas, null=True, blank=True)
 
 	def __str__(self):
 		return self.idMotivo

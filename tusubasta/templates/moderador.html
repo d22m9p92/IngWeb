@@ -8,11 +8,15 @@
                     <a href="#" class="list-group-item">Usuario bloqueados</a>
                     <a href="/" class="list-group-item">Publicaciones denunciadas</a>
                     <a href="/listacomentariosdenunciados/" class="list-group-item">Comentarios denunciados</a>
+                    <a href="/listacomentarioseliminados/" class="list-group-item">Comentarios eliminados</a>
                 </div>
             </div>
 <div class="col-md-9">
         
         {% block denunciaComentarios %}  
+        {% endblock %}
+
+        {% block eliminarComentarios %}  
         {% endblock %}
 </div>
 

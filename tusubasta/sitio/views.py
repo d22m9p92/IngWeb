@@ -209,6 +209,8 @@ def denunciarComentario(request,pk):
     if request.method == 'POST':
         formDenuncias   = DenunciasForm(request.POST)
         _idComentario   = pk
+        comentario      = Comentarios.objects.get(id = _idComentario)
+        _idUsuarioComentario = comentario.idUsuario
         _idUsuario      = request.user.id
         if formDenuncias.is_valid():
             formDenuncias                   = formDenuncias.save(commit = False)
@@ -217,7 +219,7 @@ def denunciarComentario(request,pk):
             formDenuncias.fechaDenuncia     = datetime.datetime.now()
             formDenuncias.save()
             controlDenunciasComentario(_idComentario)
-            controlDenunciasUsuario(_idUsuario)
+            controlDenunciasUsuario(_idUsuarioComentario)
             return HttpResponseRedirect("/")
     else:
         formDenuncias = DenunciasForm()
@@ -244,6 +246,11 @@ def controlDenunciasUsuario(_idUsuario):
 
 
 @login_required(login_url= '/login/')
+def moderador(request):
+    return render(request, 'moderador.html')
+
+
+@login_required(login_url= '/login/')
 def listarComentariosDenunciados(request):
     if request.method == 'GET':
         _idUsuario  = request.user.id
@@ -251,11 +258,64 @@ def listarComentariosDenunciados(request):
         listaComentariosDenunciados = []
         
         for d in denuncias:
-            if d.idComentario.fechaBaja == None:
+            
                 listaComentariosDenunciados.append(d.idComentario)
+        print(listaComentariosDenunciados)
             
         return render(request, 'listaComentariosDenunciados.html', {'listaComentariosDenunciados': listaComentariosDenunciados})
 
 @login_required(login_url= '/login/')
-def moderador(request):
-    return render(request, 'moderador.html')
+def listarComentariosEliminados(request):
+    if request.method == 'GET':
+        _idUsuario = request.user.id
+        comentarios = Comentarios.objects.all().distinct()
+        listaComentariosEliminados = []
+
+        for c in comentarios:
+            if c.fechaBaja != None:
+                listaComentariosEliminados.append(c)
+        print(listaComentariosEliminados)
+
+        return render(request, 'listacomentarioseliminados.html', {'listaComentariosEliminados': listaComentariosEliminados})
+
+def restaurarComentario(request):
+    if request.method =="POST":
+        id = request.POST.get("id")
+        try:
+            com = Comentarios.objects.get(pk=id)
+            com.fechaBaja = None
+            com.save()
+            return HttpResponse(json.dumps("OK"))
+        except Exception as e:
+            return HttpResponse(json.dumps(str(e))) 
+
+
+@login_required(login_url= '/login/')
+def denunciarSubasta(request,pk):
+    if request.method == 'POST':
+        formDenuncias   = DenunciasForm(request.POST)
+        _idSubasta   = pk
+        subasta      = Subastas.objects.get(id = _idSubasta)
+        _idUsuarioSubasta = subasta.idUsuarioVendedor
+        _idUsuario      = request.user.id
+        if formDenuncias.is_valid():
+            formDenuncias                   = formDenuncias.save(commit = False)
+            formDenuncias.idUsuario_id      = request.user.id 
+            formDenuncias.idSubasta_id   = _idSubasta
+            formDenuncias.fechaDenuncia     = datetime.datetime.now()
+            formDenuncias.save()
+            controlDenunciasSubastas(_idSubasta)
+            controlDenunciasUsuario(_idUsuarioSubasta)
+            return HttpResponseRedirect("/")
+    else:
+        formDenuncias = DenunciasForm()
+    return render(request,'denunciarSubasta.html', { 'formDenuncias': formDenuncias, 'idSubasta': pk })
+
+#Baja de comentarios por mas de 5 denuncias
+def controlDenunciasSubastas(Subasta):
+    _idSubasta = int(Subasta)
+    cantDenunciasSubastas = Denuncias.objects.filter(idSubasta_id = _idSubasta).count()
+    if cantDenunciasSubastas >= 5:
+        subasta = Subastas.objects.get(id = _idSubasta)
+        subasta.fechaBaja  = datetime.datetime.now()
+        subasta.save()

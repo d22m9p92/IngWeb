@@ -2,43 +2,40 @@
 {% extends 'moderador.html' %}
 {% load staticfiles %}
 
-{% block denunciaComentarios %}
-<center <h1 class="panel-title" style="padding:2%">Comentarios denunciados</h1> </center>
+{% block eliminarComentarios %}
+<center <h1 class="panel-title" style="padding:2%">Comentarios eliminados</h1> </center>
 
 <ul class="list-group">
   
-	{%for cd in listaComentariosDenunciados%}
-	  	<li id="{{cd.id}}" class="list-group-item justify-content-between">
+	{%for ce in listaComentariosEliminados%}
+	  	<li id="{{ce.id}}" class="list-group-item justify-content-between">
 	    	<div class="row" >
-          <h5>Subasta: <a href="{% url 'subastadetalle' pk=1 %}">{{ cd.idSubasta }}</a></h5>
-          <h4>Subasta: {{ cd.idSubasta }}</h4>
-	    		<p>Usuario que hace la denuncia: {{cd.idUsuario}}</p>
-				  <p>Motivo: </p>
-	    		<p>Fecha comentario: {{cd.fechaAlta}}</p>
-	    		<p>Comentario: {{cd.comentario}}</a>.</p>
+          <h5>Subasta: <a href="{% url 'subastadetalle' pk=ce.idSubasta.id %}">{{ ce.idSubasta }}</a></h5>
+	    		<p>Usuario que realizó el comentario: {{ce.idUsuario}}</p>
+	    		<p>Fecha baja: {{ce.fechaBaja}}</p>
+	    		<p>Comentario: {{ce.comentario}}</a>.</p>
 	    	</div>
 	    	<div aling = "center">
-		    	<a class="btn btn-primary" onclick="cancelar({{cd.id}})" role="button">Eliminar comentario</a>
+		    	<a class="btn btn-primary" onclick="cancelar({{ce.id}})" role="button">Restaurar comentario</a>
 	    	</div>
 	  	</li>
 	{%endfor%}
 </ul>
 
-
 <div class="modal fade" id="modalCancelar">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Eliminar</h5>
+        <h5 class="modal-title">Restaurar</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <p>¿Desea eliminar el comentario?</p>
+        <p>¿Desea restaurar el comentario?</p>
       </div>
       <div class="modal-footer">
-        <button type="button" onclick="eliminarComentario()" class="btn btn-primary">Si</button>
+        <button type="button" onclick="restaurarComentario()" class="btn btn-primary">Si</button>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
       </div>
     </div>
@@ -46,40 +43,36 @@
 </div>
 
 
-
 <script type="text/javascript">
 var idSeleccionado = null;
 
 function cancelar(id){
-	idSeleccionado = id;
-	$('#modalCancelar').modal('show');
-	console.log(idSeleccionado);
+  idSeleccionado = id;
+  $('#modalCancelar').modal('show');
+  console.log(idSeleccionado);
 }
 
 
-function eliminarComentario(){
+function restaurarComentario(){
         $.ajax({
             "method":"POST",
-            "url":"/eliminarComentario/",
+            "url":"/restaurarComentario/",
             "data":{"id":idSeleccionado, "csrfmiddlewaretoken":"{{csrf_token}}"},
             success:function(data){
                 if(JSON.parse(data) =="OK"){
-                    alert("El comentario se eliminó correctamente");
+                    alert("El comentario se restauró correctamente");
                     $("#".concat(idSeleccionado)).remove();
                     $('#modalCancelar').modal('hide');
                 }else{
-                    alert("Error al elimnar");
+                    alert("Error al restaurar");
                 }
             }
         });
     }
 
-
 </script>
 
-
 {% endblock %}
-
 
 
 

@@ -3,19 +3,18 @@
 {% load staticfiles %}
 
 {% block denunciaComentarios %}
-<center <h1 class="panel-title" style="padding:2%">Comentarios denunciados</h1> </center>
+<center <h1 class="panel-title" style="padding:2%">Comentarios eliminados</h1> </center>
 
 <ul class="list-group">
   
-	{%for cd in listaComentariosDenunciados%}
-	  	<li id="{{cd.id}}" class="list-group-item justify-content-between">
+	{%for ce in listaComentariosEliminados%}
+	  	<li id="{{ce.id}}" class="list-group-item justify-content-between">
 	    	<div class="row" >
-          <h5>Subasta: <a href="{% url 'subastadetalle' pk=1 %}">{{ cd.idSubasta }}</a></h5>
-          <h4>Subasta: {{ cd.idSubasta }}</h4>
-	    		<p>Usuario que hace la denuncia: {{cd.idUsuario}}</p>
-				  <p>Motivo: </p>
-	    		<p>Fecha comentario: {{cd.fechaAlta}}</p>
-	    		<p>Comentario: {{cd.comentario}}</a>.</p>
+	    		<h5>Subasta: {{ce.idSubasta}}</h5>
+	    		<p>Usuario que hace la denuncia: {{ce.idUsuario}}</p>
+				  
+	    		<p>Fecha baja: {{ce.fechaBaja}}</p>
+	    		<p>Comentario: {{ce.comentario}}</a>.</p>
 	    	</div>
 	    	<div aling = "center">
 		    	<a class="btn btn-primary" onclick="cancelar({{cd.id}})" role="button">Eliminar comentario</a>

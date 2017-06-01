@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% block content %}
+
+
+<div class="row" align="center">
+	<form action="/denunciarSubasta/{{idSubasta}}/" method="POST" >
+	{%csrf_token%}
+		{%for i in formDenuncias%}
+
+		  	<div class="col-sm-12 col-md-12 col-lg-12">
+			  <div class="form-group">
+			    <label >{{i.label}}</label>
+			    {{i|add_class:"form-control"}}
+			  </div>
+		  	</div>
+
+		  	<div class="row" align="center">
+					<button class="btn btn-primary" type="submit" name="action" value="Denunciar">Denunciar
+						<i class="mdi-content-send right"></i>
+					</button>  
+				<button type="submit" class="btn btn-secondary"> Cancelar</button>
+			</div>
+		{%endfor%}
+	</form>
+</div>
+
+{%endblock%}
+
+
+
