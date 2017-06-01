@@ -54,7 +54,7 @@ def nuevaSubasta(request):
             fechaHoy    = fechaHoy.replace(month = int(request.POST.get('fechaFin_month')))
             fechaHoy    = fechaHoy.replace(year = int(request.POST.get('fechaFin_year')))
             
-            if fechaHoy > datetime.date.    today():
+            if fechaHoy > datetime.date.today():
                 formSubasta = form.save(commit = False)
                 formSubasta.ofertaMax = formSubasta.precioBase  
                 formSubasta.idUsuarioVendedor_id = _idUsuarioVendedor
@@ -72,9 +72,17 @@ def nuevaSubasta(request):
 
 
 def subasta_detalle(request, pk):
+    print("ok")
     subasta = get_object_or_404(Subastas, pk=pk)
     comentarios = Comentarios.objects.filter(idSubasta=subasta, fechaBaja=None).order_by("-fechaAlta")
-    return render(request, 'subasta_detalle.html', {'subasta': subasta,"comentarios":comentarios})
+    respuestas 	= Respuestas.objects.select_related("idComentario").filter(idComentario__idSubasta = subasta, fechaBaja = None)
+    
+    listaRespuestas = []
+    for r in respuestas:
+    	listaRespuestas.append(r)
+
+    print(listaRespuestas)
+    return render(request, 'subasta_detalle.html', {'subasta': subasta,"comentarios":comentarios, "listaRespuestas": listaRespuestas})
 
 
 def listarSubastas(request):
@@ -192,6 +200,28 @@ def comentar(request):
             return HttpResponse(json.dumps("Error"))   
 
 
+@login_required(login_url= '/login/')
+def responder(request):
+    if request.method == 'POST':
+        print("entro")
+        texto 			= request.POST.get("texto")
+        idComentario 	= request.POST.get("idComentario")
+        try:
+           respuesta = Respuestas()
+           respuesta.respuesta = texto
+           comentario = Comentarios.objects.get(pk=idComentario)
+           respuesta.idComentario = comentario
+           respuesta.idUsuario = request.user
+           respuesta.fechaAlta = datetime.datetime.now()
+           respuesta.save()
+           respuestas = Respuestas.objects.filter(idComentario = comentario, fechaBaja=None).order_by("-fechaAlta")
+           return render(request,"respuestaParcial.html",{"respuestas":respuestas})
+        except Exception as e:
+            print(e)
+            return HttpResponse(json.dumps("Error"))   
+
+
+
 def eliminarComentario(request):
     if request.method =="POST":
         id = request.POST.get("id")
@@ -199,6 +229,19 @@ def eliminarComentario(request):
             com = Comentarios.objects.get(pk=id)
             com.fechaBaja = datetime.datetime.now()
             com.save()
+            return HttpResponse(json.dumps("OK"))
+        except Exception as e:
+            print(e)
+            return HttpResponse(json.dumps("Error")) 
+
+
+def eliminarRespuesta(request):
+    if request.method =="POST":
+        id = request.POST.get("id")
+        try:
+            respuesta = Respuestas.objects.get(pk=id)
+            respuesta.fechaBaja = datetime.datetime.now()
+            respuesta.save()
             return HttpResponse(json.dumps("OK"))
         except Exception as e:
             print(e)
@@ -247,3 +290,4 @@ def controlDenunciasUsuario(_idUsuario):
         usuario.save()
 
  
+        

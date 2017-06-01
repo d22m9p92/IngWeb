@@ -47,6 +47,8 @@
         <p>Localidad : {{ subasta.localidad }}, {{subasta.provincia }}, {{subasta.pais }}</p>
         <p>Usuario vendedor: {{ subasta.idUsuarioVendedor }}</p>
         
+        <a href="{% url 'ofertar' pk=subasta.id %}" class="btn btn-primary" role="button">Ofertar</a>
+
         <div class="row">
             <div class="col-sl-5 col-sm-offset-1">
             
@@ -56,34 +58,56 @@
                     <ul>                
                         <h6 align="center">Comentario realizado por el usuario {{comentario.idUsuario.username}} el día {{comentario.fechaAlta}}</h6>
                         <p>{{comentario.comentario}}</p>
+
                         {% if request.user.is_authenticated and request.user != comentario.idUsuario%}
                             <a href="{% url 'denunciarComentario' pk=comentario.id %}"><i class="fa fa-user-times"> </i></a>
                         {%endif%}
                         {%if request.user == comentario.idUsuario%}
                             <a href="#"onclick="eliminar({{comentario.id}})"><i class="fa fa-trash"> </i></a>
                         {%endif%}
+                        <!--david 
                         {%if request.user == subasta.idUsuarioVendedor and request.user != comentario.idUsuario%}
                             <a href="#"onclick="responder({{comentario.id}})"><i class="fa fa-pencil"> </i></a>
                         {%endif%}
+                        -->
+
+                        {%for respuesta in listaRespuestas %}
+                            {%if comentario.id == respuesta.idComentario.id%}
+                                <div class="col-sl-5 col-sm-offset-1">
+                                    <p>{{respuesta.respuesta}}</p>
+                                </div>
+                            {%endif%}
+                        {%endfor%}
+                       
+                        
+                        {% if request.user.is_authenticated %}
+                            {%if request.user == subasta.idUsuarioVendedor and request.user != comentario.idUsuario%}
+                                <li id="respuesta" class="list-group-item justify-content-between">
+                                        <div class="form-group"> 
+                                        <textarea class="form-control" type="text" class="formControl" id="nuevaRespuesta{{comentario.id}}" placeholder="Ingrese respuesta"></textarea>  
+                                        <button type="button" class="btn btn-secondary" onclick="responder({{comentario.id}})" >Responder</button>
+                                        </div>
+                                </li>
+                            {%endif%}
+                        {% endif %}
+                        
                      </ul>       
                 </li>
             {%endfor%}
+
             {% if request.user.is_authenticated %}
-                <li id="{{comentario.id}}" class="list-group-item justify-content-between">
-                        <div class="form-group"> 
-                        <textarea class="form-control" type="text" class="formControl"id="nuevoComentario" placeholder="Ingrese comentario"></textarea>  
-                        <button type="button" class="btn btn-primary" onclick="comentar()" >Comentar</button>
-                        </div>
-                </li>
-             </ul>   
+                {%if request.user != subasta.idUsuarioVendedor %}
+                    <li id="{{comentario.id}}" class="list-group-item justify-content-between">
+                            <div class="form-group"> 
+                            <textarea class="form-control" type="text" class="formControl"id="nuevoComentario" placeholder="Ingrese comentario"></textarea>  
+                            <button type="button" class="btn btn-primary" onclick="comentar()" >Comentar</button>
+                            </div>
+                    </li>
+                {% endif %}
             {% endif %}
+            </ul>   
             </div>
-
-
         </div>
-
-
-        <a href="{% url 'ofertar' pk=subasta.id %}" class="btn btn-primary" role="button">Ofertar</a>
 </div>
 
 <script type="text/javascript">
@@ -109,6 +133,29 @@
         });
     }
 
+    function responder(id){
+        var texto = $("#nuevaRespuesta"+id).val();
+        $.ajax({
+            "method":"POST",
+            "url":"/responder/",
+            "data":{"texto":texto,"idComentario":id,"csrfmiddlewaretoken":"{{csrf_token}}"},
+            success:function(data){
+                try {
+                    if(JSON.parse(data) == "Error"){
+                    alert("mensaje guardado");
+
+                    }
+                }
+                    catch(err) {
+                            $("#lista").html(data);
+                            console.log(data);
+                    }
+            }
+        });   
+   
+    }
+
+
     function eliminar(id){
         $.ajax({
             "method":"POST",
@@ -124,7 +171,9 @@
             }
         });
     }
+
 </script>
+
 
 
 

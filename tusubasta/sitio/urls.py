@@ -17,7 +17,9 @@ urlpatterns = [
 	url(r'^editarSubasta/(?P<idSubasta>\w+)/$', views.editarSubasta, name='editarSubasta'),
 	url(r'^eliminarSubasta/$', views.eliminarSubasta, name='eliminarSubasta'),
 	url(r'^comentar/$', views.comentar, name='comentar'),
+	url(r'^responder/$', views.responder, name='responder'),
 	url(r'^eliminarComentario/$', views.eliminarComentario, name ='eliminarComentario'),
+	url(r'^eliminarRespuesta/$', views.eliminarRespuesta, name ='eliminarRespuesta'),
 	url(r'^denunciarComentario/(?P<pk>[0-9]+)/$$', views.denunciarComentario, name ='denunciarComentario'),
 	url(r'^robots.txt$', lambda r: HttpResponse("User-agent: *\nDisallow: /", content_type="text/plain")),
 
