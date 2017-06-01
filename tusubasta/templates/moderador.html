@@ -5,7 +5,7 @@
             <div class="col-md-3">
                 <p class="lead">Administración</p>
                 <div class="list-group">
-                    <a href="#" class="list-group-item">Usuario bloqueados</a>
+                    <a href="/listausuariosbloqueados/" class="list-group-item">Usuario bloqueados</a>
                     <a href="/listasubastasdenunciadas/" class="list-group-item">Publicaciones denunciadas</a>
                     <a href="/listasubastaseliminadas/" class="list-group-item">Publicaciones eliminadas</a>
                     <a href="/listacomentariosdenunciados/" class="list-group-item">Comentarios denunciados</a>
@@ -13,6 +13,9 @@
                 </div>
             </div>
 <div class="col-md-9">
+
+        {% block usuariosbloqueados %}  
+        {% endblock %}
         
         {% block denunciaComentarios %}  
         {% endblock %}

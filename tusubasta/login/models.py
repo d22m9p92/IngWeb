@@ -3,23 +3,6 @@ from django.db import models
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
 from sitio.models import *
 
-# class estadosPerfil(models.Model):
-# descripcion = models.CharField(max_length=50, null=True,blank=True)
-'''
-class Usuarios(AbstractBaseUser):
-	
-	nick = models.CharField(max_length=50, null=True, blank=True)
-	direccion = models.CharField(max_length=50, null=True, blank=True)
-	direccionNumero = models.IntegerField(default=0)
-	#ciudad = models.ForeignKey(null=True,blank= True)
-	fechaNacimiento = models.DateField(null=True, blank=True)	
-
-		objects = MyUserManager()
-
-	def __str__(self):
-			return self.nick
-
-'''
 class EstadosUsuarios(models.Model):
 	descripcion			= models.CharField(max_length=50, null=True, blank=True)
 
@@ -47,6 +30,7 @@ class Perfil(models.Model):
 	idTipoUsuario		= models.ForeignKey(TiposUsuarios, null=True, blank=True)
 	activacion_token	= models.CharField(max_length = 40, blank = True, null = True)
 	olvido_token		= models.CharField(max_length = 40, blank = True, null = True)
+	fechaBaja 			= models.DateField(blank = True, null = True)
 
 
 	def __str__(self):

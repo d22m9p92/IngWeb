@@ -21,4 +21,5 @@ urlpatterns = [
     url(r'^olvidopass/$', views.olvidoPass),
     url(r'^olvidomsg/$', views.olvidomsg, name='olvidomsg'),
     url(r'^renovarpass/(?P<token>\w+)/', views.renovarpass, name='renovarpass'),
+    url(r'^listausuariosbloqueados/$', views.listarUsuariosBloqueados),
 ]

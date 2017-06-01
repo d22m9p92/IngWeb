@@ -340,7 +340,6 @@ def listarSubastasEliminadas(request):
         for s in subastas:
             if s.fechaBaja != None:
                 listaSubastasEliminadas.append(s)
-        print(listaSubastasEliminadas)
 
         return render(request, 'listasubastaseliminadas.html', {'listaSubastasEliminadas': listaSubastasEliminadas})
 

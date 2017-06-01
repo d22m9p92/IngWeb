@@ -271,14 +271,27 @@ def renovarpass(request, token):
     return render(request, 'renovarpass.html' ,{'form': form, "token": token}) 
 
 
+@login_required(login_url= '/login/')
+def listarUsuariosBloqueados(request):
+    if request.method == 'GET':
+        _idUsuario  = request.user.id
+        usuarios = User.objects.select_related("perfil").filter(is_active=False).distinct()
+        listaUsuariosBloqueados = []
 
+        for u in usuarios:
+            listaUsuariosBloqueados.append(u)
+            
+        return render(request, 'listausuariosbloqueados.html', {'listaUsuariosBloqueados': listaUsuariosBloqueados})
 
-
-
-
-
-
-
-
-
-
+@login_required(login_url= '/login/')
+def eliminarUsuario(request):
+    if request.method =="POST":
+        id = request.POST.get("id")
+        try:
+            usuarios = User.objects.select_related("perfil")
+            fb= datetime.datetime.now()
+            usuario.perfil.fechaBaja = fb
+            subasta.save()
+            return HttpResponse(json.dumps("OK"))
+        except Exception  as e:
+            return HttpResponse(json.dumps(str(e)))
