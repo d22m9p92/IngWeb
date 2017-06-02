@@ -54,7 +54,7 @@ class Ofertas(models.Model):
 	fechaOferta			= models.DateTimeField(auto_now=True, null=True,blank=False)
 	ganador 			= models.BooleanField(default=True, null=False)
 
-	def __str__(self):
+	def __int__(self):
 		return self.valorOferta
 
 

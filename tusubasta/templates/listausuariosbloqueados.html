@@ -3,25 +3,118 @@
 {% load staticfiles %}
 
 {% block usuariosbloqueados %}
-<center <h1 class="panel-title" style="padding:2%">Comentarios eliminados</h1> </center>
+<center <h1 class="panel-title" style="padding:2%">Usuarios bloqueados</h1> </center>
 
 <ul class="list-group">
   
 	{%for ub in listaUsuariosBloqueados%}
 	  	<li id="{{ub.id}}" class="list-group-item justify-content-between">
 	    	<div class="row" >
-          <h5>Usuario: {{ ub.username }}</a></h5>
+          <h5>Usuario: <a href="{% url 'perfil' pk=ub.id %}">{{ ub.username }}</a></h5>
           <p>Nombre: {{ub.first_name}} {{ub.last_name}}</p>
-          <p>Nombre: {{ub.email}}</p>
+          <p>Email: {{ub.email}}</p>
 	    	</div>
 	    	<div aling = "center">
-		    	<a class="btn btn-primary" onclick="cancelar({{ub.id}})" role="button">Eliminar usaurio</a>
-          <a class="btn btn-primary" onclick="cancelar({{ub.id}})" role="button">Desbloquear usaurio</a>
+		    	<a class="btn btn-primary" onclick="eliminar({{ub.perfil.id}})" role="button">Eliminar usaurio</a>
+          <a class="btn btn-primary" onclick="desbloquear({{ub.id}})" role="button">Desbloquear usaurio</a>
 	    	</div>
 	  	</li>
 	{%endfor%}
 </ul>
+
+<div class="modal fade" id="modalDesbloquear">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Desbloquear</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>¿Desea desbloquear el usuario?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" onclick="restaurarUsuario()" class="btn btn-primary">Si</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="modalEliminar">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Eliminar</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>¿Desea eliminar el usuario?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" onclick="eliminarUsuario()" class="btn btn-primary">Si</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+var idSeleccionadoDesbloquear = null;
+
+function desbloquear(id){
+  idSeleccionadoDesbloquear = id;
+  $('#modalDesbloquear').modal('show');
+  console.log(idSeleccionadoDesbloquear);
+}
+
+
+function restaurarUsuario(){
+        $.ajax({
+            "method":"POST",
+            "url":"/restaurarusuario/",
+            "data":{"id":idSeleccionadoDesbloquear, "csrfmiddlewaretoken":"{{csrf_token}}"},
+            success:function(data){
+                if(JSON.parse(data) =="OK"){
+                    alert("El usuario se desbloqueó correctamente");
+                    $("#".concat(idSeleccionadoDesbloquear)).remove();
+                    $('#modalDesbloquear').modal('hide');
+                }else{
+                    alert("Error al desbloquear");
+                }
+            }
+        });
+    }
+
+var idSeleccionadoEliminar = null;
+
+function eliminar(id){
+  idSeleccionadoEliminar = id;
+  $('#modalEliminar').modal('show');
+  console.log(idSeleccionadoEliminar);
+}
+
+
+function eliminarUsuario(){
+        $.ajax({
+            "method":"POST",
+            "url":"/eliminarusuario/",
+            "data":{"id":idSeleccionadoEliminar, "csrfmiddlewaretoken":"{{csrf_token}}"},
+            success:function(data){
+                if(JSON.parse(data) =="OK"){
+                    alert("El usuario se eliminó correctamente");
+                    $("#".concat(idSeleccionadoEliminar)).remove();
+                    $('#modalEliminar').modal('hide');
+                }else{
+                    alert("Error al eliminar");
+                }
+            }
+        });
+    }
+
+</script>
+
 {% endblock %}
-
-
-

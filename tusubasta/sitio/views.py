@@ -14,14 +14,16 @@ from django.db.models import Max
 from django.contrib import messages
 import datetime
 import json
+global str
 
 class home(View):
     def get(self, request,idCategoria): 
         if idCategoria!="":
             categoria = Categorias.objects.filter(pk=idCategoria)
             subastas = Subastas.objects.filter(idCategoria=categoria,fechaBaja=None).order_by("-fechaAlta")
-        else:    
-            subastas = Subastas.objects.all().filter(fechaBaja=None)
+        else:
+            
+            subastas = Subastas.objects.filter(fechaBaja=None, fechaFin__gt = datetime.datetime.now())
         categorias = Categorias.objects.all()
             
         paginator = Paginator(subastas, 12)
@@ -71,7 +73,6 @@ def nuevaSubasta(request):
 
 
 def subasta_detalle(request, pk):
-    print("ok")
     subasta = get_object_or_404(Subastas, pk=pk)
     comentarios = Comentarios.objects.filter(idSubasta=subasta, fechaBaja=None).order_by("-fechaAlta")
     respuestas 	= Respuestas.objects.select_related("idComentario").filter(idComentario__idSubasta = subasta, fechaBaja = None)
@@ -80,7 +81,6 @@ def subasta_detalle(request, pk):
     for r in respuestas:
     	listaRespuestas.append(r)
 
-    print(listaRespuestas)
     return render(request, 'subasta_detalle.html', {'subasta': subasta,"comentarios":comentarios, "listaRespuestas": listaRespuestas})
 
 
@@ -204,7 +204,6 @@ def comentar(request):
 @login_required(login_url= '/login/')
 def responder(request):
     if request.method == 'POST':
-        print("entro")
         texto 			= request.POST.get("texto")
         idComentario 	= request.POST.get("idComentario")
         try:
@@ -218,7 +217,6 @@ def responder(request):
            respuestas = Respuestas.objects.filter(idComentario = comentario, fechaBaja=None).order_by("-fechaAlta")
            return render(request,"respuestaParcial.html",{"respuestas":respuestas})
         except Exception as e:
-            print(e)
             return HttpResponse(json.dumps("Error"))   
 
 
@@ -244,7 +242,6 @@ def eliminarRespuesta(request):
             respuesta.save()
             return HttpResponse(json.dumps("OK"))
         except Exception as e:
-            print(e)
             return HttpResponse(json.dumps("Error")) 
 
 
@@ -397,3 +394,12 @@ def restaurarSubasta(request):
             return HttpResponse(json.dumps("OK"))
         except Exception as e:
             return HttpResponse(json.dumps(str(e))) 
+
+@login_required(login_url= '/login/')
+def misofertas(request):
+    if request.method == 'GET':
+        _idUsuario    = request.user.id 
+        listaofertas = Ofertas.objects.select_related("idSubasta").filter(usuarioComprador_id = _idUsuario, idSubasta__fechaBaja=None, idSubasta__fechaFin__gt = datetime.datetime.now()).distinct()
+    return render(request, 'misofertas.html', {'listaofertas': listaofertas})
+
+

@@ -20,6 +20,7 @@ urlpatterns = [
 	url(r'^listasubastaseliminadas/$', views.listarSubastasEliminadas),
 	url(r'^restaurarSubasta/$', views.restaurarSubasta, name ='restaurarSubasta'),
 	url(r'^eliminarSubasta/$', views.eliminarSubasta, name='eliminarSubasta'),
+	url(r'^misofertas/$', views.misofertas, name='misofertas'),
 
 	#Comentarios
 	url(r'^comentar/$', views.comentar, name='comentar'),
@@ -30,4 +31,5 @@ urlpatterns = [
 	url(r'^restaurarComentario/$', views.restaurarComentario, name ='restaurarComentario'),
 	url(r'^responder/$', views.responder, name='responder'),
 	url(r'^eliminarRespuesta/$', views.eliminarRespuesta, name ='eliminarRespuesta'),
+
 ]
