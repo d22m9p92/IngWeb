@@ -22,4 +22,7 @@ urlpatterns = [
     url(r'^olvidomsg/$', views.olvidomsg, name='olvidomsg'),
     url(r'^renovarpass/(?P<token>\w+)/', views.renovarpass, name='renovarpass'),
     url(r'^listausuariosbloqueados/$', views.listarUsuariosBloqueados),
+    url(r'^eliminarusuario/$', views.eliminarUsuario),
+    url(r'^restaurarusuario/$', views.restaurarUsuario),
+    
 ]

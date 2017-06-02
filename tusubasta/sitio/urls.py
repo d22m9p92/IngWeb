@@ -6,6 +6,7 @@ from .views import *
 urlpatterns = [
     
     url(r'^aboutUs/$', views.aboutUs),
+    url(r'^contactenos/$', views.contactenos),
 	url(r'^ofertar/(?P<pk>[0-9]+)/$', views.ofertar, name='ofertar'),
 	url(r'^ofertavalida/$', views.ofertavalida, name='ofertavalida'),
 	url(r'^moderador/$', views.moderador, name ='moderador'),
@@ -20,6 +21,7 @@ urlpatterns = [
 	url(r'^listasubastaseliminadas/$', views.listarSubastasEliminadas),
 	url(r'^restaurarSubasta/$', views.restaurarSubasta, name ='restaurarSubasta'),
 	url(r'^eliminarSubasta/$', views.eliminarSubasta, name='eliminarSubasta'),
+	url(r'^misofertas/$', views.misofertas, name='misofertas'),
 
 	#Comentarios
 	url(r'^comentar/$', views.comentar, name='comentar'),
@@ -30,4 +32,5 @@ urlpatterns = [
 	url(r'^restaurarComentario/$', views.restaurarComentario, name ='restaurarComentario'),
 	url(r'^responder/$', views.responder, name='responder'),
 	url(r'^eliminarRespuesta/$', views.eliminarRespuesta, name ='eliminarRespuesta'),
+
 ]

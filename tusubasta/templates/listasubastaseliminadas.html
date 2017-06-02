@@ -10,7 +10,7 @@
 	{%for se in listaSubastasEliminadas%}
 	  	<li id="{{se.id}}" class="list-group-item justify-content-between">
 	    	<div class="row" >
-          <h5>Subasta: <a href="{% url 'subastadetalle' pk=1 %}">{{ se.titulo }}</a></h5>
+          <h5>Subasta: <a href="{% url 'subastadetalle' pk=se.id %}">{{ se.titulo }}</a></h5>
           <p>Detalle: {{se.detalle}}</p>
           <p>Categoría: {{se.categoria}}</p>
 	    		<p>Autor: {{se.idUsuarioVendedor}}</p>

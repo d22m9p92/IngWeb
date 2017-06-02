@@ -30,7 +30,7 @@ class Perfil(models.Model):
 	idTipoUsuario		= models.ForeignKey(TiposUsuarios, null=True, blank=True)
 	activacion_token	= models.CharField(max_length = 40, blank = True, null = True)
 	olvido_token		= models.CharField(max_length = 40, blank = True, null = True)
-	fechaBaja 			= models.DateField(blank = True, null = True)
+	fechaBaja 			= models.DateTimeField(null=True,blank=True)
 
 
 	def __str__(self):

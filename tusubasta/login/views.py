@@ -9,7 +9,7 @@ from .form import *
 #from django.core.context_processors import csrf
 from sitio.models import Subastas
 from django.template import RequestContext
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
 from django.views.generic import FormView, TemplateView, RedirectView
@@ -24,6 +24,7 @@ import hashlib, datetime, random
 import os, string
 from django.contrib import messages
 global str
+import json
 
 
 class LoginView(FormView):
@@ -261,11 +262,6 @@ def renovarpass(request, token):
 	        else:
 	        	messages.error(request, "La contraseñas no coinciden.")
 
-	    #except Perfil.DoesNotExist:
-	    	#usuario = None
-	    	#if usuario == None:
-	    		#messages.error(request, "Token incorrecto.")
-		
     else:
         form = renovarContraseña()
     return render(request, 'renovarpass.html' ,{'form': form, "token": token}) 
@@ -275,7 +271,7 @@ def renovarpass(request, token):
 def listarUsuariosBloqueados(request):
     if request.method == 'GET':
         _idUsuario  = request.user.id
-        usuarios = User.objects.select_related("perfil").filter(is_active=False).distinct()
+        usuarios = User.objects.select_related("perfil").filter(is_active=False, perfil__fechaBaja=None).distinct()
         listaUsuariosBloqueados = []
 
         for u in usuarios:
@@ -283,15 +279,27 @@ def listarUsuariosBloqueados(request):
             
         return render(request, 'listausuariosbloqueados.html', {'listaUsuariosBloqueados': listaUsuariosBloqueados})
 
+
 @login_required(login_url= '/login/')
 def eliminarUsuario(request):
     if request.method =="POST":
         id = request.POST.get("id")
         try:
-            usuarios = User.objects.select_related("perfil")
-            fb= datetime.datetime.now()
-            usuario.perfil.fechaBaja = fb
-            subasta.save()
+            perfil = Perfil.objects.get(id=id)
+            fb = datetime.datetime.now()
+            perfil.fechaBaja = fb
+            perfil.save()
             return HttpResponse(json.dumps("OK"))
         except Exception  as e:
             return HttpResponse(json.dumps(str(e)))
+
+def restaurarUsuario(request):
+    if request.method =="POST":
+        id = request.POST.get("id")
+        try:
+            usuario = User.objects.get(pk=id)
+            usuario.is_active = True
+            usuario.save()
+            return HttpResponse(json.dumps("OK"))
+        except Exception as e:
+            return HttpResponse(json.dumps(str(e))) 

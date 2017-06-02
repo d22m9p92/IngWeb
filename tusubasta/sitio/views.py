@@ -14,14 +14,16 @@ from django.db.models import Max
 from django.contrib import messages
 import datetime
 import json
+global str
 
 class home(View):
     def get(self, request,idCategoria): 
         if idCategoria!="":
             categoria = Categorias.objects.filter(pk=idCategoria)
             subastas = Subastas.objects.filter(idCategoria=categoria,fechaBaja=None).order_by("-fechaAlta")
-        else:    
-            subastas = Subastas.objects.all().filter(fechaBaja=None)
+        else:
+            
+            subastas = Subastas.objects.filter(fechaBaja=None, fechaFin__gt = datetime.datetime.now())
         categorias = Categorias.objects.all()
             
         paginator = Paginator(subastas, 12)
@@ -39,6 +41,10 @@ class home(View):
 
 def aboutUs(request):
     return render(request, 'aboutUs.html')
+
+def contactenos(request):
+    return render(request, 'contactenos.html')
+
 
 #Crear una Subasta
 @login_required(login_url= '/login/')
@@ -251,6 +257,43 @@ def ofertavalida(request):
 def moderador(request):
     return render(request, 'moderador.html')
 
+@login_required(login_url= '/login/')
+def comentar(request):
+    if request.method == 'POST':
+        texto = request.POST.get("texto")
+        idSubasta = request.POST.get("idSubasta")
+        try:
+           comentario = Comentarios()
+           comentario.comentario = texto
+           subasta = Subastas.objects.get(pk=idSubasta)
+           comentario.idSubasta = subasta
+           comentario.idUsuario = request.user
+           comentario.fechaAlta = datetime.datetime.now()
+           comentario.save()
+           comentarios = Comentarios.objects.filter(idSubasta = subasta, fechaBaja=None).order_by("-fechaAlta")
+           return render(request,"comentarioParcial.html",{"comentarios":comentarios})
+        except Exception as e:
+            return HttpResponse(json.dumps("Error"))   
+
+
+@login_required(login_url= '/login/')
+def responder(request):
+    if request.method == 'POST':
+        texto 			= request.POST.get("texto")
+        idComentario 	= request.POST.get("idComentario")
+        try:
+           respuesta = Respuestas()
+           respuesta.respuesta = texto
+           comentario = Comentarios.objects.get(pk=idComentario)
+           respuesta.idComentario = comentario
+           respuesta.idUsuario = request.user
+           respuesta.fechaAlta = datetime.datetime.now()
+           respuesta.save()
+           respuestas = Respuestas.objects.filter(idComentario = comentario, fechaBaja=None).order_by("-fechaAlta")
+           return render(request,"respuestaParcial.html",{"respuestas":respuestas})
+        except Exception as e:
+            return HttpResponse(json.dumps("Error"))   
+
 
 def eliminarComentario(request):
     if request.method =="POST":
@@ -273,7 +316,6 @@ def eliminarRespuesta(request):
             respuesta.save()
             return HttpResponse(json.dumps("OK"))
         except Exception as e:
-            print(e)
             return HttpResponse(json.dumps("Error")) 
 
 
@@ -426,3 +468,12 @@ def restaurarSubasta(request):
             return HttpResponse(json.dumps("OK"))
         except Exception as e:
             return HttpResponse(json.dumps(str(e))) 
+
+@login_required(login_url= '/login/')
+def misofertas(request):
+    if request.method == 'GET':
+        _idUsuario    = request.user.id 
+        listaofertas = Ofertas.objects.select_related("idSubasta").filter(usuarioComprador_id = _idUsuario, idSubasta__fechaBaja=None, idSubasta__fechaFin__gt = datetime.datetime.now()).distinct()
+    return render(request, 'misofertas.html', {'listaofertas': listaofertas})
+
+

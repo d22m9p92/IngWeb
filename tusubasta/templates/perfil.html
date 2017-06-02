@@ -6,7 +6,7 @@
 <div class="row" style="text-align:center">
 <div class="parallax-container valign-wrapper">
         <center><div class="container valign"><h2 class="page-title center-align">Perfil del usaurio {{usuario.username}}</h2></div>
-		<div class="container valign"><h4 class="page-title center-align">{{usuario.first_name}} {{usuario.last_name}} {{perfil.direccion}}</h4></div>
+		<div class="container valign"><h4 class="page-title center-align">{{usuario.first_name}} {{usuario.last_name}}</h4></div>
         <div class="container valign"><h4 class="page-title center-align">{{usuario.email}}</h4></div></center>
 
 </div>
@@ -23,15 +23,13 @@
                 <div class="row" style="padding: 2%">
                     <a href="/listaSubastas/" class="btn btn-primary" role="button">Mis Publicaciones</a> 
                 </div>
-
-        {%else%}
-         <div class="row" style="padding: 2%">
-                    <a href="/" class="btn btn-info" role="button">Denunciar</a>
-        </div>
+                <div class="row" style="padding: 2%">
+                    <a href="/misofertas/" class="btn btn-primary" role="button">Mis Ofertas</a> 
+                </div>
         {%endif%}
         {%if perfil.idTipoUsuario_id == 2 %}
         <div class="row" style="padding: 2%">
-                    <a href="/moderador/" class="btn btn-primary" role="button">Administrar</a> 
+                <a href="/moderador/" class="btn btn-primary" role="button">Administrar</a> 
         </div>
         {%endif%}
 
