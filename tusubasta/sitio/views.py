@@ -42,6 +42,10 @@ class home(View):
 def aboutUs(request):
     return render(request, 'aboutUs.html')
 
+def contactenos(request):
+    return render(request, 'contactenos.html')
+
+
 #Crear una Subasta
 @login_required(login_url= '/login/')
 def nuevaSubasta(request):

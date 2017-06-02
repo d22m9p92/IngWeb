@@ -6,6 +6,7 @@ from .views import *
 urlpatterns = [
     
     url(r'^aboutUs/$', views.aboutUs),
+    url(r'^contactenos/$', views.contactenos),
 	url(r'^ofertar/(?P<pk>[0-9]+)/$', views.ofertar, name='ofertar'),
 	url(r'^ofertavalida/$', views.ofertavalida, name='ofertavalida'),
 	url(r'^moderador/$', views.moderador, name ='moderador'),
