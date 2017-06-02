@@ -77,15 +77,17 @@
                             {%endif%}
                         {%endfor%}
                        
-                        
+
                         {% if request.user.is_authenticated %}
                             {%if request.user == subasta.idUsuarioVendedor and request.user != comentario.idUsuario%}
-                                <li id="respuesta" class="list-group-item justify-content-between">
-                                        <div class="form-group"> 
-                                        <textarea class="form-control" type="text" class="formControl" id="nuevaRespuesta{{comentario.id}}" placeholder="Ingrese respuesta"></textarea>  
-                                        <button type="button" class="btn btn-secondary" onclick="responder({{comentario.id}})" >Responder</button>
-                                        </div>
-                                </li>
+                                {%if comentario.id not in listaComentariosRespuestas %}
+	                                <li id="respuesta" class="list-group-item justify-content-between">
+	                                        <div class="form-group"> 
+	                                        <textarea class="form-control" type="text" class="formControl" id="nuevaRespuesta{{comentario.id}}" placeholder="Ingrese respuesta"></textarea>  
+	                                        <button type="button" class="btn btn-secondary" onclick="responder({{comentario.id}})" >Responder</button>
+	                                        </div>
+	                                </li>
+                                {%endif%}
                             {%endif%}
                         {% endif %}
                         
@@ -116,32 +118,39 @@
 <script type="text/javascript">
     function comentar(){
         var texto = $("#nuevoComentario").val();
-        console.log(texto,{{subasta.id}});
-        $.ajax({
-            "method":"POST",
-            "url":"/comentar/",
-            "data":{"texto":texto,"idSubasta":{{subasta.id}},"csrfmiddlewaretoken":"{{csrf_token}}"},
-            success:function(data){
-                try {
-                    if(JSON.parse(data) == "Error"){
-                    alert("mensaje guardado");
+        if (texto == ""){
+            alert("Por favor ingrese comentario.")  
+        } else {
+	        $.ajax({
+	            "method":"POST",
+	            "url":"/comentar/",
+	            "data":{"texto":texto,"idSubasta":{{subasta.id}},"csrfmiddlewaretoken":"{{csrf_token}}"},
+	            success:function(data){
+	                try {
+	                    if(JSON.parse(data) == "Error"){
+	                    alert("mensaje guardado");
 
-                    }
-                }
-                    catch(err) {
-                            $("#lista").html(data);
-                            console.log(data);
-                    }
-            }
-        });
+	                    }
+	                }
+	                    catch(err) {
+	                            $("#lista").html(data);
+	                            console.log(data);
+	                    }
+	            }
+	        });
+        }
     }
 
     function responder(id){
-        var texto = $("#nuevaRespuesta"+id).val();
+        var texto = $("#nuevaRespuesta"+id).val().trim();
+        if (texto == ""){
+            alert("Por favor ingrese respuesta.")  
+        } else {
+    	
         $.ajax({
             "method":"POST",
             "url":"/responder/",
-            "data":{"texto":texto,"idComentario":id,"csrfmiddlewaretoken":"{{csrf_token}}"},
+            "data":{"texto":texto,"idComentario":id,"idSubasta":{{subasta.id}},"csrfmiddlewaretoken":"{{csrf_token}}"},
             success:function(data){
                 try {
                     if(JSON.parse(data) == "Error"){
@@ -154,10 +163,9 @@
                             console.log(data);
                     }
             }
-        });   
-   
+        }); 	
+        }
     }
-
 
     function eliminar(id){
         $.ajax({
@@ -176,8 +184,5 @@
     }
 
 </script>
-
-
-
 
 {% endblock %}

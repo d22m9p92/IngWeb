@@ -71,17 +71,86 @@ def nuevaSubasta(request):
 
 
 def subasta_detalle(request, pk):
-    print("ok")
     subasta = get_object_or_404(Subastas, pk=pk)
     comentarios = Comentarios.objects.filter(idSubasta=subasta, fechaBaja=None).order_by("-fechaAlta")
     respuestas 	= Respuestas.objects.select_related("idComentario").filter(idComentario__idSubasta = subasta, fechaBaja = None)
-    
+
     listaRespuestas = []
     for r in respuestas:
     	listaRespuestas.append(r)
 
-    print(listaRespuestas)
-    return render(request, 'subasta_detalle.html', {'subasta': subasta,"comentarios":comentarios, "listaRespuestas": listaRespuestas})
+    listaComentariosRespuestas = []
+    comentariosrespuestas = Respuestas.objects.filter(fechaBaja = None)
+    for i in comentariosrespuestas:
+        listaComentariosRespuestas.append(i.idComentario.id)
+        
+    return render(request, 'subasta_detalle.html', {'subasta': subasta,"comentarios":comentarios, "listaRespuestas": listaRespuestas, "listaComentariosRespuestas": listaComentariosRespuestas})
+
+@login_required(login_url= '/login/')
+def comentar(request):
+    if request.method == 'POST':
+        texto = request.POST.get("texto")
+        idSubasta = request.POST.get("idSubasta")
+        try:
+            comentario = Comentarios()
+            comentario.comentario = texto
+            subasta = Subastas.objects.get(pk=idSubasta)
+            comentario.idSubasta = subasta
+            comentario.idUsuario = request.user
+            comentario.fechaAlta = datetime.datetime.now()
+            comentario.save()
+
+            comentarios = Comentarios.objects.filter(idSubasta = subasta, fechaBaja=None).order_by("-fechaAlta")
+            respuestas   = Respuestas.objects.select_related("idComentario").filter(idComentario__idSubasta = subasta, fechaBaja = None)
+
+            listaRespuestas = []
+            for r in respuestas:
+                listaRespuestas.append(r)
+
+            listaComentariosRespuestas = []
+            comentariosrespuestas = Respuestas.objects.filter(fechaBaja = None)
+            for i in comentariosrespuestas:
+                listaComentariosRespuestas.append(i.idComentario.id)
+
+            return render(request,"comentarioParcial.html",{"comentarios":comentarios, "listaRespuestas": listaRespuestas, "listaComentariosRespuestas": listaComentariosRespuestas})
+        except Exception as e:
+            return HttpResponse(json.dumps("Error"))   
+
+
+@login_required(login_url= '/login/')
+def responder(request):
+    if request.method == 'POST':
+        texto           = request.POST.get("texto")
+        idComentario    = request.POST.get("idComentario")
+        idSubasta       = request.POST.get("idSubasta")
+        try:
+            respuesta                = Respuestas()
+            respuesta.respuesta      = texto
+            comentario               = Comentarios.objects.get(pk=idComentario)
+            respuesta.idComentario   = comentario
+            respuesta.idUsuario      = request.user
+            respuesta.fechaAlta      = datetime.datetime.now()
+            respuesta.save()
+
+            subasta = Subastas.objects.get(pk=idSubasta)
+            comentarios = Comentarios.objects.filter(idSubasta = subasta, fechaBaja=None).order_by("-fechaAlta")
+            respuestas   = Respuestas.objects.select_related("idComentario").filter(idComentario__idSubasta = subasta, fechaBaja = None)
+
+            listaRespuestas = []
+            for r in respuestas:
+                listaRespuestas.append(r)
+
+            listaComentariosRespuestas = []
+            comentariosrespuestas = Respuestas.objects.filter(fechaBaja = None)
+            for i in comentariosrespuestas:
+                listaComentariosRespuestas.append(i.idComentario.id)
+
+            print(request.user)
+
+            return render(request,"comentarioParcial.html",{"subasta": subasta,"comentarios":comentarios, "listaRespuestas": listaRespuestas, "listaComentariosRespuestas": listaComentariosRespuestas})
+        except Exception as e:
+            print(e)
+            return HttpResponse(json.dumps("Error"))   
 
 
 def listarSubastas(request):
@@ -181,46 +250,6 @@ def ofertavalida(request):
 @login_required(login_url= '/login/')
 def moderador(request):
     return render(request, 'moderador.html')
-
-@login_required(login_url= '/login/')
-def comentar(request):
-    if request.method == 'POST':
-        texto = request.POST.get("texto")
-        idSubasta = request.POST.get("idSubasta")
-        try:
-           comentario = Comentarios()
-           comentario.comentario = texto
-           subasta = Subastas.objects.get(pk=idSubasta)
-           comentario.idSubasta = subasta
-           comentario.idUsuario = request.user
-           comentario.fechaAlta = datetime.datetime.now()
-           comentario.save()
-           comentarios = Comentarios.objects.filter(idSubasta = subasta, fechaBaja=None).order_by("-fechaAlta")
-           return render(request,"comentarioParcial.html",{"comentarios":comentarios})
-        except Exception as e:
-            return HttpResponse(json.dumps("Error"))   
-
-
-@login_required(login_url= '/login/')
-def responder(request):
-    if request.method == 'POST':
-        print("entro")
-        texto 			= request.POST.get("texto")
-        idComentario 	= request.POST.get("idComentario")
-        try:
-           respuesta = Respuestas()
-           respuesta.respuesta = texto
-           comentario = Comentarios.objects.get(pk=idComentario)
-           respuesta.idComentario = comentario
-           respuesta.idUsuario = request.user
-           respuesta.fechaAlta = datetime.datetime.now()
-           respuesta.save()
-           respuestas = Respuestas.objects.filter(idComentario = comentario, fechaBaja=None).order_by("-fechaAlta")
-           return render(request,"respuestaParcial.html",{"respuestas":respuestas})
-        except Exception as e:
-            print(e)
-            return HttpResponse(json.dumps("Error"))   
-
 
 
 def eliminarComentario(request):
