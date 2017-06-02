@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+{% extends 'moderador.html' %}
+{% load staticfiles %}
+
+{% block eliminarSubastas %}
+<center <h1 class="panel-title" style="padding:2%">Publicaciones eliminadas</h1> </center>
+
+<ul class="list-group">
+  
+	{%for se in listaSubastasEliminadas%}
+	  	<li id="{{se.id}}" class="list-group-item justify-content-between">
+	    	<div class="row" >
+          <h5>Subasta: <a href="{% url 'subastadetalle' pk=1 %}">{{ se.titulo }}</a></h5>
+          <p>Detalle: {{se.detalle}}</p>
+          <p>Categoría: {{se.categoria}}</p>
+	    		<p>Autor: {{se.idUsuarioVendedor}}</p>
+	    		<p>Fecha baja: {{se.fechaBaja}}</p>
+	    	</div>
+	    	<div aling = "center">
+		    	<a class="btn btn-primary" onclick="cancelar({{se.id}})" role="button">Restaurar publicación</a>
+	    	</div>
+	  	</li>
+	{%endfor%}
+</ul>
+
+<div class="modal fade" id="modalCancelar">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Restaurar</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>¿Desea restaurar la publicación?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" onclick="restaurarSubasta()" class="btn btn-primary">Si</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script type="text/javascript">
+var idSeleccionado = null;
+
+function cancelar(id){
+  idSeleccionado = id;
+  $('#modalCancelar').modal('show');
+  console.log(idSeleccionado);
+}
+
+
+function restaurarSubasta(){
+        $.ajax({
+            "method":"POST",
+            "url":"/restaurarSubasta/",
+            "data":{"id":idSeleccionado, "csrfmiddlewaretoken":"{{csrf_token}}"},
+            success:function(data){
+                if(JSON.parse(data) =="OK"){
+                    alert("La publicación se restauró correctamente");
+                    $("#".concat(idSeleccionado)).remove();
+                    $('#modalCancelar').modal('hide');
+                }else{
+                    alert("Error al restaurar");
+                }
+            }
+        });
+    }
+
+</script>
+
+{% endblock %}
+
+
+

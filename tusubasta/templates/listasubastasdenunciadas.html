@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+{% extends 'moderador.html' %}
+{% load staticfiles %}
+
+{% block denunciaSubastas %}
+<center <h1 class="panel-title" style="padding:2%">Publicaciones denunciadas</h1> </center>
+
+<ul class="list-group">
+  
+	{%for sd in listaSubastasDenunciadas%}
+	  	<li id="{{sd.id}}" class="list-group-item justify-content-between">
+	    	<div class="row" >
+          <h5>Subasta: <a href="{% url 'subastadetalle' pk=sd.idSubasta.id %}">{{ sd.idSubasta }}</a></h5>
+          <p>Autor: {{sd.idSubasta.idUsuarioVendedor}}</p>
+	    		<p>Denunciante: {{sd.idUsuario}}</p>
+				  <p>Motivo: {{sd.idMotivo.descripcionMotivo}}</p>
+	    		<p>Fecha denuncia: {{sd.fechaDenuncia}}</p>
+	    	</div>
+	    	<div aling = "center">
+		    	<a class="btn btn-primary" onclick="cancelar({{sd.id}})" role="button">Eliminar publicación</a>
+	    	</div>
+	  	</li>
+	{%endfor%}
+</ul>
+
+<div class="modal fade" id="modalCancelar">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Eliminar</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>¿Desea eliminar la publicación?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" onclick="eliminarSubasta()" class="btn btn-primary">Si</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<script type="text/javascript">
+var idSeleccionado = null;
+
+function cancelar(id){
+	idSeleccionado = id;
+	$('#modalCancelar').modal('show');
+	console.log(idSeleccionado);
+}
+
+
+function eliminarSubasta(){
+        $.ajax({
+            "method":"POST",
+            "url":"/eliminarSubasta/",
+            "data":{"id":idSeleccionado, "csrfmiddlewaretoken":"{{csrf_token}}"},
+            success:function(data){
+                if(JSON.parse(data) =="OK"){
+                    alert("La publicación se eliminó correctamente");
+                    $("#".concat(idSeleccionado)).remove();
+                    $('#modalCancelar').modal('hide');
+                }else{
+                    alert("Error al elimnar");
+                }
+            }
+        });
+    }
+
+
+</script>
+
+{% endblock %}
+
+
+
+

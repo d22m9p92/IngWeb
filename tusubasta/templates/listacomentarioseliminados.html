@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+{% extends 'moderador.html' %}
+{% load staticfiles %}
+
+{% block eliminarComentarios %}
+<center <h1 class="panel-title" style="padding:2%">Comentarios eliminados</h1> </center>
+
+<ul class="list-group">
+  
+	{%for ce in listaComentariosEliminados%}
+	  	<li id="{{ce.id}}" class="list-group-item justify-content-between">
+	    	<div class="row" >
+          <h5>Subasta: <a href="{% url 'subastadetalle' pk=ce.idSubasta.id %}">{{ ce.idSubasta }}</a></h5>
+	    		<p>Autor: {{ce.idUsuario}}</p>
+	    		<p>Fecha baja: {{ce.fechaBaja}}</p>
+	    		<p>Comentario: {{ce.comentario}}</a>.</p>
+	    	</div>
+	    	<div aling = "center">
+		    	<a class="btn btn-primary" onclick="cancelar({{ce.id}})" role="button">Restaurar comentario</a>
+	    	</div>
+	  	</li>
+	{%endfor%}
+</ul>
+
+<div class="modal fade" id="modalCancelar">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Restaurar</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>¿Desea restaurar el comentario?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" onclick="restaurarComentario()" class="btn btn-primary">Si</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script type="text/javascript">
+var idSeleccionado = null;
+
+function cancelar(id){
+  idSeleccionado = id;
+  $('#modalCancelar').modal('show');
+  console.log(idSeleccionado);
+}
+
+
+function restaurarComentario(){
+        $.ajax({
+            "method":"POST",
+            "url":"/restaurarComentario/",
+            "data":{"id":idSeleccionado, "csrfmiddlewaretoken":"{{csrf_token}}"},
+            success:function(data){
+                if(JSON.parse(data) =="OK"){
+                    alert("El comentario se restauró correctamente");
+                    $("#".concat(idSeleccionado)).remove();
+                    $('#modalCancelar').modal('hide');
+                }else{
+                    alert("Error al restaurar");
+                }
+            }
+        });
+    }
+
+</script>
+
+{% endblock %}
+
+
+

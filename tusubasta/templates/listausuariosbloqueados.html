@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+{% extends 'moderador.html' %}
+{% load staticfiles %}
+
+{% block usuariosbloqueados %}
+<center <h1 class="panel-title" style="padding:2%">Comentarios eliminados</h1> </center>
+
+<ul class="list-group">
+  
+	{%for ub in listaUsuariosBloqueados%}
+	  	<li id="{{ub.id}}" class="list-group-item justify-content-between">
+	    	<div class="row" >
+          <h5>Usuario: {{ ub.username }}</a></h5>
+          <p>Nombre: {{ub.first_name}} {{ub.last_name}}</p>
+          <p>Nombre: {{ub.email}}</p>
+	    	</div>
+	    	<div aling = "center">
+		    	<a class="btn btn-primary" onclick="cancelar({{ub.id}})" role="button">Eliminar usaurio</a>
+          <a class="btn btn-primary" onclick="cancelar({{ub.id}})" role="button">Desbloquear usaurio</a>
+	    	</div>
+	  	</li>
+	{%endfor%}
+</ul>
+{% endblock %}
+
+
+

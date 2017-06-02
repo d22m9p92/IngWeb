@@ -79,7 +79,7 @@ class Respuestas(models.Model):
 		return self.respuesta
 
 class MotivosDenuncias(models.Model):
-	descripcionMotivo	= models.TextField(null=True,blank=True)
+	descripcionMotivo	= models.TextField(null=True,blank=False)
 
 	def __str__(self):
 		return self.descripcionMotivo
@@ -89,7 +89,8 @@ class Denuncias(models.Model):
 	idComentario 	= models.ForeignKey(Comentarios, null=True, blank=True)
 	idRespuesta		= models.ForeignKey(Respuestas, null=True, blank=True)
 	fechaDenuncia   = models.DateTimeField(auto_now=False, null=True, blank=True, default=None)
-	idMotivo		= models.ForeignKey(MotivosDenuncias, null=True, blank=True)
+	idMotivo		= models.ForeignKey(MotivosDenuncias, null=True, blank=False)
+	idSubasta		= models.ForeignKey(Subastas, null=True, blank=True)
 
 	def __str__(self):
-		return self.idMotivo
+		return str(self.id)

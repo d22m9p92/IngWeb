@@ -46,8 +46,6 @@
         <p>Categoría: {{ subasta.idCategoria }}</p>
         <p>Localidad : {{ subasta.localidad }}, {{subasta.provincia }}, {{subasta.pais }}</p>
         <p>Usuario vendedor: {{ subasta.idUsuarioVendedor }}</p>
-        
-        <a href="{% url 'ofertar' pk=subasta.id %}" class="btn btn-primary" role="button">Ofertar</a>
 
         <div class="row">
             <div class="col-sl-5 col-sm-offset-1">
@@ -108,6 +106,11 @@
             </ul>   
             </div>
         </div>
+
+        <a href="{% url 'ofertar' pk=subasta.id %}" class="btn btn-primary" role="button">Ofertar</a>
+        
+        <a href="{% url 'denunciarSubasta' pk=subasta.id %}" class="btn btn-primary" role="button" style="background-color:red">Denunciar</a>
+
 </div>
 
 <script type="text/javascript">
@@ -163,7 +166,7 @@
             "data":{"id":id, "csrfmiddlewaretoken":"{{csrf_token}}"},
             success:function(data){
                 if(JSON.parse(data) =="OK"){
-                    alert("Elimnado");
+                    alert("El comentario se eliminó correctamente");
                     $("#comentario".concat(id)).remove();
                 }    else{
                     alert("Error al elimnar");
