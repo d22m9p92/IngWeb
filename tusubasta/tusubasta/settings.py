@@ -163,14 +163,14 @@ if os.environ.get('HEROKU', False):
 
     HAYSTACK_CONNECTIONS = {
         'default': {
-            'ENGINE': 'haystack_elasticsearch5.Elasticsearch5SearchEngine'
+            'ENGINE': 'haystack_elasticsearch5.Elasticsearch5SearchEngine',
             'URL': es.scheme + '://' + es.hostname + ':' + str(port),
             'INDEX_NAME': 'documents',
         },
     }
 
-if es.username:
-    HAYSTACK_CONNECTIONS['default']['KWARGS'] = {"http_auth": es.username + ':' + es.password}
+    if es.username:
+        HAYSTACK_CONNECTIONS['default']['KWARGS'] = {"http_auth": es.username + ':' + es.password}
 
 else: 
     DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
