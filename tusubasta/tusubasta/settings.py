@@ -131,7 +131,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static_server_files')
 if os.environ.get('HEROKU', False):
     # settings especificas para heroku
     import dj_database_url
-    from urllib.parse import urlparse
 
     DATABASES['default'] = dj_database_url.config()
     ALLOWED_HOSTS = ['*']
@@ -157,16 +156,21 @@ if os.environ.get('HEROKU', False):
     AWS_SECRET_ACCESS_KEY = "41wkokF0NjvxQpqs9m4hiScIbpvRrjw8kt5Wuv8n"
 
     #ElastichSearch
-    url_e = urlparse(os.environ.get('SEARCHBOX_URL') or 'http://127.0.0.1:8080/')
-    port = url_e.port or 80
+    from urllib.parse import urlparse
+
+    es = urlparse(os.environ.get('SEARCHBOX_URL') or 'http://127.0.0.1:9200/')
+    port = es.port or 80
 
     HAYSTACK_CONNECTIONS = {
         'default': {
-            'ENGINE': 'haystack_elasticsearch5.Elasticsearch5SearchEngine',
-            'URL': url_e.scheme + '://' + url_e.hostname + ':' + str(port),
+            'ENGINE': 'haystack_elasticsearch5.Elasticsearch5SearchEngine'
+            'URL': es.scheme + '://' + es.hostname + ':' + str(port),
             'INDEX_NAME': 'documents',
         },
     }
+
+if es.username:
+    HAYSTACK_CONNECTIONS['default']['KWARGS'] = {"http_auth": es.username + ':' + es.password}
 
 else: 
     DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
