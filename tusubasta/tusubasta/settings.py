@@ -131,6 +131,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static_server_files')
 if os.environ.get('HEROKU', False):
     # settings especificas para heroku
     import dj_database_url
+    from urllib.parse import urlparse
 
     DATABASES['default'] = dj_database_url.config()
     ALLOWED_HOSTS = ['*']
@@ -156,8 +157,7 @@ if os.environ.get('HEROKU', False):
     AWS_SECRET_ACCESS_KEY = "41wkokF0NjvxQpqs9m4hiScIbpvRrjw8kt5Wuv8n"
 
     #ElastichSearch
-    from urllib.parse import urlparse
-
+    
     es = urlparse(os.environ.get('SEARCHBOX_URL') or 'http://127.0.0.1:9200/')
     port = es.port or 80
 
