@@ -164,6 +164,7 @@ if os.environ.get('HEROKU', False):
         'default': {
             'ENGINE': 'haystack_elasticsearch5.Elasticsearch5SearchEngine',
             'URL': es.scheme + '://' + es.hostname + ':' + str(port),
+            'TIMEOUT': 60 * 5,
             'INDEX_NAME': 'documents',
         },
     }
