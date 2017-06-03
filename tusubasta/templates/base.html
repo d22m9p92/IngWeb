@@ -59,7 +59,7 @@
                         <a href="/nuevasubasta/">Publicar</a>
                     </li>
                     <li>
-                        <a href="{% url 'perfil' pk=request.user.id %}">Mi Perfil</a>
+                        <a href="{% url 'perfil' pk=request.user.id %}">{{request.user.username}}</a>
                     </li>
                      <li>
                         <a href="/logout/">Salir</a>

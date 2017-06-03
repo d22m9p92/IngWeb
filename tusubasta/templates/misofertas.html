@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-{% extends 'base.html' %}
+{% extends 'perfil.html' %}
 {% load staticfiles %}
 
 {% block content %}
 <center> <h1 class="panel-title" style="padding:2%">Publicaciones en las que ofertaste</h1> </center>
-<center><div>
-<p>En esta sección se detallan todas las subastas en las que estás participando. ¡No la pierdas de vista!</p>	
-</div></center>
+<div>
+	<center><p>En esta sección se detallan todas las subastas en las que estás participando. ¡No la pierdas de vista!</p></center>
+</div>
 <ul class="list-group">
   
 	{%for mo in listaofertas%}
@@ -26,7 +26,6 @@
 	  	</li>
 	{%endfor%}
 </ul>
-
 {% endblock %}
 
 

@@ -7,7 +7,6 @@ urlpatterns = [
     # Examples:
     # url(r'^$', 'tusubasta.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
-    
     url(r'^logout/$', views.logout),
     url(r'^registrar/$', views.registrar),
     url(r'^login/$', LoginView.as_view()),

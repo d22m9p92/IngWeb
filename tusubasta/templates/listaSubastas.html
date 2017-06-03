@@ -1,24 +1,21 @@
-<!DOCTYPE html>
-{% extends 'base.html' %}
+{% extends 'perfil.html' %}
 {% load staticfiles %}
 
 {% block content %}
-<center <h1 class="panel-title" style="padding:2%">Tus Subastas</h1> </center>
+<center> <h1 class="panel-title" style="padding:2%">Tus Subastas</h1></center>
+<p>
 
 <ul class="list-group">
   
 	{%for i in listaSubastas%}
 	  	<li id="{{i.id}}" class="list-group-item justify-content-between">
 	    	<div class="row" >
-	    		<h4 > {{ i.titulo }} </h4>
-	    		<p> Detalle: {{i.detalle}}</a>.</p>
-	    		<!--
-	    		<div class="col-sm-12 col-md-12 col-lg-6" align="center" >
-				  <img class ="pull-left" src="{{MEDIA_URL}}{{i.imagenA}}" width="100%"/>
-				</div>
-				<h4 align="pull-left"> Precio Base: {{ i.precioBase }} </h4>
-	    		<p> Fecha Fin: {{ i.fechaFin }}</a>.</p>
-	    		-->
+	    		<h5>Subasta: <a href="{% url 'subastadetalle' pk=i.id %}">{{ i.titulo }}</a></h5>
+	    		<p>Detalle: {{i.detalle}}</a>.</p>
+	    		<p>Precio base establecido: {{i.precioBase}}</p>
+	    		<p>Valor actual: {{i.ofertaMax}}</p>
+	    		<p>Publicado el día {{i.fechaAlta}}</p>
+	    		<p>Finalinza el {{i.fechaFin}}</p>
 	    	</div>
 	    	<div aling = "center">
 		    	<a href="{% url 'editarSubasta' idSubasta=i.id %}" class="btn btn-primary" role="button">Editar Subasta</a>
