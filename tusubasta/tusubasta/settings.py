@@ -131,7 +131,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static_server_files')
 if os.environ.get('HEROKU', False):
     # settings especificas para heroku
     import dj_database_url
-    from urllib.parse import urlparse
+    from urllib3.parse import urlparse
 
     DATABASES['default'] = dj_database_url.config()
     ALLOWED_HOSTS = ['*']

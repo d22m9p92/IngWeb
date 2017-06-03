@@ -19,4 +19,4 @@ pytz
 django-haystack-elasticsearch5
 git+https://github.com/django-haystack/django-haystack
 whoosh
-Elasticsearch
+elasticsearch
