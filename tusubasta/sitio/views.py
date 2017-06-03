@@ -20,7 +20,7 @@ class home(View):
     def get(self, request,idCategoria): 
         if idCategoria!="":
             categoria = Categorias.objects.filter(pk=idCategoria)
-            subastas = Subastas.objects.filter(idCategoria=categoria,fechaBaja=None).order_by("-fechaAlta")
+            subastas = Subastas.objects.filter(idCategoria=categoria,fechaBaja=None,fechaFin__gt = datetime.datetime.now()).order_by("-fechaAlta")
         else:
             
             subastas = Subastas.objects.filter(fechaBaja=None, fechaFin__gt = datetime.datetime.now())
