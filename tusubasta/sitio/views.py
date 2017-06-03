@@ -38,13 +38,11 @@ class home(View):
     
         return render(request, "index.html",{"subastas": SubastasList, "categorias": categorias,"id":request.user.id })
 
-
 def aboutUs(request):
     return render(request, 'aboutUs.html')
 
 def contactenos(request):
     return render(request, 'contactenos.html')
-
 
 #Crear una Subasta
 @login_required(login_url= '/login/')
