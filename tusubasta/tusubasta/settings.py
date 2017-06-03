@@ -27,7 +27,6 @@ ALLOWED_HOSTS = ['*']
 
 
 # Application definition
-
 INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.auth',
@@ -35,12 +34,13 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    
+    'haystack',
     'storages',
     'sitio',
     'login',
  'widget_tweaks',
 )
+
 
 MESSAGE_TAGS = {
     messages.DEBUG: 'alert-info',
@@ -98,6 +98,7 @@ DATABASES = {
     }
 }
 
+
 #Configuracion de SMTP
 EMAIL_HOST 			= 'smtp.gmail.com'
 EMAIL_HOST_USER		= 'tusubasta2017@gmail.com'
@@ -120,7 +121,6 @@ USE_L10N = True
 USE_TZ = True
 
 
-
 STATIC_URL = '/static/'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static_server_files')
@@ -131,6 +131,8 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static_server_files')
 if os.environ.get('HEROKU', False):
     # settings especificas para heroku
     import dj_database_url
+    from urllib.parse import urlparse
+
     DATABASES['default'] = dj_database_url.config()
     ALLOWED_HOSTS = ['*']
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
@@ -153,11 +155,20 @@ if os.environ.get('HEROKU', False):
     S3Connection.defaultHost = 's3-us-east-1.amazon.com'
     AWS_ACCESS_KEY_ID = "AKIAIAHFC2ZDTYRBFWWQ"
     AWS_SECRET_ACCESS_KEY = "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"
+
+    #ElastichSearch
+    url_e = urlparse(os.environ.get('SEARCHBOX_URL') or 'http://127.0.0.1:8080/')
+    port = url_e.port or 80
+
+    HAYSTACK_CONNECTIONS = {
+        'default': {
+            'ENGINE': 'haystack_elasticsearch5.Elasticsearch5SearchEngine',
+            'URL': url_e.scheme + '://' + url_e.hostname + ':' + str(port),
+            'INDEX_NAME': 'documents',
+        },
+    }
+
 else: 
-        # Configuracion para Amazon
-    #STATICFILES_LOCATION = '/static/'
-    #MEDIAFILES_LOCATION = 'media'
-    #STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
     DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
     AWS_S3_SECURE_URLS = False
     AWS_STORAGE_BUCKET_NAME = "tusubasta"
@@ -172,3 +183,12 @@ else:
     S3Connection.defaultHost = 's3-us-east-1.amazon.com'
     AWS_ACCESS_KEY_ID = "AKIAIAHFC2ZDTYRBFWWQ"
     AWS_SECRET_ACCESS_KEY = "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"
+
+
+    #ElastichSearch
+    HAYSTACK_CONNECTIONS = {
+        'default': {
+            'ENGINE': 'haystack.backends.whoosh_backend.WhooshEngine',
+            'PATH': os.path.join(BASE_DIR, 'whoosh_index'),
+        },
+    }

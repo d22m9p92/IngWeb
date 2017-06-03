@@ -7,20 +7,10 @@ import os
 def upload_to_subastas(intance, filename):
 	return os.path.join("Subasta/img/%s" %intance.titulo+str(datetime.datetime.now()), filename)
 
-
 # Create your models here.
 
 class Categorias(models.Model):
 	descripcion	 		= models.CharField(max_length=50,null=True,blank=False)
-
-	def __str__(self):
-		return self.descripcion
-
-
-class Calificaciones(models.Model):
-	descripcion 		= models.CharField(max_length=50,null=True,blank=False)
-	fechaAlta			= models.DateTimeField(auto_now=True, null=True,blank=True)
-	idUsuarioComprador	= models.ForeignKey(User,null=True,blank=True)
 
 	def __str__(self):
 		return self.descripcion
@@ -34,7 +24,6 @@ class Subastas(models.Model):
 	fechaBaja 			= models.DateTimeField(null=True,blank=True)
 	fechaFin 			= models.DateTimeField(null=True,blank=True)
 	idCategoria 		= models.ForeignKey(Categorias,null=True,blank=True)
-	idCalificacion 		= models.ForeignKey(Calificaciones,null=True,blank=True)
 	idUsuarioVendedor	= models.ForeignKey(User,null=True,blank=True)
 	localidad			= models.CharField(max_length=50,null=True,blank=False)
 	provincia			= models.CharField(max_length=50,null=True,blank=False)

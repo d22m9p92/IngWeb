@@ -33,4 +33,6 @@ urlpatterns = [
 	url(r'^responder/$', views.responder, name='responder'),
 	url(r'^eliminarRespuesta/$', views.eliminarRespuesta, name ='eliminarRespuesta'),
 
+	#ElasticSearch
+	url(r'^search/', include('haystack.urls')),
 ]

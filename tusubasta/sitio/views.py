@@ -60,14 +60,18 @@ def nuevaSubasta(request):
             fechaHoy    = fechaHoy.replace(year = int(request.POST.get('fechaFin_year')))
             
             if fechaHoy > datetime.date.today():
-                formSubasta = form.save(commit = False)
-                formSubasta.ofertaMax = formSubasta.precioBase  
-                formSubasta.idUsuarioVendedor_id = _idUsuarioVendedor
+                formSubasta                         = form.save(commit = False)
+                formSubasta.ofertaMax               = formSubasta.precioBase  
+                formSubasta.idUsuarioVendedor_id    = _idUsuarioVendedor
                 formSubasta.save()
-                                
-                pk     = int(formSubasta.id)
-            
-                return redirect("subasta_detalle", pk)
+                
+                #Esto esta mal, pero no pudismo hacer que funcione el subasta = form y obtener el id de ese objeto
+                
+                subasta = Subastas.objects.all().order_by("-id")[:1]
+                for i in subasta:
+                    pk = i.id
+                
+                return redirect("subastadetalle", pk)
             else:
                 messages.error(request, "La fecha de finalización debe ser mayor al día corriente.")
     else:
