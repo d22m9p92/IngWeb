@@ -3,7 +3,7 @@
 {% load staticfiles %}
 
 {% block content %}
-    <h2>Buscar:</h2>
+    <h1>Buscar:</h1>
 
     <form method="get" action=".">
         <table>
@@ -18,12 +18,19 @@
 
         {% if query %}
             <h3>Resultados:</h3>
-
+            <ul class="list-group">
             {% for result in page.object_list %}
-                <p>{{ result.titulo }}, {{ result.fechaFin }}</p>
+                <div class="row">
+                    <div class="col-sm-12 col-md-6 col-lg-4">
+                    <a href="{% url 'subastadetalle' pk=result.pk %}">{{ result.titulo }}</a>
+                    </div>
+                </div>
             {% empty %}
-                <p>No se encontraron subastas.</p>
+                <div class="row">
+                    <p>No se encontraron subastas.</p>
+                </div>    
             {% endfor %}
+            </ul>
 
             {% if page.has_previous or page.has_next %}
                 <div>
