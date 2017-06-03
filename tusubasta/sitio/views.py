@@ -255,44 +255,7 @@ def ofertavalida(request):
 
 @login_required(login_url= '/login/')
 def moderador(request):
-    return render(request, 'moderador.html')
-
-@login_required(login_url= '/login/')
-def comentar(request):
-    if request.method == 'POST':
-        texto = request.POST.get("texto")
-        idSubasta = request.POST.get("idSubasta")
-        try:
-           comentario = Comentarios()
-           comentario.comentario = texto
-           subasta = Subastas.objects.get(pk=idSubasta)
-           comentario.idSubasta = subasta
-           comentario.idUsuario = request.user
-           comentario.fechaAlta = datetime.datetime.now()
-           comentario.save()
-           comentarios = Comentarios.objects.filter(idSubasta = subasta, fechaBaja=None).order_by("-fechaAlta")
-           return render(request,"comentarioParcial.html",{"comentarios":comentarios})
-        except Exception as e:
-            return HttpResponse(json.dumps("Error"))   
-
-
-@login_required(login_url= '/login/')
-def responder(request):
-    if request.method == 'POST':
-        texto 			= request.POST.get("texto")
-        idComentario 	= request.POST.get("idComentario")
-        try:
-           respuesta = Respuestas()
-           respuesta.respuesta = texto
-           comentario = Comentarios.objects.get(pk=idComentario)
-           respuesta.idComentario = comentario
-           respuesta.idUsuario = request.user
-           respuesta.fechaAlta = datetime.datetime.now()
-           respuesta.save()
-           respuestas = Respuestas.objects.filter(idComentario = comentario, fechaBaja=None).order_by("-fechaAlta")
-           return render(request,"respuestaParcial.html",{"respuestas":respuestas})
-        except Exception as e:
-            return HttpResponse(json.dumps("Error"))   
+    return render(request, 'moderador.html') 
 
 
 def eliminarComentario(request):
