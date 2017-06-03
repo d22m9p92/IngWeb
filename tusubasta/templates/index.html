@@ -57,7 +57,7 @@
                         <a href="/nuevasubasta/">Publicar</a>
                     </li>
                     <li>
-                        <a href="{% url 'perfil' pk=request.user.id %}">Mi Perfil</a>
+                        <a href="{% url 'perfil' pk=request.user.id %}">{{request.user.username}}</a>
                     </li>
                     <li>
                         <a href="/logout/">Salir</a>
@@ -137,14 +137,14 @@
                             <div class="caption">
                                 <h4 class="pull-right">{{subasta.ofertaMax}}</h4>
                                 <h4><a href="{% url 'subastadetalle' pk=subasta.id %}">{{ subasta.titulo }}</a></h4>
-                                <p>{{subasta.detalle}}</a>.</p>
+                                <p>{{subasta.detalle}}</p>
                             </div>
                             <div class="ratings">
                                 <p>
                                     <strong>Fecha límite: </strong>{{subasta.fechaFin}}
                                 </p>
                             </div>
-                            <center><a href="{% url 'ofertar' pk=subasta.id %}" class="btn btn-primary" role="button" style="margin-bottom:10px;">Ofertar</a></center>
+                            <center><a href="{% url 'ofertar' pk=subasta.id %}" class= "">Ofertar</a></center>
                         </div>
                     </div>
                     

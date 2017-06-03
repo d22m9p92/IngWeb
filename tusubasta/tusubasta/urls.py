@@ -13,7 +13,7 @@ urlpatterns = [
 
     url(r'^admin/', include(admin.site.urls)),
     url(r'^(?P<idCategoria>\d*)$', home.as_view(), name='home'),
+    url(r'^robots\.txt/$', TemplateView.as_view(template_name='robots.txt', content_type='text/plain')),
     url(r'', include('login.urls')),
     url(r'', include('sitio.urls')),
-
 ]

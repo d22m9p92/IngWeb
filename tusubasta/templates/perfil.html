@@ -4,38 +4,43 @@
 {% block content %}
 
 <div class="row" style="text-align:center">
-<div class="parallax-container valign-wrapper">
-        <center><div class="container valign"><h2 class="page-title center-align">Perfil del usaurio {{usuario.username}}</h2></div>
-		<div class="container valign"><h4 class="page-title center-align">{{usuario.first_name}} {{usuario.last_name}}</h4></div>
-        <div class="container valign"><h4 class="page-title center-align">{{usuario.email}}</h4></div></center>
-
-</div>
-
-<div class="row">
+	<div class="col-md-4">
+        <center><div class="container valign"><h2>Perfil del usaurio {{usuario.username}}</h2></div>
+		<div class="container valign"><h4>{{usuario.first_name}} {{usuario.last_name}}</h4></div>
+        <div class="container valign"><h4>{{usuario.email}}</h4></div></center>
+	</div>
+	<div class="col-md-4"></div>
+	<div class="row">
         <div class="col-md-4">
         {% if request.user == usuario %}
-                <div class="row" style="padding: 2%">
-                    <a href="/password/" class="btn btn-primary" role="button">Cambiar contraseña</a>
-                </div>
-                <div class="row" style="padding: 2%">
-                    <a href="/editarperfil/{{perfil.id}}" class="btn btn-primary" role="button">Editar perfil</a>
-                </div>
-                <div class="row" style="padding: 2%">
-                    <a href="/listaSubastas/" class="btn btn-primary" role="button">Mis Publicaciones</a> 
-                </div>
-                <div class="row" style="padding: 2%">
-                    <a href="/misofertas/" class="btn btn-primary" role="button">Mis Ofertas</a> 
-                </div>
-        {%endif%}
-        {%if perfil.idTipoUsuario_id == 2 %}
-        <div class="row" style="padding: 2%">
-                <a href="/moderador/" class="btn btn-primary" role="button">Administrar</a> 
+            <div class="row" style="padding: 2%">
+                <a href="/password/" role="button">Cambiar contraseña</a>
+            </div>
+            <div class="row">
+                <a href="/editarperfil/{{perfil.id}}" role="button">Editar perfil</a>
+            </div>
+        {%endif%}  
         </div>
-        {%endif%}
-
-        </div>
+	</div>
 </div>
+<center>
+<div class="row" style="padding:4%">
+	{% if request.user == usuario %}
+            <div class="col-sm-12 col-md-6 col-lg-4">
+                <a href="/listaSubastas/" class="btn btn-primary">Mis publicaciones</a>
+            </div>
+            <div class="col-sm-12 col-md-6 col-lg-4">
+            	<a href="/misofertas/" class="btn btn-primary">Mis ofertas</a>
+            </div>
+	        <div class="col-sm-12 col-md-6 col-lg-4">
+	        	{%if perfil.idTipoUsuario_id == 2 %}
+	            <a href="/moderador/" class="btn btn-primary">Administrar</a> 
+	            {%endif%}
+	        </div>
+      </div>     
+	{%endif%}
 </div>
+</center>
 
 {%endblock%}
 

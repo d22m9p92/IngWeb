@@ -110,7 +110,7 @@ DEFAULT_FROM_EMAIL	= 'Tu Subasta'
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
 
-LANGUAGE_CODE = 'es-AR'
+LANGUAGE_CODE = 'es-ar'
 
 TIME_ZONE = 'UTC'
 

@@ -108,11 +108,11 @@
             </ul>   
             </div>
         </div>
-
+        {%if request.user != subasta.idUsuarioVendedor %}
         <a href="{% url 'ofertar' pk=subasta.id %}" class="btn btn-primary" role="button">Ofertar</a>
         
         <a href="{% url 'denunciarSubasta' pk=subasta.id %}" class="btn btn-primary" role="button" style="background-color:red">Denunciar</a>
-
+        {%endif%}
 </div>
 
 <script type="text/javascript">

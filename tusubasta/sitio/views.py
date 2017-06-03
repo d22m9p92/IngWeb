@@ -22,7 +22,6 @@ class home(View):
             categoria = Categorias.objects.filter(pk=idCategoria)
             subastas = Subastas.objects.filter(idCategoria=categoria,fechaBaja=None,fechaFin__gt = datetime.datetime.now()).order_by("-fechaAlta")
         else:
-            
             subastas = Subastas.objects.filter(fechaBaja=None, fechaFin__gt = datetime.datetime.now())
         categorias = Categorias.objects.all()
             
@@ -38,13 +37,11 @@ class home(View):
     
         return render(request, "index.html",{"subastas": SubastasList, "categorias": categorias,"id":request.user.id })
 
-
 def aboutUs(request):
     return render(request, 'aboutUs.html')
 
 def contactenos(request):
     return render(request, 'contactenos.html')
-
 
 #Crear una Subasta
 @login_required(login_url= '/login/')
@@ -440,7 +437,7 @@ def restaurarSubasta(request):
 def misofertas(request):
     if request.method == 'GET':
         _idUsuario    = request.user.id 
-        listaofertas = Ofertas.objects.select_related("idSubasta").filter(usuarioComprador_id = _idUsuario, idSubasta__fechaBaja=None, idSubasta__fechaFin__gt = datetime.datetime.now()).distinct()
+        listaofertas = Ofertas.objects.select_related("idSubasta").filter(usuarioComprador_id = _idUsuario, idSubasta__fechaBaja=None, idSubasta__fechaFin__gt = datetime.datetime.now()).order_by('-id')[:1]
     return render(request, 'misofertas.html', {'listaofertas': listaofertas})
 
 
