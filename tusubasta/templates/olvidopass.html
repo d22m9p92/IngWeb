@@ -14,19 +14,19 @@
           {{form.email|add_class:"form-control"}}
         </div>  
       </div>
+    <div align="center" margin-top= "5px">
+      {% if messages %}
+          <ul class="messages">
+            {% for message in messages %}
+              <li class="{{ message.tags }}">{{ message }}</li>
+            {% endfor %}
+          </ul>
+      {% endif %}
+    </div>
       <div class="row">     
         <button class="btn btn-primary col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2" type="submit" name="action" value="Ingresar">Aceptar
           <i class="mdi-content-send right"></i>
         </button>  
-      </div>
-      <div class="row">     
-      {% if messages %}
-        <ul class="messages">
-          {% for message in messages %}
-            <li class="{{ message.tags }}">{{ message }}</li>
-          {% endfor %}
-        </ul>
-        {% endif %}
       </div>
 </div>
 

@@ -6,50 +6,55 @@
 {% block content %}
     
 <form class="form-horizontal" action="/registrar/" method="POST">
-<div class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
-              {% csrf_token%}
-              <div class="form-group">     
-                <div class="input-field col s6">      
-                  <label for="nickName">Usuario</label>
-                  {{form.nickName|add_class:"form-control"}}
-                </div>  
-                <div class="input-field col s6">          
-                  <label for="nombre">Nombre</label>
-                  {{form.nombre|add_class:"form-control"}}
-                </div>
-                <div class="input-field col s6">          
-                  <label for="apellido">Apellido</label>
-                  {{form.apellido|add_class:"form-control"}}
-                </div>                    
-                <div class="input-field col s6">          
-                  <label for="email">Email</label>
-                  {{form.email|add_class:"form-control"}}
-                </div>
-                <div class="input-field col s6">          
-                  <label for="password">Contraseña</label>
-                  {{form.password|add_class:"form-control"}}
-                </div>
-                <div class="input-field col s6">          
-                  <label for="confpassword">Repetir Contraseña</label>
-                  {{form.confpassword|add_class:"form-control"}}
-                </div>
-              </div>
-              <button class="btn btn-primary" type="submit" name="action" value="Ingresar">Ingresar
-                <i class="mdi-content-send right"></i>
-              </button>  
-        
-</div>
-{% if messages %}
-    <ul class="messages">
-      {% for message in messages %}
-        <li class="{{ message.tags }}">{{ message }}</li>
-      {% endfor %}
-    </ul>
-{% endif %}
-{% endblock %}
-  </form>
-</body>
+	<div class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+	  {% csrf_token%}
+	  <div class="form-group">     
+	    <div class="input-field col s6">      
+	      <label for="nickName">Usuario</label>
+	      {{form.nickName|add_class:"form-control"}}
+	    </div>  
+	    <div class="input-field col s6">          
+	      <label for="nombre">Nombre</label>
+	      {{form.nombre|add_class:"form-control"}}
+	    </div>
+	    <div class="input-field col s6">          
+	      <label for="apellido">Apellido</label>
+	      {{form.apellido|add_class:"form-control"}}
+	    </div>                    
+	    <div class="input-field col s6">          
+	      <label for="email">Email</label>
+	      {{form.email|add_class:"form-control"}}
+	    </div>
+	    <div class="input-field col s6">          
+	      <label for="password">Contraseña</label>
+	      {{form.password|add_class:"form-control"}}
+	    </div>
+	    <div class="input-field col s6">          
+	      <label for="confpassword">Repetir Contraseña</label>
+	      {{form.confpassword|add_class:"form-control"}}
+	    </div>
+	  </div>
+	  <div align="center" margin-top= "5px">
+		{% if messages %}
+		    <ul class="messages">
+		      {% for message in messages %}
+		        <li class="{{ message.tags }}">{{ message }}</li>
+		      {% endfor %}
+		    </ul>
+		{% endif %}
+		</div>
+	  <div align="center">
+	      <button class="btn btn-primary" type="submit" name="action" value="Registrar">Registrar
+	        <i class="mdi-content-send right"></i>
+	      </button> 
+	  </div>
+	  	
+	</div>
+</form>
 
+
+
+{% endblock %}
 </html>
 
 

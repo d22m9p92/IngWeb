@@ -49,6 +49,11 @@ def nuevaSubasta(request):
     if request.method=='POST':
         form = SubastasForm(request.POST)
         _idUsuarioVendedor = request.user.id
+        #_imagenA = request.POST.get('imagenA')
+        #_imagenB = request.POST.get('imagenB')
+        #_imagenC = request.POST.get('imagenC')
+        #print("hola")
+        #print(_imagenA)
         form = SubastasForm(request.POST, request.FILES)
         if form.is_valid():
             fechaHoy    = datetime.date.today()
@@ -57,18 +62,21 @@ def nuevaSubasta(request):
             fechaHoy    = fechaHoy.replace(year = int(request.POST.get('fechaFin_year')))
             
             if fechaHoy > datetime.date.today():
-                formSubasta                         = form.save(commit = False)
-                formSubasta.ofertaMax               = formSubasta.precioBase  
-                formSubasta.idUsuarioVendedor_id    = _idUsuarioVendedor
-                formSubasta.save()
-                
-                #Esto esta mal, pero no pudismo hacer que funcione el subasta = form y obtener el id de ese objeto
-                
-                subasta = Subastas.objects.all().order_by("-id")[:1]
-                for i in subasta:
-                    pk = i.id
-                
-                return redirect("subastadetalle", pk)
+                #if _imagenA != None or _imagenB != None or _imagenC != None:
+                    formSubasta                         = form.save(commit = False)
+                    formSubasta.ofertaMax               = formSubasta.precioBase  
+                    formSubasta.idUsuarioVendedor_id    = _idUsuarioVendedor
+                    formSubasta.save()
+                    
+                    #Esto esta mal, pero no pudismo hacer que funcione el subasta = form y obtener el id de ese objeto
+                    
+                    subasta = Subastas.objects.all().order_by("-id")[:1]
+                    for i in subasta:
+                        pk = i.id
+                    
+                    return redirect("subastadetalle", pk)
+                #else:
+                #    messages.error(request, "Las imagenes son requeridas.")    
             else:
                 messages.error(request, "La fecha de finalización debe ser mayor al día corriente.")
     else:

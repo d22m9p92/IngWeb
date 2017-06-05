@@ -104,15 +104,11 @@ def confirmar(request, activacion_token):
     user            = perfil_usuario.usuario
     user.is_active  = True
     user.save()
-    return HttpResponseRedirect("/")
+    return render(request, 'bienvenido.html')
 
 
 def validacionmail(request):
     return render(request, 'validacionmail.html')
-
-
-def bienvenido(request):
-    return render(request, 'bienvenido.html')
 
 
 def cambiarContraseña(request):
@@ -224,6 +220,15 @@ def olvidoPass(request):
                     email_body              = "Hola %s, para cambiar tu contraseña ingresa al siguiente link https://tusubasta.herokuapp.com/recuperarpass/%s" % (nombre, token)
 
                     send_mail(email_subject,email_body, 'tusubastas2017@gmail.com',[email] )
+
+
+                    email_subject   = 'Confirmación de cuenta TuSubasta'
+                    email_body      = "Hola %s, Gracias por registrarte. Para activar tu cuenta haga clíck en este link: /n https://tusubasta.herokuapp.com/bienvenido/%s" % (nombre, token)
+                    
+                    send_mail(email_subject,email_body, 'tusubastas2017@gmail.com',[email] )
+
+
+
                     return HttpResponseRedirect("/olvidomsg/")
             else:
                 messages.error(request, "El usuario no se encuentra activo.")
