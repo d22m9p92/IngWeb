@@ -111,6 +111,10 @@ def validacionmail(request):
     return render(request, 'validacionmail.html')
 
 
+def bienvenido(request):
+    return render(request, 'bienvenido.html')
+
+
 def cambiarContraseña(request):
     if not request.POST['email']:
         messages.warning(request, "Por favo ingresar mail.")
