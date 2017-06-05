@@ -221,14 +221,6 @@ def olvidoPass(request):
 
                     send_mail(email_subject,email_body, 'tusubastas2017@gmail.com',[email] )
 
-
-                    email_subject   = 'Confirmación de cuenta TuSubasta'
-                    email_body      = "Hola %s, Gracias por registrarte. Para activar tu cuenta haga clíck en este link: /n https://tusubasta.herokuapp.com/bienvenido/%s" % (nombre, token)
-                    
-                    send_mail(email_subject,email_body, 'tusubastas2017@gmail.com',[email] )
-
-
-
                     return HttpResponseRedirect("/olvidomsg/")
             else:
                 messages.error(request, "El usuario no se encuentra activo.")
