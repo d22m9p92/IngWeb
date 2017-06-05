@@ -1,35 +1,79 @@
 <!DOCTYPE html>
 {% extends 'base.html' %}
+{% load widget_tweaks %}
 {% load static %}
 
 {% block content %}
 
-<html lang="en">
-<!--
-    
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
-    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-    <script>
-      $(function() {
-      $( ".datepicker" ).datepicker(
-          { dateFormat: 'dd/mm/yy' }
-        );
-      });
-    </script>
--->
-<body id="page-top"> 
+<form class="form-horizontal" action="{% url 'nuevaSubasta' %}" method="POST" enctype="multipart/form-data" >
+  <div class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+    {% csrf_token%}
+    <div class="form-group">     
+      <div class="input-field col s6">      
+        <label for="titulo">Titulo</label>
+        {{form.titulo|add_class:"form-control"}}
+      </div>  
+      <div class="input-field col s6">          
+        <label for="detalle">Detalle</label>
+        {{form.detalle|add_class:"form-control"}}
+      </div>
+      <div class="input-field col s6">          
+        <label for="precioBase">Precio Base</label>
+        {{form.precioBase|add_class:"form-control"}}
+      </div>                    
+      <div class="input-field col s6">          
+        <label for="fechaFin">Finalizacion de la Subasta</label>
+        {{form.fechaFin|add_class:"form-control"}}
+      </div>
+      <div class="input-field col s6">          
+        <label for="idCategoria">Categoria</label>
+        {{form.idCategoria|add_class:"form-control"}}
+      </div>
+      <div class="input-field col s6">          
+        <label for="localidad">Localidad</label>
+        {{form.localidad|add_class:"form-control"}}
+      </div>
+      <div class="input-field col s6">          
+        <label for="provincia">Provincia</label>
+        {{form.provincia|add_class:"form-control"}}
+      </div>
+      <div class="input-field col s6">          
+        <label for="pais">Pais</label>
+        {{form.pais|add_class:"form-control"}}
+      </div>
+      <div class="input-field col s6" enctype="multipart/form-data">          
+        <label for="imagenA">Imagen 1</label>
+        {{form.imagenA|add_class:"form-control"}}
+      </div>
+      <div class="input-field col s6" enctype="multipart/form-data">        
+        <label for="imagenB">Imagen 2</label>
+        {{form.imagenB|add_class:"form-control"}}
+      </div>
+      <div class="input-field col s6" enctype="multipart/form-data">
+        <label for="imagenC">Imagen 3</label>
+        {{form.imagenC|add_class:"form-control"}}
+      </div>       
+    </div>
+    <div align="center" margin-top= "5px">
+    {% if messages %}
+        <ul class="messages">
+          {% for message in messages %}
+            <li class="{{ message.tags }}">{{ message }}</li>
+          {% endfor %}
+        </ul>
+    {% endif %}
+    </div>
+    <div align="center">
+     <button class="btn btn-primary" type="submit" name="action" value="Ingresar">Publicar
+        <i class="mdi-content-send right"></i>
+      </button>  
+    </div>    
+  </div>
+</form>
 
-<form action="{% url 'nuevaSubasta' %}" method="POST" enctype="multipart/form-data" >
-              {% csrf_token %}
-              {{ form.as_p }}
-              <button class="btn btn-primary" type="submit" name="action" value="Ingresar">Publicar
-                <i class="mdi-content-send right"></i>
-              </button>  
-            </form>        
-</body>
 
 {% endblock %}
 </html>
+
 
 

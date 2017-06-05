@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<html lang="en">
+<!--
+    
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <script>
+      $(function() {
+      $( ".datepicker" ).datepicker(
+          { dateFormat: 'dd/mm/yy' }
+        );
+      });
+    </script>
+-->
+<body id="page-top"> 
+
+<form action="{% url 'nuevaSubasta' %}" method="POST" enctype="multipart/form-data" >
+              {% csrf_token %}
+              {{ form.as_p }}
+              <button class="btn btn-primary" type="submit" name="action" value="Ingresar">Publicar
+                <i class="mdi-content-send right"></i>
+              </button>  
+            </form>        
+</body>
+
+{% endblock %}
+</html>
+
+
