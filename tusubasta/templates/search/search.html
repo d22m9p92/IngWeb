@@ -20,11 +20,38 @@
             <h3>Resultados:</h3>
             <ul class="list-group">
             {% for result in page.object_list %}
+                <!--
                 <div class="row">
                     <div class="col-sm-12 col-md-6 col-lg-4">
                     <a href="{% url 'subastadetalle' pk=result.pk %}">{{ result.titulo }}</a>
                     </div>
                 </div>
+                idSubasta
+                -->
+                 
+                <p>
+                    {% if result.model_name == "subastas" %}
+                        <ul class="list-group">
+                            <li class="list-group-item justify-content-between">
+                                <div class="row" >
+                                    <a href="{% url 'subastadetalle' pk=result.pk %}">{{ result.titulo }} </a>
+                                    <p> Detalle subasta:{{ result.detalle }} </p>        
+                                </div>
+                            </li>
+                            
+                        </ul>
+                    {% elif result.model_name == "comentarios" %}
+                        <ul class="list-group">
+                            <li class="list-group-item justify-content-between">
+                                <div class="row" >
+                                    <a href="{% url 'subastadetalle' pk=result.object.idSubasta.id %}">{{ result.object.idSubasta.titulo }}</a> 
+                                    <p>Comentario: {{ result.comentario }}</p>     
+                                </div>
+                            </li>
+                            
+                        </ul>
+                    {% endif %}
+                </p>
             {% empty %}
                 <div class="row">
                     <p>No se encontraron subastas.</p>

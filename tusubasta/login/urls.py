@@ -23,5 +23,6 @@ urlpatterns = [
     url(r'^listausuariosbloqueados/$', views.listarUsuariosBloqueados),
     url(r'^eliminarusuario/$', views.eliminarUsuario),
     url(r'^restaurarusuario/$', views.restaurarUsuario),
+    url(r'^bienvenido/(?P<activacion_token>\w+)/', views.confirmar),
     
 ]

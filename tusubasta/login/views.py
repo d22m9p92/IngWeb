@@ -111,6 +111,10 @@ def validacionmail(request):
     return render(request, 'validacionmail.html')
 
 
+def bienvenido(request):
+    return render(request, 'bienvenido.html')
+
+
 def cambiarContraseña(request):
     if not request.POST['email']:
         messages.warning(request, "Por favo ingresar mail.")
@@ -217,11 +221,9 @@ def olvidoPass(request):
                     perfil.olvido_token     = token
                     perfil.save()
                     email_subject           = 'Cambio de contraseña'
-                    email_body              = "Hola %s, para cambiar tu contraseña ingresa al siguiente link https://tusubasta.herokuapp.com/recuperarpass/%s" % (nombre, token)
+                    email_body              = "Hola %s, para cambiar tu contraseña ingresa al siguiente link https://tusubasta.herokuapp.com/renovarpass/%s" % (nombre, token)
 
                     send_mail(email_subject,email_body, 'tusubastas2017@gmail.com',[email] )
-
-
 
                     return HttpResponseRedirect("/olvidomsg/")
             else:

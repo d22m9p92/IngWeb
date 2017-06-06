@@ -43,6 +43,8 @@ def aboutUs(request):
 def contactenos(request):
     return render(request, 'contactenos.html')
 
+
+
 #Crear una Subasta
 @login_required(login_url= '/login/')
 def nuevaSubasta(request):

@@ -1,5 +1,5 @@
 from haystack import indexes
-from sitio.models import Subastas
+from sitio.models import Subastas, Comentarios
 import datetime
 
 class SubastasIndex(indexes.SearchIndex, indexes.Indexable):
@@ -15,3 +15,15 @@ class SubastasIndex(indexes.SearchIndex, indexes.Indexable):
     def index_queryset(self, using=None):
         """Queremos que se indexen todas las noticias que tengan archivada=False"""
         return self.get_model().objects.filter(fechaBaja=None, fechaFin__gt = datetime.datetime.now())
+
+
+class ComentariosIndex(indexes.SearchIndex, indexes.Indexable):
+    text        = indexes.CharField(document=True, use_template=True)
+    comentario  = indexes.CharField(model_attr='comentario')
+    
+    def get_model(self):
+        return Comentarios
+
+    def index_queryset(self, using=None):
+        """Queremos que se indexen todas las noticias que tengan archivada=False"""
+        return self.get_model().objects.filter(fechaBaja=None)
