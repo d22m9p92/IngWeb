@@ -49,20 +49,22 @@ def nuevaSubasta(request):
     if request.method=='POST':
         form = SubastasForm(request.POST)
         _idUsuarioVendedor = request.user.id
-        #_imagenA = request.POST.get('imagenA')
-        #_imagenB = request.POST.get('imagenB')
-        #_imagenC = request.POST.get('imagenC')
-        #print("hola")
-        #print(_imagenA)
+        _imagenA = request.POST.get('imagenA')
+        _imagenB = request.POST.get('imagenB')
+        _imagenC = request.POST.get('imagenC')
+        print(_imagenA)
+        print(_imagenB)
+        print(_imagenC)
+        print(request.POST)
         form = SubastasForm(request.POST, request.FILES)
         if form.is_valid():
             fechaHoy    = datetime.date.today()
             fechaHoy    = fechaHoy.replace(day = int(request.POST.get('fechaFin_day'))) 
             fechaHoy    = fechaHoy.replace(month = int(request.POST.get('fechaFin_month')))
             fechaHoy    = fechaHoy.replace(year = int(request.POST.get('fechaFin_year')))
-            
+           
             if fechaHoy > datetime.date.today():
-                #if _imagenA != None or _imagenB != None or _imagenC != None:
+                if _imagenA != "" and _imagenB != '' and _imagenC != '':
                     formSubasta                         = form.save(commit = False)
                     formSubasta.ofertaMax               = formSubasta.precioBase  
                     formSubasta.idUsuarioVendedor_id    = _idUsuarioVendedor
@@ -75,8 +77,8 @@ def nuevaSubasta(request):
                         pk = i.id
                     
                     return redirect("subastadetalle", pk)
-                #else:
-                #    messages.error(request, "Las imagenes son requeridas.")    
+                else:
+                    messages.error(request, "Las imagenes son requeridas.")    
             else:
                 messages.error(request, "La fecha de finalización debe ser mayor al día corriente.")
     else:

@@ -222,12 +222,6 @@ def olvidoPass(request):
                     send_mail(email_subject,email_body, 'tusubastas2017@gmail.com',[email] )
 
 
-                    email_subject   = 'Confirmación de cuenta TuSubasta'
-                    email_body      = "Hola %s, Gracias por registrarte. Para activar tu cuenta haga clíck en este link: /n https://tusubasta.herokuapp.com/bienvenido/%s" % (nombre, token)
-                    
-                    send_mail(email_subject,email_body, 'tusubastas2017@gmail.com',[email] )
-
-
 
                     return HttpResponseRedirect("/olvidomsg/")
             else:
@@ -308,3 +302,6 @@ def restaurarUsuario(request):
             return HttpResponse(json.dumps("OK"))
         except Exception as e:
             return HttpResponse(json.dumps(str(e))) 
+
+def bienvenido(request):
+    return render(request, 'bienvenido.html')
