@@ -21,9 +21,17 @@
             <ul class="list-group">
             {% for result in page.object_list %}
                 <div class="row">
+                   <!--
                     <div class="col-sm-12 col-md-6 col-lg-4">
                     <a href="{% url 'subastadetalle' pk=result.pk %}">{{ result.titulo }}</a>
                     </div>
+                    -->
+                    {% if result.model_name == "subastas" %}
+                        <a href="{% url 'subastadetalle' pk=result.pk %}">{{ result.titulo }}</a>
+                    {% elif result.model_name == "comentario" %}
+                        <a href="{% url 'JayusApp.views.contenido' result.object.id%}" target="blank">{{ result.object.titulo }}</a>
+                    {% endif %}            
+
                 </div>
             {% empty %}
                 <div class="row">

@@ -1,0 +1,3 @@
+{{ object.comentario }}
+{{ object.pk }}
+

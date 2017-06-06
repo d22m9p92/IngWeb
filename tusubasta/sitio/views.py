@@ -22,7 +22,7 @@ class home(View):
             categoria = Categorias.objects.filter(pk=idCategoria)
             subastas = Subastas.objects.filter(idCategoria=categoria,fechaBaja=None,fechaFin__gt = datetime.datetime.now()).order_by("-fechaAlta")
         else:
-            subastas = Subastas.objects.filter(fechaBaja=None, fechaFin__gt = datetime.datetime.now())
+            subastas = Subastas.objects.filter(fechaBaja=None, fechaFin__gt = datetime.datetime.now()).order_by("-fechaAlta")
         categorias = Categorias.objects.all()
             
         paginator = Paginator(subastas, 12)
