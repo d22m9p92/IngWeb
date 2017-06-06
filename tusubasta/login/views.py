@@ -304,3 +304,6 @@ def restaurarUsuario(request):
             return HttpResponse(json.dumps("OK"))
         except Exception as e:
             return HttpResponse(json.dumps(str(e))) 
+
+def bienvenido(request):
+    return render(request, 'bienvenido.html')

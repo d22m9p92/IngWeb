@@ -1,3 +1,3 @@
+{{ object.titulo }}
 {{ object.comentario }}
-{{ object.pk }}
-
+{{ object.idSubasta }}
